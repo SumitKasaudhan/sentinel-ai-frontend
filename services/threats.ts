@@ -1,13 +1,6 @@
-import axios from "axios";
+import api from "./api";
 
-export const getThreatById = async (
-  id: string
-) => {
-  const url = `http://localhost:5000/api/threats/${id}`;
-
-  console.log("THREAT URL:", url);
-
-  const response = await axios.get(url);
-
+export const getThreatById = async (id: string) => {
+  const response = await api.get(`/threats/${id}`);
   return response.data.data;
 };

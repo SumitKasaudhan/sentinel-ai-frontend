@@ -168,7 +168,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
       setSearching(true);
       const token = await getToken();
       const res   = await fetch(
-        `http://localhost:5000/api/threats?search=${encodeURIComponent(trimmed)}&limit=5`,
+        `${process.env.NEXT_PUBLIC_API_URL}/threats?search=${encodeURIComponent(trimmed)}&limit=5`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.ok) {

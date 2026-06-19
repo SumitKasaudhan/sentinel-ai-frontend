@@ -23,7 +23,9 @@ export default function RootLayout({
   signInUrl="/auth/login"
   signUpUrl="/auth/register"
   signInFallbackRedirectUrl="/dashboard"
-  signUpFallbackRedirectUrl="/dashboard"  // ← YE ADD KARO
+  signUpFallbackRedirectUrl="/dashboard"
+  signInForceRedirectUrl="/dashboard"
+  signUpForceRedirectUrl="/dashboard"
   afterSignOutUrl="/"
 >
       {/* FIX: Removed data-scroll-behavior="smooth" — this is not a valid HTML

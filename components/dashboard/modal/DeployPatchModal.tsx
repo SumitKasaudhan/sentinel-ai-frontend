@@ -44,7 +44,7 @@ interface ExecuteResult {
 
 type ModalState = "loading" | "error" | "preview" | "deploying" | "completed";
 
-const BASE = "http://localhost:5000";
+const BASE = process.env.NEXT_PUBLIC_API_URL?.replace("/api", "") || "http://localhost:5000";
 
 export default function DeployPatchModal({ onClose }: ModalProps) {
   const { getToken } = useAuth();
