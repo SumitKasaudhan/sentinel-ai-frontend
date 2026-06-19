@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@clerk/nextjs";
 import ReportRiskGauge from "@/components/dashboard/reports/ReportRiskGauge";
 import ReportVirusChart from "@/components/dashboard/reports/ReportVirusChart";
 import ReportHeaderMatrix from "@/components/dashboard/reports/ReportHeaderMatrix";
@@ -65,7 +65,7 @@ export default function ReportClient() {
   const router = useRouter();
 
   // ── ADDED: get session token ──────────────────────────────
-  const { data: session } = useSession();
+  const { getToken, userId } = useAuth();
   // ─────────────────────────────────────────────────────────
 
   const [report, setReport] =
@@ -133,7 +133,7 @@ useEffect(() => {
         try {
 
           // ── ADDED: extract token from session ─────────────
-          const token = (session as any)?.accessToken ?? "";
+          const token = await getToken() ?? "";
           // ──────────────────────────────────────────────────
 
 const [
@@ -178,7 +178,7 @@ setRoadmap(roadmapData);
     if (params.id) {
       loadReport();
     }
-  }, [params.id, session]); // ── ADDED: session in deps
+  }, [params.id]); // ── ADDED: session in deps
 
   if (loading) {
     return (
