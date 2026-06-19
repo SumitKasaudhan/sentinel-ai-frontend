@@ -1,0 +1,35 @@
+body {
+    min-height: 100vh;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 20% 10%, rgba(90, 223, 255, 0.08), transparent 26%),
+        radial-gradient(circle at 80% 12%, rgba(66, 120, 255, 0.07), transparent 24%),
+        radial-gradient(circle at 50% 52%, rgba(143, 100, 255, 0.04), transparent 30%),
+        linear-gradient(180deg, #070a12 0%, #060912 100%);
+
+    font-family: var(--font-inter), ui-sans-serif, system-ui;
+    overflow-x: hidden;
+}
+
+/* Grid overlay */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        linear-gradient(to right, rgba(93, 170, 255, 0.065) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(93, 170, 255, 0.065) 1px, transparent 1px);
+
+    background-size: 32px 32px;
+
+    mask-image: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.4) 55%,
+            transparent 100%);
+
+    opacity: 0.45;
+    z-index: 0;
+}

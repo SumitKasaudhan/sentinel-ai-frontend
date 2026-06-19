@@ -1,0 +1,134 @@
+/* ============================================================
+   ADD THESE STYLES TO THE BOTTOM OF YOUR EXISTING:
+   - styles/auth/login.css
+   - styles/auth/register.css
+
+   These only add new classes — nothing existing is changed.
+   ============================================================ */
+
+
+/* ── SOCIAL BUTTONS ROW ──────────────────────────────────────
+   Wraps Google + Apple side by side. Replace the old single
+   .google-btn / .google-signup-btn with this row layout.
+   ─────────────────────────────────────────────────────────── */
+
+.social-buttons-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.social-buttons-row .google-btn,
+.social-buttons-row .google-signup-btn,
+.social-buttons-row .apple-btn,
+.social-buttons-row .apple-signup-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+    white-space: nowrap;
+}
+
+/* Google — keep your existing look, just constrained to flex:1 */
+.social-buttons-row .google-btn,
+.social-buttons-row .google-signup-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.social-buttons-row .google-btn:hover,
+.social-buttons-row .google-signup-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Apple — dark pill that fits the Sentinel AI dark theme */
+.social-buttons-row .apple-btn,
+.social-buttons-row .apple-signup-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.social-buttons-row .apple-btn:hover,
+.social-buttons-row .apple-signup-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.social-buttons-row button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* ── LOADING SPINNER ─────────────────────────────────────────
+   Small inline spinner shown inside social buttons while loading
+   ─────────────────────────────────────────────────────────── */
+
+.btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btn-spin 0.65s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ── RESEND LINK ─────────────────────────────────────────────
+   Used in the email verification step on the register page
+   ─────────────────────────────────────────────────────────── */
+
+.resend-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+}
+
+.resend-link:hover {
+    opacity: 1;
+}
+
+
+/* ── ERROR BANNER ────────────────────────────────────────────
+   Global error display shown above social buttons when auth fails.
+   If you already have this class, skip this block.
+   ─────────────────────────────────────────────────────────── */
+
+.error-banner {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin-bottom: 4px;
+}

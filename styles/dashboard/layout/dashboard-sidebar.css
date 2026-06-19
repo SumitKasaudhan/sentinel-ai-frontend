@@ -1,0 +1,599 @@
+/* =============================================================
+   SENTINEL AI — DASHBOARD SIDEBAR
+   Enterprise-grade. Accent token: #00d3f3 (matches navbar).
+   Self-contained — order-independent in the cascade.
+============================================================= */
+
+/* ─────────────────────────────────────────────────────────────
+   SHELL
+───────────────────────────────────────────────────────────── */
+
+.dashboard-sidebar {
+    width: 255px;
+    min-width: 255px;
+    flex-shrink: 0;
+    /* never collapse inside flex layout */
+
+    height: 100vh;
+    position: relative;
+    top: 0;
+    z-index: 120;
+
+    padding: 1.1rem 0.9rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    background: linear-gradient(180deg,
+            rgba(5, 8, 15, 0.97) 0%,
+            rgba(3, 6, 12, 1) 100%);
+
+    border-right: 0.8px solid rgba(255, 255, 255, 0.055);
+
+    /* subtle inner right-edge glow */
+    box-shadow: inset -1px 0 0 rgba(0, 211, 243, 0.04);
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOP — brand + close
+───────────────────────────────────────────────────────────── */
+
+.sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 0 0.2rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BRAND
+───────────────────────────────────────────────────────────── */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.sidebar-brand:hover {
+    transform: scale(1.02);
+    opacity: 0.92;
+}
+
+/* icon-only fallback (kept for non-image builds) */
+.brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00d3f3, #155dfc);
+    box-shadow: 0 0 18px rgba(0, 211, 243, 0.40);
+    flex-shrink: 0;
+}
+
+/* when brand-icon is an <Image> the class still sits on it */
+img.brand-icon {
+    background: transparent;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(0, 211, 243, 0.35));
+}
+
+.sidebar-logo {
+    object-fit: contain;
+    border-radius: 8px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(0, 211, 243, 0.35));
+}
+
+.sidebar-brand span {
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #ffffff 0%, #c8d8ec 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CLOSE BUTTON (mobile only)
+───────────────────────────────────────────────────────────── */
+
+.close-sidebar-btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+
+    border: 0.8px solid rgba(255, 255, 255, 0.07);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.03);
+    color: #90a1b9;
+
+    display: none;
+    place-items: center;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.close-sidebar-btn svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: auto;
+    stroke-width: 2.2;
+}
+
+.close-sidebar-btn:hover {
+    background: rgba(0, 211, 243, 0.08);
+    border-color: rgba(0, 211, 243, 0.22);
+    color: #fff;
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION LABEL
+───────────────────────────────────────────────────────────── */
+
+.sidebar-section-label {
+    padding: 0 0.6rem;
+    margin: 1.1rem 0 0.4rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #3d5068;
+    user-select: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SYSTEM STATUS CARD
+───────────────────────────────────────────────────────────── */
+
+.system-box {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1.4rem;
+    padding: 0.85rem 1rem;
+
+    border-radius: 16px;
+    border: 0.8px solid rgba(0, 211, 243, 0.10);
+
+    background: linear-gradient(135deg,
+            rgba(0, 211, 243, 0.05) 0%,
+            rgba(5, 8, 15, 0.60) 100%);
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 6px 24px rgba(0, 0, 0, 0.20);
+
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.system-box:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 211, 243, 0.22);
+    box-shadow:
+        0 0 20px rgba(0, 211, 243, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* top glow line */
+.system-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 211, 243, 0.45),
+            transparent);
+}
+
+.system-left {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.system-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: rgba(0, 211, 243, 0.08);
+    border: 0.8px solid rgba(0, 211, 243, 0.14);
+    flex-shrink: 0;
+}
+
+.system-icon {
+    color: #00d3f3;
+    filter: drop-shadow(0 0 6px rgba(0, 211, 243, 0.40));
+}
+
+.system-info h4 {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.14em;
+    line-height: 1;
+}
+
+.system-info p {
+    margin-top: 0.28rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #62748e;
+    letter-spacing: 0.06em;
+    line-height: 1;
+}
+
+.system-info p span {
+    color: #4cff93;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(76, 255, 147, 0.35);
+}
+
+/* live dot */
+.status-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    border-radius: 50%;
+    background: #4cff93;
+    box-shadow:
+        0 0 6px #4cff93,
+        0 0 14px rgba(76, 255, 147, 0.55);
+    animation: statusPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.18);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────────────────────────── */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+}
+
+.sidebar-link {
+    position: relative;
+    height: 44px;
+    padding: 0 0.85rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #6b7f96;
+    overflow: hidden;
+    border: 0.8px solid transparent;
+    transition:
+        color 0.22s ease,
+        background 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.18s ease;
+}
+
+/* hover fill */
+.sidebar-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.025);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    pointer-events: none;
+}
+
+.sidebar-link:hover {
+    color: #d0dde8;
+    transform: translateX(2px);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link:hover::before {
+    opacity: 1;
+}
+
+/* ── ACTIVE ── */
+
+.sidebar-link.active {
+    color: #ffffff;
+    background: linear-gradient(90deg,
+            rgba(0, 211, 243, 0.10) 0%,
+            rgba(21, 93, 252, 0.06) 100%);
+    border-color: rgba(0, 211, 243, 0.14);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+}
+
+.sidebar-link.active::before {
+    opacity: 0;
+    /* don't double-apply the fill */
+}
+
+/* left accent bar */
+.sidebar-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    bottom: 9px;
+    width: 3px;
+    border-radius: 999px;
+    background: #00d3f3;
+    box-shadow: 0 0 10px rgba(0, 211, 243, 0.60);
+}
+
+.sidebar-link-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 2;
+}
+
+.sidebar-link-left svg {
+    flex-shrink: 0;
+    transition: color 0.22s ease;
+}
+
+.sidebar-link.active .sidebar-link-left svg {
+    color: #00d3f3;
+    filter: drop-shadow(0 0 5px rgba(0, 211, 243, 0.45));
+}
+
+.sidebar-link-left span {
+    font-size: 0.875rem;
+    font-weight: 550;
+    white-space: nowrap;
+    letter-spacing: 0.005em;
+}
+
+.sidebar-link.active .sidebar-link-left span {
+    font-weight: 650;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DIVIDER
+───────────────────────────────────────────────────────────── */
+
+.sidebar-divider {
+    height: 0.8px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.06) 30%,
+            rgba(255, 255, 255, 0.06) 70%,
+            transparent);
+    margin: 0.9rem 0.4rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────── */
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Deploy / CTA button */
+.deploy-btn {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 13px;
+
+    background: linear-gradient(135deg,
+            #0369a1 0%,
+            #0891b2 50%,
+            #06b6d4 100%);
+
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 0 0 0.8px rgba(0, 211, 243, 0.20),
+        0 8px 24px rgba(0, 211, 243, 0.14);
+
+    transition:
+        box-shadow 0.28s ease,
+        transform 0.22s ease,
+        filter 0.28s ease;
+
+    will-change: transform;
+}
+
+/* shimmer */
+.deploy-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.15) 50%,
+            transparent 65%);
+    transform: translateX(-100%);
+    transition: transform 0.50s ease;
+    pointer-events: none;
+}
+
+.deploy-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.deploy-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow:
+        0 0 0 0.8px rgba(0, 211, 243, 0.35),
+        0 12px 32px rgba(0, 211, 243, 0.26);
+}
+
+.deploy-btn:active {
+    transform: scale(0.97) translateY(0);
+    filter: brightness(0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   OVERLAY  (mobile backdrop)
+───────────────────────────────────────────────────────────── */
+
+.sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+    z-index: 110;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — ≤ 992px  (slide-in drawer)
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 992px) {
+    .dashboard-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+
+        width: 270px;
+        min-width: 270px;
+        height: 100vh;
+
+        z-index: 120;
+
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .dashboard-sidebar.active {
+        left: 0;
+    }
+
+    .close-sidebar-btn {
+        display: grid;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — ≤ 768px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .dashboard-sidebar {
+        width: 258px;
+        min-width: 258px;
+        padding: 0.9rem 0.8rem;
+    }
+
+    .sidebar-brand span {
+        font-size: 1rem;
+    }
+
+    .sidebar-link {
+        height: 42px;
+    }
+
+    .sidebar-link-left span {
+        font-size: 0.855rem;
+    }
+
+    .deploy-btn {
+        height: 42px;
+        font-size: 0.855rem;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — ≤ 540px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+    .dashboard-sidebar {
+        width: 82vw;
+        min-width: 82vw;
+        max-width: 300px;
+    }
+}

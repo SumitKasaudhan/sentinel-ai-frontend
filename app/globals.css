@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@300;400;500;700;900&display=swap');
+
+@import "../styles/base/reset.css";
+@import "../styles/base/variables.css";
+@import "../styles/base/typography.css";
+@import "../styles/base/utilities.css";
+@import "../styles/base/animations.css";
+@import "../styles/base/responsive.css";
+
+@import "../styles/layout/navbar.css";
+@import "../styles/layout/footer.css";
+
+@import "../styles/marketing/hero/hero.css";
+@import "../styles/marketing/hero/globe.css";
+
+@import "../styles/marketing/features/features.css";
+
+@import "../styles/marketing/pricing/pricing.css";
+
+@import "../styles/dashboard/telemetry/telemetry.css";
+
+@import "../styles/auth/forgot-password.css";
+
+/* ============================================================
+   DASHBOARD CSS — imported here globally, NOT in the route
+   layout, so that every page using DashboardLayout (including
+   /settings which is outside the /dashboard route group) gets
+   the full shell / sidebar / navbar styles.
+
+   The previous setup only had dashboard-sidebar.css and
+   dashboard-navbar.css here; dashboard-layout.css was only
+   imported inside dashboard/layout.tsx.  Because /settings
+   never passes through that layout, it had no
+   `.dashboard-shell { display: flex }` or
+   `.dashboard-content { overflow-y: auto }` — so on hard
+   refresh the sidebar stacked above the content instead of
+   sitting beside it, and the page content was clipped.
+============================================================ */
+
+@import "../styles/dashboard/layout/dashboard.css";
+@import "../styles/dashboard/layout/dashboard-layout.css";
+@import "../styles/dashboard/layout/dashboard-sidebar.css";
+@import "../styles/dashboard/layout/dashboard-navbar.css";
+@import "../styles/dashboard/layout/dashboard-cards.css";
+@import "../styles/dashboard/layout/dashboard-responsive.css";
+
+@import "../styles/dashboard/settings/settings.css";
+

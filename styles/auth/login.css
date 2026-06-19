@@ -1,0 +1,543 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    font-family: "Inter", sans-serif;
+    background: #020612;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.login-page {
+    position: relative;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 120px 1rem 80px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(rgba(1, 6, 18, 0.9),
+            rgba(1, 6, 18, 0.92)),
+        url("https://lh3.googleusercontent.com/aida-public/AB6AXuCe94DuIl5Yfsku2si2D7eGf9GWdfpWQBMA80d-pr8Dgc0egTyEKoLTpDavCjDcdwRqC9_fQzWKBLT57YuarKywZYLPoXQluC5Fra5CZ8Eaf-vhb2kdajorypRh5aFQitJguySLdQysv_tKdxmDUf1wOLMoWEshPjkT4MmGAGsR6XeNoRd9dl8RKPbU4ZZ6PIKvlhxbMowZMvBnttchySKCC0bud8h0UoGWjTwBrqgkNSldWASkQvtXyaLMbqDFbWB59nXzDo4rCw6n") center/cover no-repeat;
+}
+
+.login-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at center,
+            rgba(0, 255, 255, 0.12),
+            transparent 45%);
+
+    z-index: 1;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.login-container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.login-card {
+    width: 100%;
+    max-width: 560px;
+
+    position: relative;
+
+    padding: 2rem;
+
+    border-radius: 24px;
+
+    background: rgba(14, 18, 30, 0.74);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 0 50px rgba(0, 0, 0, 0.45),
+        0 0 120px rgba(0, 255, 255, 0.05);
+}
+
+.system-version {
+    position: absolute;
+
+    top: 1.5rem;
+    left: 1.5rem;
+
+    font-size: 0.72rem;
+
+    color: rgba(255, 255, 255, 0.2);
+
+    letter-spacing: 0.08rem;
+}
+
+/* =========================================================
+   LOGO + HEADING
+========================================================= */
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 1rem;
+
+    color: #b7c8ff;
+}
+
+.login-logo svg {
+    width: 40px;
+    height: 40px;
+}
+
+.login-card h1 {
+    text-align: center;
+
+    font-size: 2.3rem;
+
+    line-height: 1.2;
+
+    margin-bottom: 0.5rem;
+
+    color: #edf2ff;
+
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+
+    margin-bottom: 2rem;
+
+    color: #42deff;
+
+    letter-spacing: 0.12rem;
+
+    font-size: 0.88rem;
+
+    font-weight: 500;
+}
+
+/* =========================================================
+   GOOGLE BUTTON
+========================================================= */
+
+.google-btn {
+    width: 100%;
+    height: 58px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    background: rgba(255, 255, 255, 0.03);
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.9rem;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.google-btn:hover {
+    transform: translateY(-2px);
+
+    border-color: #49e8ff;
+
+    box-shadow: 0 12px 30px rgba(73, 232, 255, 0.1);
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    margin: 2rem 0;
+}
+
+.divider span {
+    flex: 1;
+
+    height: 1px;
+
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.divider p {
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 0.9rem;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.input-group {
+    margin-bottom: 1.4rem;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 0.8rem;
+
+    font-size: 0.88rem;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    letter-spacing: 0.08rem;
+
+    font-weight: 600;
+}
+
+.input-wrapper {
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.9rem;
+
+    padding: 0 1rem;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    transition: 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: #49e8ff;
+
+    box-shadow: 0 0 0 4px rgba(73, 232, 255, 0.08);
+}
+
+.input-wrapper svg {
+    color: rgba(255, 255, 255, 0.45);
+
+    flex-shrink: 0;
+}
+
+.input-wrapper input {
+    flex: 1;
+
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    color: white;
+
+    font-size: 1rem;
+}
+
+.input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* =========================================================
+   EYE BUTTON
+========================================================= */
+
+.eye-btn {
+    background: transparent;
+
+    border: none;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.remember-box {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.remember-box input {
+    display: none;
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+
+    border-radius: 4px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    background: rgba(255, 255, 255, 0.04);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #49e8ff;
+
+    transition: 0.3s ease;
+
+    flex-shrink: 0;
+}
+
+.remember-box input:checked+.custom-checkbox {
+    background: rgba(73, 232, 255, 0.12);
+
+    border-color: #49e8ff;
+}
+
+.remember-text {
+    color: rgba(255, 255, 255, 0.82);
+
+    font-size: 0.95rem;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.login-options a,
+.signup-link a {
+    color: #8bddff;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+.login-options a:hover,
+.signup-link a:hover {
+    color: white;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-btn {
+    width: 100%;
+    height: 62px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(90deg,
+            #bfd1ff,
+            #49dfff);
+
+    color: #04101f;
+
+    font-size: 1.02rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.8rem;
+
+    transition: 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 30px rgba(73, 223, 255, 0.22);
+}
+
+.login-btn.loading {
+    opacity: 0.7;
+
+    cursor: wait;
+}
+
+/* =========================================================
+   SIGNUP LINK
+========================================================= */
+
+.signup-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.45rem;
+
+    flex-wrap: wrap;
+
+    margin-top: 1.8rem;
+}
+
+.signup-link span {
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 0.95rem;
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error-text {
+    margin-top: 0.5rem;
+
+    color: #ff7c7c;
+
+    font-size: 0.82rem;
+}
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success-toast {
+    position: fixed;
+
+    top: 2rem;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 1rem 1.5rem;
+
+    border-radius: 12px;
+
+    background: rgba(10, 18, 28, 0.95);
+
+    border: 1px solid rgba(75, 233, 255, 0.16);
+
+    color: #67f0ff;
+
+    z-index: 999;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+
+    .login-card h1 {
+        font-size: 1.9rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .login-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-page {
+        padding: 100px 1rem 60px;
+    }
+
+    .login-card {
+        padding: 1.2rem;
+    }
+
+    .login-card h1 {
+        font-size: 1.6rem;
+    }
+
+    .login-logo svg {
+        width: 34px;
+        height: 34px;
+    }
+
+    .google-btn,
+    .input-wrapper,
+    .login-btn {
+        height: 56px;
+    }
+
+    .remember-text {
+        font-size: 0.88rem;
+    }
+}

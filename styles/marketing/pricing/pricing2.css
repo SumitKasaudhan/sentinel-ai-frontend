@@ -1,0 +1,545 @@
+/* ==========================================================================
+   pricing.css  —  Sentinel AI  |  Homepage Pricing Component
+   Maps exactly to: components/marketing/pricing/Pricing.tsx
+   ==========================================================================
+
+   CLASS MAP (every class used in Pricing.tsx):
+     .pricing-section          section wrapper
+     .pricing-container        inner container
+     .section-heading          title + subtitle block
+     .pricing-grid             3-column cards grid  ← CARDS CONTAINER (not overlay)
+     .pricing-card             individual card article
+       .starter                Community tier accent
+       .featured               Professional tier accent
+       .enterprise             Enterprise tier accent
+       .popular                featured card modifier
+     .popular-badge            "MOST POPULAR" pill
+     .pricing-card__head       name + price block
+     .price                    price display
+     .pricing-list             feature list <ul>
+       li > svg + span         check icon + feature text
+     .btn                      base button
+     .btn-primary              cyan gradient CTA
+     .btn-secondary            ghost CTA
+     .pricing-cta              full-width button modifier
+
+   STANDALONE PAGE CLASSES (scoped to .pricing-page to avoid leaking):
+     .pricing-page .pricing-grid   background dot-grid overlay
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+    --p-bg: #040814;
+    --p-surface: rgba(8, 14, 34, 0.85);
+    --p-border: rgba(255, 255, 255, 0.07);
+    --p-text: #ffffff;
+    --p-muted: rgba(255, 255, 255, 0.55);
+    --p-cyan: #2ce6ff;
+    --p-cyan-dim: rgba(44, 230, 255, 0.12);
+    --p-cyan-glow: rgba(44, 230, 255, 0.35);
+    --p-gold: #f0c060;
+    --p-gold-dim: rgba(240, 192, 96, 0.10);
+    --p-gold-glow: rgba(240, 192, 96, 0.28);
+    --p-purple-dim: rgba(120, 100, 255, 0.10);
+    --p-purple-glow: rgba(120, 100, 255, 0.22);
+    --p-radius-card: 22px;
+    --p-radius-btn: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION WRAPPER
+   -------------------------------------------------------------------------- */
+.pricing-section {
+    position: relative;
+    padding: 7rem 1.5rem 8rem;
+    background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(44, 230, 255, 0.05) 0%, transparent 60%),
+        var(--p-bg);
+    overflow: hidden;
+}
+
+/* Subtle dot-grid background scoped to this section */
+.pricing-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pricing-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION HEADING
+   -------------------------------------------------------------------------- */
+.pricing-section .section-heading {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.pricing-section .section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--p-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+}
+
+.pricing-section .section-heading p {
+    font-size: 1.05rem;
+    color: var(--p-muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.75;
+}
+
+/* --------------------------------------------------------------------------
+   CARDS GRID
+   Covers both class names (.pricing-grid original, .pricing-cards fixed).
+   !important on layout props so no global CSS or standalone page rule wins.
+   -------------------------------------------------------------------------- */
+.pricing-section .pricing-grid,
+.pricing-section .pricing-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.75rem;
+    align-items: start;
+    position: static !important;
+    inset: unset !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background-image: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   BASE CARD
+   -------------------------------------------------------------------------- */
+.pricing-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2.25rem 2rem;
+    border-radius: var(--p-radius-card);
+    border: 1px solid var(--p-border);
+    background: var(--p-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition:
+        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.32s ease,
+        box-shadow 0.32s ease;
+    overflow: hidden;
+}
+
+/* Top highlight line on every card */
+.pricing-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.12) 50%,
+            transparent 100%);
+}
+
+.pricing-card:hover {
+    transform: translateY(-6px);
+}
+
+/* --------------------------------------------------------------------------
+   ACCENT VARIANTS
+   -------------------------------------------------------------------------- */
+
+/* Community — subtle purple tint */
+.pricing-card.starter {
+    border-color: rgba(120, 100, 255, 0.18);
+    background: linear-gradient(160deg,
+            rgba(120, 100, 255, 0.07) 0%,
+            rgba(8, 14, 34, 0.92) 55%);
+}
+
+.pricing-card.starter:hover {
+    border-color: rgba(120, 100, 255, 0.40);
+    box-shadow:
+        0 0 0 1px rgba(120, 100, 255, 0.15),
+        0 20px 50px -10px rgba(120, 100, 255, 0.20);
+}
+
+.pricing-card.starter::before {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(120, 100, 255, 0.25) 50%,
+            transparent 100%);
+}
+
+/* Professional — cyan glow, elevated */
+.pricing-card.featured {
+    border-color: rgba(44, 230, 255, 0.35);
+    background: linear-gradient(160deg,
+            rgba(44, 230, 255, 0.08) 0%,
+            rgba(8, 14, 34, 0.95) 55%);
+    box-shadow:
+        0 0 0 1px rgba(44, 230, 255, 0.15),
+        0 24px 60px -12px rgba(44, 230, 255, 0.20),
+        inset 0 1px 0 rgba(44, 230, 255, 0.12);
+    transform: scale(1.025);
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.025) translateY(-6px);
+    border-color: rgba(44, 230, 255, 0.60);
+    box-shadow:
+        0 0 0 1px rgba(44, 230, 255, 0.25),
+        0 30px 70px -12px rgba(44, 230, 255, 0.30);
+}
+
+.pricing-card.featured::before {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(44, 230, 255, 0.45) 50%,
+            transparent 100%);
+}
+
+/* Enterprise — gold/amber tint */
+.pricing-card.enterprise {
+    border-color: rgba(240, 192, 96, 0.18);
+    background: linear-gradient(160deg,
+            rgba(240, 192, 96, 0.06) 0%,
+            rgba(8, 14, 34, 0.92) 55%);
+}
+
+.pricing-card.enterprise:hover {
+    border-color: rgba(240, 192, 96, 0.40);
+    box-shadow:
+        0 0 0 1px rgba(240, 192, 96, 0.12),
+        0 20px 50px -10px rgba(240, 192, 96, 0.18);
+}
+
+.pricing-card.enterprise::before {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(240, 192, 96, 0.25) 50%,
+            transparent 100%);
+}
+
+/* --------------------------------------------------------------------------
+   POPULAR BADGE
+   -------------------------------------------------------------------------- */
+.popular-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.45rem 1.1rem;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(90deg, #00cfff 0%, #47f3ff 100%);
+    color: #021018;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.10rem;
+    white-space: nowrap;
+    box-shadow:
+        0 4px 18px rgba(44, 230, 255, 0.45),
+        0 1px 0 rgba(255, 255, 255, 0.25) inset;
+}
+
+/* --------------------------------------------------------------------------
+   CARD HEAD  (name + price)
+   -------------------------------------------------------------------------- */
+.pricing-card__head {
+    margin-bottom: 1.75rem;
+    padding-top: 1rem;
+    /* pushes content below popular-badge area */
+}
+
+.pricing-card.popular .pricing-card__head {
+    padding-top: 1.75rem;
+}
+
+.pricing-card__head h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--p-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+}
+
+.pricing-card.starter .pricing-card__head h3 {
+    color: rgba(160, 140, 255, 0.80);
+}
+
+.pricing-card.featured .pricing-card__head h3 {
+    color: rgba(44, 230, 255, 0.80);
+}
+
+.pricing-card.enterprise .pricing-card__head h3 {
+    color: rgba(240, 192, 96, 0.80);
+}
+
+.pricing-card .price {
+    font-size: clamp(2.4rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--p-text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.pricing-card.starter .price {
+    color: #c4b8ff;
+}
+
+.pricing-card.featured .price {
+    background: linear-gradient(135deg, #2ce6ff 0%, #7af0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pricing-card.enterprise .price {
+    color: var(--p-gold);
+}
+
+/* --------------------------------------------------------------------------
+   DIVIDER  (between head and list)
+   -------------------------------------------------------------------------- */
+.pricing-card__head::after {
+    content: "";
+    display: block;
+    height: 1px;
+    margin-top: 1.5rem;
+    background: linear-gradient(90deg, var(--p-border) 0%, transparent 100%);
+}
+
+/* --------------------------------------------------------------------------
+   FEATURE LIST
+   ─────────────────────────────────────────────────────────────────────────
+   BUG FIXED: old CSS had .features-list but component uses .pricing-list
+   Also: list-style must be none so browser bullets don't double-render
+   with the Lucide <Check> icon
+   -------------------------------------------------------------------------- */
+.pricing-list {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+    /* pushes CTA button to the bottom of every card */
+}
+
+.pricing-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.4;
+}
+
+/* Lucide <Check> SVG icon */
+.pricing-list li svg {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.5;
+    color: var(--p-muted);
+    opacity: 0.7;
+}
+
+.pricing-card.starter .pricing-list li svg {
+    color: #a090ff;
+    opacity: 1;
+}
+
+.pricing-card.featured .pricing-list li svg {
+    color: var(--p-cyan);
+    opacity: 1;
+}
+
+.pricing-card.enterprise .pricing-list li svg {
+    color: var(--p-gold);
+    opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   CTA BUTTONS
+   -------------------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--p-radius-btn);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition:
+        transform 0.22s ease,
+        opacity 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Primary — cyan gradient */
+.btn-primary {
+    background: linear-gradient(90deg, #00cfff 0%, #31efff 100%);
+    color: #021018;
+    box-shadow: 0 0 22px rgba(44, 230, 255, 0.35);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 32px rgba(44, 230, 255, 0.55);
+    opacity: 0.95;
+}
+
+/* Secondary — ghost */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.80);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+/* Enterprise ghost gets gold tint */
+.pricing-card.enterprise .btn-secondary {
+    border-color: rgba(240, 192, 96, 0.22);
+    color: rgba(240, 192, 96, 0.85);
+}
+
+.pricing-card.enterprise .btn-secondary:hover {
+    background: rgba(240, 192, 96, 0.06);
+    border-color: rgba(240, 192, 96, 0.40);
+    color: var(--p-gold);
+}
+
+/* Starter ghost gets purple tint */
+.pricing-card.starter .btn-secondary {
+    border-color: rgba(120, 100, 255, 0.22);
+    color: rgba(160, 140, 255, 0.85);
+}
+
+.pricing-card.starter .btn-secondary:hover {
+    background: rgba(120, 100, 255, 0.06);
+    border-color: rgba(120, 100, 255, 0.40);
+    color: #c4b8ff;
+}
+
+/* Pricing CTA — always full width */
+.pricing-cta {
+    width: 100%;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   STANDALONE PRICING PAGE COMPAT
+   Scoped so these never leak into the homepage Pricing component.
+   ========================================================================== */
+.pricing-page {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    padding: 7rem 1.5rem 6rem;
+    background:
+        radial-gradient(circle at top, rgba(0, 255, 255, 0.08), transparent 35%),
+        #040814;
+    color: #ffffff;
+}
+
+/* Background dot-grid overlay — only valid inside .pricing-page */
+.pricing-page .pricing-grid {
+    position: absolute;
+    inset: 0;
+    display: block;
+    /* override grid display set above */
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   3 cols on all screens >= 768px. Single col only on true mobile < 768px.
+   ========================================================================== */
+
+/* Tablet — keep 3 cols, tighten gap */
+@media (max-width: 1100px) and (min-width: 768px) {
+
+    .pricing-section .pricing-grid,
+    .pricing-section .pricing-cards {
+        gap: 1.1rem !important;
+    }
+
+    .pricing-card {
+        padding: 1.6rem 1.25rem;
+    }
+
+    .pricing-card .price {
+        font-size: 2.2rem;
+    }
+}
+
+/* Mobile only — single column */
+@media (max-width: 767px) {
+
+    .pricing-section .pricing-grid,
+    .pricing-section .pricing-cards {
+        grid-template-columns: 1fr !important;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .pricing-card.featured {
+        transform: scale(1);
+        order: -1;
+    }
+
+    .pricing-card.featured:hover {
+        transform: translateY(-6px);
+    }
+
+    .pricing-section {
+        padding: 5rem 1rem 6rem;
+    }
+
+    .pricing-section .section-heading h2 {
+        font-size: 1.75rem;
+    }
+
+    .pricing-card {
+        padding: 1.75rem 1.5rem;
+    }
+}

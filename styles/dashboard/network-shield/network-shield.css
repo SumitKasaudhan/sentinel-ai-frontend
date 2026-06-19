@@ -1,0 +1,818 @@
+/* ═══════════════════════════════════════════════════════════
+   NETWORK SHIELD — Styles
+   Supports: mobile (360px+), tablet (768px+), desktop (1280px+)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────
+   Page Wrapper
+   ───────────────────────────────────────────────────────── */
+.network-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    min-height: 100vh;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────────────────── */
+.network-hero {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 36px 40px 30px;
+    background: linear-gradient(135deg, #080d18 0%, #0a1628 55%, #08111f 100%);
+    border: 1px solid rgba(0, 212, 255, 0.12);
+    min-height: 190px;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 70% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 60%),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 30px,
+            rgba(0, 212, 255, 0.015) 30px,
+            rgba(0, 212, 255, 0.015) 31px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 30px,
+            rgba(0, 212, 255, 0.015) 30px,
+            rgba(0, 212, 255, 0.015) 31px);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.hero-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.hero-title h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.hero-title svg {
+    color: var(--cyan, #00d4ff);
+    flex-shrink: 0;
+}
+
+.hero-content>div>p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.hero-content>div>p span {
+    color: var(--cyan, #00d4ff);
+    font-weight: 600;
+}
+
+/* Core Status */
+.core-status {
+    position: relative;
+    z-index: 1;
+    margin-top: 22px;
+}
+
+.core-status>span {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.38);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.core-status h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 4px 0 0;
+    letter-spacing: -0.01em;
+}
+
+.core-status-sub {
+    display: block;
+    opacity: 0.45;
+    font-size: 11px;
+    margin-top: 4px;
+    letter-spacing: 0.03em;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Sync Button + "Updated X ago" wrapper
+   ───────────────────────────────────────────────────────── */
+.sync-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.sync-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+}
+
+.sync-btn:hover:not(:disabled) {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+    color: var(--cyan, #00d4ff);
+}
+
+.sync-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.sync-ago {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.38);
+    letter-spacing: 0.03em;
+}
+
+/* Spin animation */
+@keyframes ns-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: ns-spin 0.85s linear infinite;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Stats Grid  — 5 cols desktop → 3 → 2 → 2
+   ───────────────────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 20px 22px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.stat-card:hover {
+    border-color: rgba(0, 212, 255, 0.2);
+    background: rgba(0, 212, 255, 0.03);
+}
+
+.skeleton-card {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.stat-top h4 {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.42);
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.stat-top svg {
+    color: rgba(255, 255, 255, 0.28);
+    flex-shrink: 0;
+}
+
+.stat-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.stat-main h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--cyan, #00d4ff);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.stat-main span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.stat-main .positive {
+    color: #00ff9d;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Bottom Grid  — 2 cols desktop → 1 col tablet/mobile
+   ───────────────────────────────────────────────────────── */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Table Card
+   ───────────────────────────────────────────────────────── */
+.table-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.table-header h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.table-header button {
+    font-size: 12px;
+    color: var(--cyan, #00d4ff);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 3px 0;
+    opacity: 0.75;
+    transition: opacity 0.15s;
+}
+
+.table-header button:hover {
+    opacity: 1;
+}
+
+/* Table scroll wrapper — enables horizontal scroll on small screens */
+.table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.32);
+    font-weight: 600;
+    text-align: left;
+    padding: 11px 20px 9px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+tbody td {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+}
+
+tbody td strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Summary table (2-col label/value) — right-align values */
+.summary-table td:last-child {
+    text-align: right;
+}
+
+/* Hover on all data rows */
+.table-card tbody tr {
+    transition: background 0.14s ease;
+}
+
+.table-card tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Priority 1 — Clickable rows */
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background: rgba(0, 212, 255, 0.04) !important;
+}
+
+.clickable-row:hover td strong {
+    color: var(--cyan, #00d4ff);
+    transition: color 0.15s;
+}
+
+/* Danger row highlight */
+.danger-row {
+    background: rgba(255, 77, 79, 0.03);
+}
+
+.danger-row:hover {
+    background: rgba(255, 77, 79, 0.07) !important;
+}
+
+/* Priority 2 — Colorized risk score number */
+.risk-score-value {
+    font-weight: 700;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Monospace open ports cell */
+.ports-cell {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+/* Distribution body padding */
+.distribution-body {
+    padding: 20px 22px 4px;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 52px 24px;
+    opacity: 0.42;
+}
+
+.empty-state svg {
+    margin-bottom: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-state p {
+    font-weight: 600;
+    margin: 0 0 6px;
+    font-size: 14px;
+}
+
+.empty-state small {
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Status Badge
+   ───────────────────────────────────────────────────────── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.status-badge.online {
+    background: rgba(0, 255, 157, 0.1);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.25);
+}
+
+.status-badge.danger {
+    background: rgba(255, 77, 79, 0.1);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.25);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Activity Stream Card
+   ───────────────────────────────────────────────────────── */
+.stream-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.stream-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+}
+
+.stream-header h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.stream-header svg {
+    color: var(--cyan, #00d4ff);
+}
+
+.logs {
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 8px 0;
+}
+
+/* Custom scrollbar */
+.logs::-webkit-scrollbar {
+    width: 4px;
+}
+
+.logs::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.logs::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.logs::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.log-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 9px 20px;
+    border-left: 2px solid transparent;
+    transition: background 0.14s ease;
+}
+
+.log-item:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.log-item span {
+    font-size: 10px;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+    color: rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+}
+
+.log-item p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.62);
+    margin: 0;
+    line-height: 1.55;
+}
+
+.log-item.info {
+    border-left-color: rgba(0, 212, 255, 0.45);
+}
+
+.log-item.safe {
+    border-left-color: rgba(0, 255, 157, 0.45);
+}
+
+.log-item.danger {
+    border-left-color: rgba(255, 77, 79, 0.5);
+}
+
+.log-item.info p {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.log-item.safe p {
+    color: rgba(0, 255, 157, 0.75);
+}
+
+.log-item.danger p {
+    color: rgba(255, 120, 120, 0.85);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Large Desktop  ≤ 1440px ─────────────────────────────── */
+@media (max-width: 1440px) {
+    .stats-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* ── Desktop / Wide Tablet  ≤ 1200px ─────────────────────── */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-main h2 {
+        font-size: 28px;
+    }
+}
+
+/* ── Tablet  ≤ 1024px ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .network-page {
+        padding: 18px 16px;
+        gap: 16px;
+    }
+
+    .network-hero {
+        padding: 28px 28px 26px;
+        min-height: auto;
+    }
+
+    .hero-title h1 {
+        font-size: 22px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    /* Stack both bottom grids to single column */
+    .bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .logs {
+        max-height: 320px;
+    }
+}
+
+/* ── Mobile Landscape / Narrow Tablet  ≤ 768px ─────────────── */
+@media (max-width: 768px) {
+    .network-page {
+        padding: 14px 12px;
+        gap: 14px;
+    }
+
+    /* Hero */
+    .network-hero {
+        padding: 22px 18px 20px;
+        border-radius: 12px;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .hero-title {
+        gap: 10px;
+    }
+
+    .hero-title h1 {
+        font-size: 18px;
+    }
+
+    .sync-wrapper {
+        align-items: flex-start;
+    }
+
+    .sync-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .core-status h3 {
+        font-size: 18px;
+    }
+
+    .core-status-sub {
+        font-size: 10px;
+    }
+
+    /* Stats — 2 cols on mobile */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 16px 14px;
+        border-radius: 12px;
+    }
+
+    .stat-main h2 {
+        font-size: 26px;
+    }
+
+    .stat-top h4 {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+    }
+
+    /* Bottom grid */
+    .bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .table-card,
+    .stream-card {
+        border-radius: 12px;
+    }
+
+    /* Table — make scrollable, ensure minimum width */
+    .table-scroll-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-scroll-wrapper table {
+        min-width: 560px;
+    }
+
+    /* Tighten table padding */
+    thead th,
+    tbody td {
+        padding: 10px 14px;
+    }
+
+    .table-header {
+        padding: 14px 14px 12px;
+    }
+
+    .stream-header {
+        padding: 14px 14px 12px;
+    }
+
+    .log-item {
+        padding: 8px 14px;
+    }
+
+    .distribution-body {
+        padding: 16px 16px 4px;
+    }
+
+    .empty-state {
+        padding: 40px 16px;
+    }
+}
+
+/* ── Small Mobile  ≤ 480px ───────────────────────────────── */
+@media (max-width: 480px) {
+    .network-page {
+        padding: 10px 10px;
+        gap: 12px;
+    }
+
+    .network-hero {
+        padding: 18px 14px 16px;
+    }
+
+    .hero-title h1 {
+        font-size: 16px;
+        letter-spacing: -0.01em;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 12px 12px;
+    }
+
+    .stat-main h2 {
+        font-size: 22px;
+    }
+
+    .stat-top h4 {
+        font-size: 8px;
+    }
+
+    .stat-top svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .bottom-grid {
+        gap: 10px;
+    }
+
+    /* Make summary table readable on very small screens */
+    .summary-table td {
+        font-size: 12px;
+        padding: 9px 12px;
+    }
+
+    .log-item span {
+        font-size: 9px;
+    }
+
+    .log-item p {
+        font-size: 11px;
+    }
+}
+
+/* ── Very small devices  ≤ 360px ─────────────────────────── */
+@media (max-width: 360px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .stat-card {
+        padding: 10px 10px;
+    }
+
+    .stat-main h2 {
+        font-size: 20px;
+    }
+
+    .hero-title h1 {
+        font-size: 14px;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Utility
+   ───────────────────────────────────────────────────────── */
+
+/* Prevent layout shift on scrollbar appearance */
+html {
+    scrollbar-gutter: stable;
+}
+
+/* Accessible focus ring for clickable rows */
+.clickable-row:focus-visible {
+    outline: 2px solid rgba(0, 212, 255, 0.5);
+    outline-offset: -2px;
+}

@@ -1,0 +1,333 @@
+/* ============================================================
+   FEATURES SECTION
+============================================================ */
+
+.features-section {
+    position: relative;
+
+    width: 100%;
+
+    padding: 5rem 0;
+
+    z-index: 2;
+
+    overflow: hidden;
+}
+
+/* ============================================================
+   FEATURES HEADER
+============================================================ */
+
+.features-header {
+    text-align: center;
+
+    margin-bottom: 2.5rem;
+}
+
+.features-header h1,
+.features-header h2 {
+    font-size: 2.9rem;
+
+    font-weight: 800;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.04em;
+
+    color: #eef5ff;
+
+    margin-bottom: 0.7rem;
+}
+
+.features-header p {
+    font-size: 1rem;
+
+    line-height: 1.65;
+
+    color: var(--muted);
+
+    max-width: 720px;
+
+    margin: 0 auto;
+}
+
+/* ============================================================
+   FEATURE GRID
+============================================================ */
+
+.feature-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 1.4rem;
+
+    align-items: stretch;
+}
+
+/* ============================================================
+   FEATURE CARD
+============================================================ */
+
+.feature-card {
+    position: relative;
+
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 235px;
+
+    padding: 1.45rem;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+
+    background:
+        linear-gradient(180deg,
+            rgba(12, 18, 32, 0.94),
+            rgba(8, 12, 22, 0.98));
+
+    border: 1px solid rgba(112, 137, 181, 0.16);
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.22);
+
+    transition:
+        transform 0.28s ease,
+        border-color 0.28s ease,
+        box-shadow 0.28s ease;
+
+    transform: translateZ(0);
+
+    will-change: transform;
+}
+
+/* ============================================================
+   CARD GLOW
+============================================================ */
+
+.feature-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(135deg,
+            rgba(90, 223, 255, 0.06),
+            transparent 42%,
+            rgba(143, 100, 255, 0.04));
+
+    opacity: 0;
+
+    transition: opacity 0.35s ease;
+
+    z-index: -1;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(90, 223, 255, 0.26);
+
+    box-shadow:
+        0 18px 44px rgba(0, 0, 0, 0.32);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+/* ============================================================
+   FEATURE ICON
+============================================================ */
+
+.feature-icon {
+    width: 3rem;
+
+    height: 3rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    margin-bottom: 1.15rem;
+
+    background:
+        rgba(16, 26, 40, 0.95);
+
+    border:
+        1px solid rgba(90, 223, 255, 0.14);
+
+    color: var(--cyan);
+
+    transition:
+        transform 0.28s ease,
+        border-color 0.28s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.04);
+
+    border-color:
+        rgba(90, 223, 255, 0.34);
+}
+
+/* ============================================================
+   FEATURE TITLE
+============================================================ */
+
+.feature-card h3 {
+    margin: 0 0 0.85rem;
+
+    font-size: 1.22rem;
+
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    letter-spacing: -0.03em;
+
+    color: #eef5ff;
+
+    word-break: break-word;
+}
+
+/* ============================================================
+   FEATURE TEXT
+============================================================ */
+
+.feature-card p {
+    margin: 0;
+
+    font-size: 0.96rem;
+
+    line-height: 1.72;
+
+    color: var(--muted);
+
+    overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1200px) {
+
+    .feature-grid {
+        gap: 1.2rem;
+    }
+
+    .feature-card {
+        min-height: 220px;
+    }
+
+    .features-header h1,
+    .features-header h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature-card {
+        min-height: 210px;
+    }
+
+    .features-header h1,
+    .features-header h2 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .features-section {
+        padding: 4rem 0;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .feature-card {
+        min-height: auto;
+
+        padding: 1.2rem;
+    }
+
+    .features-header {
+        margin-bottom: 2rem;
+    }
+
+    .features-header h1,
+    .features-header h2 {
+        font-size: 1.95rem;
+    }
+
+    .features-header p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .feature-card {
+        padding: 1rem;
+
+        border-radius: 20px;
+    }
+
+    .feature-icon {
+        width: 2.6rem;
+
+        height: 2.6rem;
+
+        border-radius: 12px;
+    }
+
+    .feature-card h3 {
+        font-size: 1rem;
+    }
+
+    .feature-card p {
+        font-size: 0.88rem;
+
+        line-height: 1.65;
+    }
+
+    .features-header h1,
+    .features-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .features-header p {
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,299 @@
+/* ============================================================
+   TELEMETRY / METRIC CARDS
+   ============================================================ */
+
+.telemetry-grid {
+    display: grid;
+
+    grid-template-columns: 1.35fr 0.8fr 0.8fr;
+
+    gap: 1rem;
+
+    width: 100%;
+}
+
+.metric-card {
+    position: relative;
+
+    min-height: 11.5rem;
+
+    padding: 1rem 1.05rem;
+
+    border-radius: var(--radius);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(13, 18, 30, 0.9),
+            rgba(10, 14, 22, 0.95)
+        );
+
+    border: 1px solid rgba(112, 137, 181, 0.18);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+    width: 100%;
+
+    min-width: 0;
+}
+
+.metric-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(90, 223, 255, 0.06),
+            transparent 38%,
+            rgba(143, 100, 255, 0.04) 100%
+        );
+
+    pointer-events: none;
+}
+
+.metric-card--large {
+    min-height: 11.5rem;
+}
+
+.metric-card__top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.metric-label {
+    font-size: 0.62rem;
+
+    letter-spacing: 0.2em;
+
+    color: #8a96aa;
+
+    font-weight: 800;
+}
+
+.metric-icon {
+    color: var(--cyan);
+
+    opacity: 0.9;
+
+    flex-shrink: 0;
+}
+
+.metric-icon--warn {
+    color: #ff9e67;
+}
+
+.metric-value {
+    margin-top: 0.55rem;
+
+    font-size: clamp(2rem, 4vw, 2.6rem);
+
+    font-weight: 800;
+
+    letter-spacing: -0.05em;
+
+    line-height: 1;
+
+    overflow-wrap: anywhere;
+}
+
+.metric-value--small {
+    font-size: clamp(1.8rem, 3vw, 2.25rem);
+}
+
+.metric-subvalue {
+    margin-top: 0.7rem;
+
+    color: var(--cyan);
+
+    font-size: 0.88rem;
+
+    font-weight: 700;
+}
+
+.metric-note {
+    margin-top: 0.7rem;
+
+    color: var(--muted);
+
+    font-size: 0.92rem;
+
+    line-height: 1.55;
+}
+
+.chip {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+
+    margin-top: 0.7rem;
+
+    padding: 0.3rem 0.55rem;
+
+    border-radius: 999px;
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    border: 1px solid rgba(255, 179, 107, 0.2);
+}
+
+.chip--warn {
+    color: #ffc79b;
+
+    background: rgba(255, 179, 107, 0.08);
+}
+
+.progress-track {
+    position: relative;
+
+    margin-top: 1.2rem;
+
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: rgba(101, 122, 157, 0.18);
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    position: absolute;
+
+    inset: 0 auto 0 0;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a071ff 0%,
+            #5adfff 100%
+        );
+
+    box-shadow:
+        0 0 20px rgba(90, 223, 255, 0.35);
+}
+
+/* ============================================================
+   RESPONSIVE FIXES ONLY
+   ============================================================ */
+
+/* ---------- 1024px ---------- */
+
+@media (max-width: 1024px) {
+
+    .telemetry-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric-card--large {
+        grid-column: span 2;
+    }
+}
+
+/* ---------- 768px ---------- */
+
+@media (max-width: 768px) {
+
+    .telemetry-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .metric-card {
+        min-height: auto;
+    }
+
+    .metric-card--large {
+        grid-column: auto;
+
+        min-height: auto;
+    }
+}
+
+/* ---------- 480px ---------- */
+
+@media (max-width: 480px) {
+
+    .telemetry-grid {
+        gap: 0.85rem;
+    }
+
+    .metric-card {
+        padding: 0.95rem;
+    }
+
+    .metric-card__top {
+        gap: 0.7rem;
+    }
+
+    .metric-value {
+        font-size: 1.9rem;
+    }
+
+    .metric-value--small {
+        font-size: 1.55rem;
+    }
+
+    .metric-subvalue {
+        font-size: 0.8rem;
+    }
+
+    .metric-note {
+        font-size: 0.84rem;
+
+        line-height: 1.5;
+    }
+
+    .metric-label {
+        font-size: 0.55rem;
+
+        letter-spacing: 0.16em;
+    }
+
+    .chip {
+        font-size: 0.65rem;
+    }
+}
+
+/* ---------- 360px ---------- */
+
+@media (max-width: 360px) {
+
+    .metric-card {
+        padding: 0.85rem;
+    }
+
+    .metric-value {
+        font-size: 1.6rem;
+    }
+
+    .metric-value--small {
+        font-size: 1.3rem;
+    }
+
+    .metric-note {
+        font-size: 0.78rem;
+    }
+
+    .metric-subvalue {
+        font-size: 0.72rem;
+    }
+}

@@ -1,0 +1,479 @@
+/* =========================================================
+   PRIVACY PAGE
+========================================================= */
+
+.privacy-page {
+    min-height: 100vh;
+
+    background:
+        linear-gradient(to bottom,
+            #050814,
+            #04060f);
+
+    color: white;
+
+    padding-top: 2rem;
+}
+
+.privacy-nav__item {
+    width: 100%;
+
+    background: transparent;
+
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+.privacy-nav__item.active {
+    box-shadow:
+        inset 0 0 0 1px rgba(95, 212, 255, 0.08);
+}
+
+.privacy-card,
+.security-box,
+.privacy-help,
+.privacy-briefcase {
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.privacy-card:hover,
+.security-box:hover,
+.privacy-help:hover,
+.privacy-briefcase:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(95, 212, 255, 0.24);
+
+    box-shadow:
+        0 10px 30px rgba(95, 212, 255, 0.06);
+}
+
+.privacy-help button:hover {
+    opacity: 0.92;
+}
+
+.privacy-table__row:hover {
+    background:
+        rgba(16, 24, 40, 0.92);
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.privacy-layout {
+    width: min(1400px, 92%);
+
+    margin-inline: auto;
+
+    display: grid;
+    grid-template-columns: 280px 1fr;
+
+    gap: 4rem;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.privacy-sidebar__sticky {
+    position: sticky;
+
+    top: 100px;
+}
+
+.privacy-sidebar__label {
+    font-size: 0.72rem;
+
+    letter-spacing: 0.14em;
+
+    color: #5fd4ff;
+
+    margin-bottom: 1.5rem;
+}
+
+.privacy-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+.privacy-nav__item {
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    padding: 1rem;
+
+    border-left:
+        2px solid transparent;
+
+    color: #c5d4f3;
+
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+.privacy-nav__item:hover,
+.privacy-nav__item.active {
+    background:
+        rgba(16, 23, 40, 0.9);
+
+    border-color: #5fd4ff;
+
+    color: white;
+}
+
+.privacy-help {
+    margin-top: 2rem;
+
+    padding: 1.2rem;
+
+    border-radius: 16px;
+
+    background:
+        rgba(14, 20, 34, 0.94);
+
+    border:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.privacy-help h4 {
+    margin-bottom: 0.8rem;
+
+    font-size: 0.95rem;
+}
+
+.privacy-help p {
+    font-size: 0.82rem;
+
+    line-height: 1.7;
+
+    color: #9db0d0;
+
+    margin-bottom: 1rem;
+}
+
+.privacy-help button {
+    width: 100%;
+
+    height: 42px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(90deg,
+            #1e6fff,
+            #5fd4ff);
+
+    color: white;
+
+    font-size: 0.78rem;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.privacy-content {
+    padding-bottom: 6rem;
+}
+
+.privacy-meta {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    color: #7f92b4;
+
+    font-size: 0.78rem;
+
+    letter-spacing: 0.08em;
+
+    margin-bottom: 1.4rem;
+}
+
+.privacy-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+
+    margin-bottom: 1rem;
+}
+
+.privacy-subtitle {
+    max-width: 780px;
+
+    line-height: 1.9;
+
+    color: #a7b7d6;
+
+    margin-bottom: 3rem;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.privacy-section {
+    padding-block: 3rem;
+
+    border-top:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.privacy-section h2 {
+    font-size: 1.5rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.privacy-section p {
+    color: #b4c4df;
+
+    line-height: 1.9;
+
+    margin-bottom: 1.2rem;
+}
+
+/* =========================================================
+   LIST
+========================================================= */
+
+.privacy-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    margin-top: 2rem;
+}
+
+.privacy-list__item {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    color: #d4e1ff;
+}
+
+/* =========================================================
+   BRIEFCASE
+========================================================= */
+
+.privacy-briefcase {
+    margin-top: 2rem;
+
+    padding: 1.4rem;
+
+    border-radius: 16px;
+
+    border:
+        1px solid rgba(95, 212, 255, 0.12);
+
+    background:
+        rgba(10, 16, 28, 0.95);
+}
+
+.privacy-briefcase__top {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    margin-bottom: 0.8rem;
+
+    color: #5fd4ff;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.privacy-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 1.2rem;
+
+    margin-top: 2rem;
+}
+
+.privacy-card {
+    padding: 1.5rem;
+
+    border-radius: 16px;
+
+    background:
+        rgba(14, 20, 34, 0.95);
+
+    border:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.privacy-card h4 {
+    margin-bottom: 1rem;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.privacy-table {
+    margin-top: 2rem;
+
+    border:
+        1px solid rgba(95, 212, 255, 0.08);
+
+    border-radius: 18px;
+
+    overflow: hidden;
+}
+
+.privacy-table__head,
+.privacy-table__row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+}
+
+.privacy-table__head {
+    background:
+        rgba(16, 24, 40, 0.96);
+
+    font-size: 0.75rem;
+
+    letter-spacing: 0.08em;
+}
+
+.privacy-table__head span,
+.privacy-table__row span {
+    padding: 1rem;
+
+    border-bottom:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.privacy-table__row {
+    color: #b4c4df;
+}
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.privacy-banner {
+    width: 100%;
+    height: 280px;
+
+    border-radius: 18px;
+
+    margin-block: 2rem;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(130, 216, 247, 0.164);
+
+    background:
+        linear-gradient(rgba(25, 25, 25, 0.45),
+            rgba(0, 0, 0, 0.55)),
+        url("https://lh3.googleusercontent.com/aida-public/AB6AXuAA65qP3LF7waWy24ElAvMFcdfQENSYzT6Z59x5rq-6np8GidwatoB8yxZnqFGQZCtR7XtD90zhz3JFlUoKJY3OZ6VNhdZUQSobcmriyxZwUIVMcADozITjFWp3o_H7CdGo7kGFPGbRr8zHWD05xBEl0fKJ-b8Il2bruAxI3YYd7vtVqTiqpJLUSBHSZXbeWDJhtkN5IVq2pQRIneHEffpzQ6mQlvTJDeKsJJ_-n6qkPi6eynbOVgGyM9qieki0TR133I9Ah2--myqJ") center/cover no-repeat;
+}
+/* =========================================================
+   SECURITY GRID
+========================================================= */
+
+.privacy-security-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 1rem;
+
+    margin-top: 2rem;
+}
+
+.security-box {
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    padding: 1rem;
+
+    border-radius: 14px;
+
+    background:
+        rgba(14, 20, 34, 0.95);
+
+    border:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.security-box.highlight {
+    justify-content: space-between;
+
+    color: #5fd4ff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .privacy-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .privacy-cards,
+    .privacy-security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-table__head,
+    .privacy-table__row {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-banner {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .privacy-page {
+        padding-top: 1rem;
+    }
+
+    .privacy-title {
+        font-size: 2rem;
+    }
+
+    .privacy-section h2 {
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,354 @@
+/* ==========================================================================
+   pricing.css
+   --------------------------------------------------------------------------
+   This file is shared between TWO consumers:
+
+   1. STANDALONE PAGE  →  app/marketing/pricing/page.tsx
+      Uses: .pricing-page, .pricing-grid (background overlay), .pricing-hero,
+            .pricing-badge, .billing-toggle, .toggle-switch, .toggle-ball,
+            .save-badge, .pricing-cards, .pricing-card, .pricing-btn
+
+   2. HOMEPAGE COMPONENT  →  components/marketing/pricing/Pricing.tsx
+      Uses: .pricing-section, .pricing-container, .section-heading,
+            .pricing-cards, .pricing-card, .popular-badge, .pricing-list,
+            .pricing-cta, .btn, .btn-primary, .btn-secondary
+
+   IMPORTANT CLASS DISTINCTION:
+     .pricing-grid  →  background dot-grid OVERLAY  (position: absolute, decorative)
+     .pricing-cards →  cards CONTAINER GRID          (position: relative, layout)
+   These are intentionally different. Never use .pricing-grid as a card wrapper.
+   ========================================================================== */
+
+:root {
+  --bg: #040814;
+  --panel: rgba(8, 15, 35, 0.9);
+  --border: rgba(0, 255, 255, 0.16);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --cyan: #2ce6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   STANDALONE PRICING PAGE ONLY
+   (app/marketing/pricing/page.tsx)
+   ========================================================================== */
+
+.pricing-page {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 7rem 1.5rem 6rem;
+  background:
+    radial-gradient(circle at top, rgba(0, 255, 255, 0.08), transparent 35%),
+    #040814;
+  color: var(--text);
+}
+
+/*
+  .pricing-grid is the DECORATIVE BACKGROUND DOT GRID for the standalone page.
+  It is position: absolute; inset: 0 — intentional only inside .pricing-page
+  which has position: relative to contain it.
+
+  DO NOT use this class as a card container. Use .pricing-cards for that.
+*/
+.pricing-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.pricing-hero {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(0, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 255, 255, 0.05);
+  color: var(--cyan);
+  font-size: 0.8rem;
+  letter-spacing: 0.12rem;
+}
+
+.pricing-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.pricing-hero h1 {
+  margin-bottom: 1.6rem;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.pricing-hero h1 span {
+  color: var(--cyan);
+}
+
+.pricing-hero p {
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.9;
+  font-size: 1.08rem;
+}
+
+.billing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+/* FIX: Removed duplicate .toggle-switch and .toggle-ball definitions.
+   The original file defined each twice (lines 108 and 186 for toggle-switch,
+   lines 134 and 202 for toggle-ball). The second definition silently
+   overwrote the first. Merged into one clean definition each. */
+.toggle-switch {
+  position: relative;
+  width: 58px;
+  height: 30px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch.active {
+  background: rgba(0, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.toggle-ball {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch.active .toggle-ball {
+  transform: translateX(28px);
+}
+
+.save-badge {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(0, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(0, 255, 255, 0.06);
+  color: var(--cyan);
+  font-size: 0.74rem;
+}
+
+/* ==========================================================================
+   SHARED — used by both the standalone page and the homepage component
+   ========================================================================== */
+
+/*
+  .pricing-cards is the CARDS CONTAINER GRID.
+  It is position: relative and display: grid — safe to use in any layout.
+  This is what Pricing.tsx (homepage component) uses to wrap the 3 plan cards.
+*/
+.pricing-cards {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 5rem auto 0;
+}
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border: 1px solid rgba(0, 255, 255, 0.14);
+  border-radius: 24px;
+  background: rgba(6, 12, 28, 0.92);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 255, 255, 0.45);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.12);
+}
+
+.pricing-card.featured {
+  border-color: rgba(0, 255, 255, 0.55);
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.18);
+}
+
+.featured-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00d9ff, #47f3ff);
+  color: #021018;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+}
+
+.plan-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.5rem;
+  border-radius: 16px;
+  background: rgba(0, 255, 255, 0.08);
+  color: var(--cyan);
+}
+
+.pricing-card h3 {
+  margin-bottom: 0.8rem;
+  font-size: 2rem;
+}
+
+.plan-description {
+  margin-bottom: 2rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+}
+
+.price {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.period {
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+}
+
+.divider {
+  height: 1px;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.features-list svg {
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.pricing-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.pricing-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.pricing-btn.primary {
+  background: linear-gradient(90deg, #00cfff, #31efff);
+  color: #021018;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
+}
+
+.pricing-btn.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .pricing-cards {
+    grid-template-columns: 1fr;
+    max-width: 650px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-page {
+    padding-top: 6rem;
+  }
+
+  .pricing-card {
+    padding: 1.5rem;
+  }
+
+  .pricing-hero h1 {
+    font-size: 2.7rem;
+  }
+}

@@ -1,0 +1,303 @@
+/* =========================================================
+   TERMS PAGE
+========================================================= */
+
+.terms-page {
+    min-height: 100vh;
+
+    background:
+        linear-gradient(to bottom,
+            #050814,
+            #04060f);
+
+    color: white;
+
+    padding-block: 3rem 6rem;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.terms-container {
+    width: min(1100px, 92%);
+
+    margin-inline: auto;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.terms-breadcrumb {
+    color: #9cb0d2;
+
+    font-size: 0.9rem;
+
+    margin-bottom: 2rem;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.terms-title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+
+    margin-bottom: 1rem;
+
+    line-height: 1.1;
+}
+
+.terms-date {
+    color: #8ea2c6;
+
+    margin-bottom: 2rem;
+}
+
+.terms-description {
+    max-width: 760px;
+
+    color: #c3d0ea;
+
+    line-height: 1.9;
+
+    font-size: 1.02rem;
+
+    padding-bottom: 3rem;
+
+    border-bottom:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+/* =========================================================
+   ACCORDION
+========================================================= */
+
+.terms-accordion {
+    margin-top: 3rem;
+}
+
+.terms-item {
+    border-bottom:
+        1px solid rgba(95, 212, 255, 0.08);
+}
+
+.terms-trigger {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 1.8rem 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 1.3rem;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.terms-content {
+    max-height: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition:
+        max-height 0.35s ease,
+        opacity 0.35s ease;
+}
+
+.terms-content--open {
+    max-height: 600px;
+
+    opacity: 1;
+}
+
+.terms-content__inner {
+    padding-bottom: 2rem;
+}
+
+.terms-content__inner p {
+    color: #b8c8e4;
+
+    line-height: 1.9;
+
+    margin-bottom: 1.5rem;
+
+    font-size: 1rem;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.terms-contact {
+    margin-top: 5rem;
+
+    padding: 2rem;
+
+    border-radius: 24px;
+
+    background:
+        rgba(14, 20, 34, 0.94);
+
+    border:
+        1px solid rgba(95, 212, 255, 0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 2rem;
+}
+
+.terms-contact h3 {
+    font-size: 1.3rem;
+
+    margin-bottom: 0.8rem;
+}
+
+.terms-contact p {
+    color: #a9bbd8;
+
+    line-height: 1.8;
+}
+
+.terms-contact button {
+    height: 52px;
+
+    padding-inline: 2rem;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(90deg,
+            #7aa2ff,
+            #b8c8ff);
+
+    color: #08111f;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.terms-contact button:hover {
+    transform: translateY(-2px);
+
+    opacity: 0.92;
+}
+
+.terms-item {
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.terms-item.active {
+    background:
+        rgba(14, 20, 34, 0.35);
+}
+
+.terms-trigger {
+    transition:
+        color 0.25s ease;
+}
+
+.terms-trigger:hover {
+    color: #5fd4ff;
+}
+
+.terms-trigger svg {
+    transition:
+        transform 0.25s ease;
+}
+
+.terms-item.active .terms-trigger svg {
+    transform: rotate(180deg);
+}
+
+.terms-contact button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.7rem;
+}
+
+.terms-contact {
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.terms-contact:hover {
+    border-color:
+        rgba(95, 212, 255, 0.22);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .terms-page {
+        padding-top: 2rem;
+    }
+
+    .terms-trigger {
+        font-size: 1.05rem;
+    }
+
+    .terms-contact {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .terms-contact button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .terms-title {
+        font-size: 2.2rem;
+    }
+
+    .terms-description {
+        font-size: 0.95rem;
+    }
+
+    .terms-trigger {
+        font-size: 0.95rem;
+    }
+
+    .terms-content__inner p {
+        font-size: 0.92rem;
+    }
+}

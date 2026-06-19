@@ -1,0 +1,1540 @@
+/* ============================================
+   THREAT INTELLIGENCE PAGE — DARK NAVY UI
+============================================ */
+
+.ti-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 32px;
+    background: #05080F;
+    color: #E2E8F0;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════ */
+.ti-hero {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 24px;
+    background: #080f1e;
+    border: 0.8px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 240px;
+    padding: 40px 44px;
+}
+
+.ti-hero-content {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ti-hero-globe {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 62%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ti-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 52%;
+    height: 100%;
+    background: linear-gradient(to right, #080f1e 55%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.ti-hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 184, 219, 0.15) 40%,
+            rgba(21, 93, 252, 0.1) 70%,
+            transparent 100%);
+    z-index: 4;
+}
+
+/* Pill badge */
+.ti-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(0, 184, 219, 0.08);
+    border: 0.8px solid rgba(0, 184, 219, 0.2);
+    border-radius: 999px;
+    color: #00D3F3;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    width: fit-content;
+}
+
+.ti-pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00D3F3;
+    box-shadow: 0 0 6px rgba(0, 211, 243, 0.8);
+    flex-shrink: 0;
+    animation: ti-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ti-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.ti-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    color: #FFFFFF;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.5px;
+}
+
+.ti-title-gradient {
+    background: linear-gradient(90deg, #1D8EFF 0%, #38BEFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ti-subtitle {
+    font-size: 13px;
+    line-height: 20px;
+    color: #62748E;
+    max-width: 480px;
+    margin: 0 0 28px 0;
+}
+
+/* ── Scan Box ─────────────────────────────── */
+.ti-scanbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    background: rgba(5, 10, 20, 0.9);
+    border: 0.8px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.ti-scanbox:hover {
+    border-color: rgba(0, 184, 219, 0.3);
+}
+
+.ti-scanbox:focus-within {
+    border-color: rgba(0, 184, 219, 0.4);
+}
+
+.ti-scanbox-input-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 14px 0 18px;
+    gap: 10px;
+    height: 100%;
+}
+
+.ti-scanbox-icon {
+    color: #45556C;
+    flex-shrink: 0;
+}
+
+.ti-scanbox-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    height: 100%;
+    min-width: 0;
+}
+
+.ti-scanbox-input::placeholder {
+    color: #45556C;
+}
+
+.ti-scanbox-btn {
+    height: 52px;
+    padding: 0 28px;
+    border: none;
+    background: linear-gradient(135deg, #1565C0 0%, #0288D1 100%);
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    transition: filter 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 0 10px 10px 0;
+    box-shadow: -4px 0 20px rgba(21, 101, 192, 0.3);
+    white-space: nowrap;
+}
+
+.ti-scanbox-btn:hover:not(:disabled) {
+    filter: brightness(1.12);
+    box-shadow: -4px 0 28px rgba(21, 101, 192, 0.5);
+}
+
+.ti-scanbox-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.ti-scanbox-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #0288D1, #22D3EE);
+    box-shadow: 0 0 8px #22D3EE;
+    transition: width 0.3s ease;
+    z-index: 10;
+}
+
+.spin {
+    animation: ti-spin 1s linear infinite;
+}
+
+@keyframes ti-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   MAIN GRID
+============================================ */
+.ti-main-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.ti-left-col,
+.ti-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ============================================
+   CARDS
+============================================ */
+.ti-card {
+    background: #0C1624;
+    border: 0.8px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 20px;
+    transition: border-color 0.2s ease;
+}
+
+.ti-card:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.ti-card-flush {
+    padding: 0;
+    overflow: hidden;
+}
+
+.ti-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.ti-header-bordered {
+    padding: 16px 20px;
+    margin-bottom: 0;
+    border-bottom: 0.8px solid rgba(255, 255, 255, 0.05);
+}
+
+.ti-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.ti-icon-cyan {
+    color: #00D3F2;
+}
+
+.ti-live-badge {
+    background: rgba(0, 184, 219, 0.15);
+    border: 0.8px solid rgba(0, 184, 219, 0.2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 9px;
+    font-weight: 400;
+    color: #00D3F3;
+    line-height: 14px;
+}
+
+.ti-view-all {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: #00D3F3;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.ti-view-all:hover {
+    opacity: 0.8;
+}
+
+/* ============================================
+   PERIMETER CARD
+============================================ */
+.ti-perimeter-body {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.ti-stats-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ti-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.ti-stat-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #90A1B9;
+    flex: 1;
+}
+
+.ti-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ti-dot-red {
+    background: #EF4444;
+}
+
+.ti-dot-orange {
+    background: #F97316;
+}
+
+.ti-dot-cyan {
+    background: #22D3EE;
+}
+
+.ti-dot-purple {
+    background: #A78BFA;
+}
+
+.ti-stat-value {
+    font-size: 12px;
+    color: #FFFFFF;
+    font-weight: 500;
+    flex-shrink: 0;
+    min-width: 32px;
+    text-align: right;
+}
+
+.ti-trend {
+    width: 192px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+.ti-trend-label {
+    font-size: 9px;
+    color: #62748E;
+    margin-bottom: 4px;
+}
+
+.ti-trend-chart {
+    width: 100%;
+    height: 110px;
+}
+
+/* ============================================
+   AI THREAT SUMMARY CARD
+============================================ */
+.ti-summary-text {
+    font-size: 12px;
+    line-height: 20px;
+    color: #90A1B9;
+    margin: 0 0 16px 0;
+}
+
+.ti-summary-body {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.ti-donut {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    flex-shrink: 0;
+}
+
+.ti-donut-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ti-donut-num {
+    font-size: 26px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1;
+}
+
+.ti-donut-label {
+    font-size: 9px;
+    color: #64748B;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+.ti-summary-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ti-mini-boxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.ti-mini-box {
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    border: 0.8px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ti-mb-critical {
+    background: rgba(251, 44, 54, 0.1);
+}
+
+.ti-mb-critical .ti-mb-num {
+    color: #FF6467;
+}
+
+.ti-mb-high {
+    background: rgba(255, 105, 0, 0.1);
+}
+
+.ti-mb-high .ti-mb-num {
+    color: #FF8904;
+}
+
+.ti-mb-active {
+    background: rgba(240, 177, 0, 0.1);
+}
+
+.ti-mb-active .ti-mb-num {
+    color: #FDC700;
+}
+
+.ti-mb-resolved {
+    background: rgba(0, 201, 80, 0.1);
+}
+
+.ti-mb-resolved .ti-mb-num {
+    color: #05DF72;
+}
+
+.ti-mb-num {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+}
+
+.ti-mb-label {
+    font-size: 9px;
+    color: #62748E;
+    white-space: nowrap;
+}
+
+.ti-prog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ti-prog-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ti-prog-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #62748E;
+}
+
+.ti-prog-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.ti-prog-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.ti-pf-red {
+    background: #EF4444;
+}
+
+.ti-pf-orange {
+    background: #F97316;
+}
+
+.ti-pf-cyan {
+    background: #22D3EE;
+}
+
+.ti-analysis-btn {
+    width: 100%;
+    height: 34px;
+    background: transparent;
+    border: 0.8px solid rgba(0, 184, 219, 0.3);
+    border-radius: 10px;
+    color: #00D3F3;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.ti-analysis-btn:hover {
+    background: rgba(0, 184, 219, 0.08);
+    border-color: rgba(0, 184, 219, 0.5);
+}
+
+/* ============================================
+   RECENT INTEL CARD
+============================================ */
+.ti-filter-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.ti-filter-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.ti-filter-tab {
+    padding: 4px 10px;
+    height: 24px;
+    border-radius: 4px;
+    border: 0.8px solid transparent;
+    background: transparent;
+    color: #62748E;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ti-filter-tab:hover {
+    color: #90A1B9;
+}
+
+.ti-filter-tab.active {
+    background: rgba(0, 184, 219, 0.15);
+    border-color: rgba(0, 184, 219, 0.25);
+    color: #00D3F3;
+}
+
+.ti-search-input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.8px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.ti-search-input:focus {
+    border-color: rgba(0, 184, 219, 0.4);
+}
+
+.ti-search-input::placeholder {
+    color: #45556C;
+}
+
+.ti-intel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ti-intel-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.8px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ti-intel-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.ti-intel-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0, 184, 219, 0.2) 0%, rgba(21, 93, 252, 0.1) 100%);
+    border: 0.8px solid rgba(0, 184, 219, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00D3F2;
+    flex-shrink: 0;
+}
+
+.ti-intel-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ti-intel-target {
+    font-size: 12px;
+    color: #E2E8F0;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ti-intel-meta {
+    font-size: 10px;
+    color: #45556C;
+    margin-top: 2px;
+}
+
+.ti-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 400;
+    border: 0.8px solid transparent;
+    flex-shrink: 0;
+}
+
+.ti-badge-clean {
+    background: rgba(0, 201, 80, 0.15);
+    border-color: rgba(0, 201, 80, 0.25);
+    color: #05DF72;
+}
+
+.ti-badge-critical {
+    background: rgba(251, 44, 54, 0.15);
+    border-color: rgba(251, 44, 54, 0.25);
+    color: #FF6467;
+}
+
+.ti-badge-elevated {
+    background: rgba(98, 116, 142, 0.15);
+    border-color: rgba(98, 116, 142, 0.25);
+    color: #90A1B9;
+}
+
+.ti-delete-btn {
+    background: transparent;
+    border: none;
+    color: #62748E;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ti-delete-btn:hover {
+    color: #FF6467;
+    background: rgba(251, 44, 54, 0.1);
+}
+
+.ti-empty {
+    text-align: center;
+    color: #45556C;
+    font-size: 12px;
+    padding: 20px;
+}
+
+/* ============================================
+   SCAN HISTORY CARD
+============================================ */
+.ti-history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.ti-history-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 0.8px solid rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    transition: background 0.2s ease;
+    gap: 12px;
+}
+
+.ti-history-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ti-history-row:last-child {
+    border-bottom: none;
+}
+
+.ti-history-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.ti-history-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 0.8px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #62748E;
+    flex-shrink: 0;
+}
+
+.ti-history-target {
+    font-size: 12px;
+    color: #E2E8F0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ti-history-time {
+    font-size: 10px;
+    color: #45556C;
+    margin-top: 2px;
+}
+
+.ti-hist-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 400;
+    border: 0.8px solid transparent;
+    flex-shrink: 0;
+}
+
+.ti-hist-completed {
+    background: rgba(0, 201, 80, 0.15);
+    border-color: rgba(0, 201, 80, 0.25);
+    color: #05DF72;
+}
+
+.ti-hist-scanning {
+    background: rgba(0, 184, 219, 0.15);
+    border-color: rgba(0, 184, 219, 0.25);
+    color: #00D3F3;
+}
+
+.ti-hist-failed {
+    background: rgba(251, 44, 54, 0.15);
+    border-color: rgba(251, 44, 54, 0.25);
+    color: #FF6467;
+}
+
+
+/* ============================================
+   RESPONSIVE — SINGLE SOURCE OF TRUTH
+   Cascade: largest → smallest
+============================================ */
+
+/* ── ≤ 1200px — tighten main grid ratio ───── */
+@media (max-width: 1200px) {
+    .ti-main-grid {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 16px;
+    }
+
+    .ti-trend {
+        width: 140px;
+    }
+}
+
+/* ── ≤ 1100px — single column layout ──────── */
+@media (max-width: 1100px) {
+    .ti-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* On tablet the right col renders below left, so no visual change needed */
+    .ti-trend {
+        width: 200px;
+    }
+
+    .ti-mini-boxes {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ── ≤ 900px — tablet ─────────────────────── */
+@media (max-width: 900px) {
+    .ti-page {
+        padding: 24px;
+    }
+
+    .ti-hero {
+        padding: 28px 32px;
+        min-height: 200px;
+    }
+
+    .ti-title {
+        font-size: 30px;
+        line-height: 38px;
+    }
+
+    /* Perimeter: trend chart drops below stats */
+    .ti-perimeter-body {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .ti-trend {
+        width: 100%;
+    }
+
+    .ti-trend-chart {
+        height: 90px;
+    }
+
+    /* Summary: keep side-by-side but smaller donut */
+    .ti-donut {
+        width: 110px;
+        height: 110px;
+    }
+
+    .ti-donut-num {
+        font-size: 22px;
+    }
+
+    .ti-mini-boxes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
+/* ── ≤ 768px — tablet portrait ────────────── */
+@media (max-width: 768px) {
+    .ti-page {
+        padding: 20px;
+    }
+
+    /* Hero */
+    .ti-hero {
+        padding: 24px;
+        min-height: auto;
+    }
+
+    .ti-hero::before {
+        width: 100%;
+    }
+
+    .ti-hero-globe {
+        width: 100%;
+        opacity: 0.25;
+    }
+
+    .ti-hero-content {
+        max-width: 100%;
+    }
+
+    .ti-title {
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .ti-subtitle {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .ti-scanbox {
+        height: 46px;
+    }
+
+    .ti-scanbox-btn {
+        height: 46px;
+        padding: 0 18px;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    /* Perimeter */
+    .ti-perimeter-body {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .ti-trend {
+        width: 100%;
+    }
+
+    .ti-trend-chart {
+        height: 85px;
+    }
+
+    /* AI Summary — stack donut above right content */
+    .ti-summary-body {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .ti-donut {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ti-donut-num {
+        font-size: 20px;
+    }
+
+    .ti-summary-right {
+        width: 100%;
+    }
+
+    /* CRITICAL FIX: force 2-col grid for mini boxes */
+    .ti-mini-boxes {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px;
+    }
+
+    .ti-mb-num {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .ti-mb-label {
+        font-size: 9px;
+    }
+
+    /* Scan history rows */
+    .ti-history-row {
+        padding: 10px 14px;
+    }
+}
+
+/* ── ≤ 540px — large phones ────────────────── */
+@media (max-width: 540px) {
+    .ti-page {
+        padding: 14px;
+    }
+
+    .ti-hero {
+        padding: 20px;
+    }
+
+    .ti-title {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    .ti-pill {
+        font-size: 9px;
+        padding: 4px 10px;
+        margin-bottom: 12px;
+    }
+
+    .ti-scanbox {
+        height: 44px;
+        border-radius: 10px;
+    }
+
+    .ti-scanbox-btn {
+        height: 44px;
+        padding: 0 14px;
+        font-size: 11px;
+        letter-spacing: 0.8px;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .ti-scanbox-input {
+        font-size: 13px;
+    }
+
+    /* Cards */
+    .ti-card {
+        padding: 16px;
+    }
+
+    .ti-main-grid {
+        gap: 14px;
+    }
+
+    /* Mini boxes — keep 2-col */
+    .ti-mini-boxes {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px;
+    }
+
+    .ti-mini-box {
+        padding: 8px 6px;
+        border-radius: 8px;
+    }
+
+    .ti-mb-num {
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    /* Intel items */
+    .ti-intel-item {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .ti-intel-target {
+        font-size: 11px;
+    }
+
+    .ti-intel-meta {
+        font-size: 9px;
+    }
+
+    /* History rows */
+    .ti-history-row {
+        padding: 10px 14px;
+        gap: 8px;
+    }
+
+    .ti-history-target {
+        font-size: 11px;
+    }
+
+    .ti-history-time {
+        font-size: 9px;
+    }
+
+    /* Stats */
+    .ti-stat-label {
+        font-size: 11px;
+    }
+
+    .ti-stat-value {
+        font-size: 11px;
+    }
+}
+
+/* ── ≤ 360px — tiny phones ─────────────────── */
+@media (max-width: 360px) {
+    .ti-page {
+        padding: 10px;
+    }
+
+    .ti-hero {
+        padding: 16px;
+    }
+
+    .ti-card {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .ti-title {
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .ti-subtitle {
+        font-size: 11px;
+    }
+
+    .ti-scanbox-btn {
+        padding: 0 12px;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mini boxes: still 2-col but even tighter */
+    .ti-mini-boxes {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 4px;
+    }
+
+    .ti-mini-box {
+        padding: 6px 4px;
+    }
+
+    .ti-mb-num {
+        font-size: 14px;
+    }
+
+    .ti-mb-label {
+        font-size: 8px;
+    }
+
+    .ti-donut {
+        width: 88px;
+        height: 88px;
+    }
+
+    .ti-donut-num {
+        font-size: 18px;
+    }
+
+    .ti-stat-row {
+        gap: 6px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE OVERRIDES — v2 patch
+   Appended after base responsive rules.
+   These override the earlier stacking behaviour
+   to keep donut + summary-right side-by-side
+   even on narrow mobile screens.
+============================================ */
+
+/* ── ≤ 768px: side-by-side (smaller donut) ── */
+@media (max-width: 768px) {
+    .ti-summary-body {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 14px;
+    }
+
+    .ti-donut {
+        width: 90px !important;
+        height: 90px !important;
+        flex-shrink: 0;
+    }
+
+    .ti-donut svg {
+        width: 90px !important;
+        height: 90px !important;
+    }
+
+    .ti-donut-num {
+        font-size: 18px !important;
+    }
+
+    .ti-donut-label {
+        font-size: 8px !important;
+        margin-top: 2px;
+    }
+
+    .ti-summary-right {
+        flex: 1;
+        min-width: 0;
+        width: auto !important;
+    }
+
+    .ti-mini-boxes {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+    }
+
+    .ti-mini-box {
+        padding: 8px 6px !important;
+    }
+
+    .ti-mb-num {
+        font-size: 15px !important;
+        line-height: 20px !important;
+    }
+
+    .ti-mb-label {
+        font-size: 8px !important;
+    }
+
+    .ti-prog-list {
+        gap: 6px;
+    }
+
+    .ti-prog-head {
+        font-size: 8px;
+    }
+}
+
+/* ── ≤ 480px: tighten further, still side-by-side ── */
+@media (max-width: 480px) {
+    .ti-page {
+        padding: 12px !important;
+    }
+
+    .ti-hero {
+        padding: 18px !important;
+        min-height: auto !important;
+        margin-bottom: 14px;
+    }
+
+    .ti-title {
+        font-size: 22px !important;
+        line-height: 28px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .ti-subtitle {
+        font-size: 12px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .ti-pill {
+        font-size: 9px !important;
+        padding: 4px 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .ti-scanbox {
+        height: 44px !important;
+    }
+
+    .ti-scanbox-btn {
+        height: 44px !important;
+        padding: 0 14px !important;
+        font-size: 11px !important;
+    }
+
+    .ti-card {
+        padding: 14px !important;
+        border-radius: 12px !important;
+    }
+
+    .ti-main-grid {
+        gap: 12px !important;
+    }
+
+    /* Perimeter */
+    .ti-stat-label {
+        font-size: 11px;
+    }
+
+    .ti-stat-value {
+        font-size: 11px;
+    }
+
+    .ti-trend-chart {
+        height: 80px !important;
+    }
+
+    /* Summary */
+    .ti-summary-body {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+
+    .ti-donut {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .ti-donut svg {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .ti-donut-num {
+        font-size: 16px !important;
+    }
+
+    .ti-donut-label {
+        font-size: 7px !important;
+    }
+
+    .ti-mini-boxes {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 5px !important;
+    }
+
+    .ti-mb-num {
+        font-size: 14px !important;
+        line-height: 18px !important;
+    }
+
+    .ti-mb-label {
+        font-size: 8px !important;
+    }
+
+    .ti-mini-box {
+        padding: 7px 4px !important;
+        border-radius: 8px !important;
+    }
+
+    .ti-summary-text {
+        font-size: 11px;
+        margin-bottom: 12px;
+    }
+
+    /* Intel items */
+    .ti-intel-item {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .ti-intel-target {
+        font-size: 11px;
+    }
+
+    .ti-intel-meta {
+        font-size: 9px;
+    }
+
+    /* History */
+    .ti-history-row {
+        padding: 10px 12px !important;
+        gap: 8px;
+    }
+
+    .ti-history-target {
+        font-size: 11px;
+    }
+
+    .ti-history-time {
+        font-size: 9px;
+    }
+
+    .ti-analysis-btn {
+        font-size: 11px;
+        height: 32px;
+    }
+}
+
+/* ── ≤ 360px: smallest phones — stack donut above ── */
+@media (max-width: 360px) {
+    .ti-page {
+        padding: 10px !important;
+    }
+
+    .ti-hero {
+        padding: 14px !important;
+    }
+
+    .ti-card {
+        padding: 12px !important;
+    }
+
+    .ti-title {
+        font-size: 19px !important;
+        line-height: 24px !important;
+    }
+
+    /* Only at truly tiny sizes do we stack donut above */
+    .ti-summary-body {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+
+    .ti-donut {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .ti-summary-right {
+        width: 100% !important;
+    }
+
+    .ti-mini-boxes {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 4px !important;
+    }
+}
+
+/* ============================================
+   PERIMETER CARD — chart overflow fix
+============================================ */
+
+/* Always clip card contents */
+.ti-card {
+    overflow: hidden;
+}
+
+/* Constrain the trend section so it never bleeds */
+.ti-trend {
+    overflow: hidden;
+}
+
+.ti-trend-chart {
+    overflow: hidden;
+}
+
+/* Mobile: reduce chart height so it fits inside the card */
+@media (max-width: 900px) {
+    .ti-perimeter-body {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .ti-trend {
+        width: 100%;
+        max-height: 100px;
+    }
+
+    .ti-trend-chart {
+        height: 90px !important;
+        max-height: 90px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ti-trend {
+        width: 100%;
+        max-height: 90px;
+    }
+
+    .ti-trend-chart {
+        height: 80px !important;
+        max-height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ti-trend {
+        max-height: 75px;
+    }
+
+    .ti-trend-chart {
+        height: 70px !important;
+        max-height: 70px;
+    }
+
+    /* Ensure SVG inside scales correctly and doesn't overflow */
+    .ti-trend-chart svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}

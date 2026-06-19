@@ -1,0 +1,39 @@
+.page-shell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+}
+
+.section {
+    padding: 3rem 0 4.5rem;
+}
+
+.section--compact {
+    padding-top: 1rem;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 1.6rem;
+}
+
+.section-heading h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.section-heading p {
+    margin: 0.6rem auto 0;
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: 0.96rem;
+}

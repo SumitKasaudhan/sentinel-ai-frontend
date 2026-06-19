@@ -1,0 +1,1846 @@
+/* ═══════════════════════════════════════════════════════════
+   SENTINEL AI — Dashboard V2 Upgrade
+   Drop this file into: @/styles/dashboard/analytics/dashboard-v2.css
+   Import it in page.tsx alongside your existing dashboard.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+    --bg-main: #05080F;
+    --bg-card: #0C1624;
+    --bg-card-hover: #0f1d30;
+    --border: rgba(255, 255, 255, 0.05);
+    --border-sm: rgba(255, 255, 255, 0.03);
+    --text-primary: #ffffff;
+    --text-secondary: #CAD5E2;
+    --text-muted: #62748E;
+    --text-dim: #90A1B9;
+    --cyan: #00D3F2;
+    --cyan-dark: #00B8DB;
+    --blue: #2B7FFF;
+    --green: #05DF72;
+    --red: #FF6467;
+    --red-dark: #FB2C36;
+    --orange: #FF8904;
+    --yellow: #FDC700;
+    --purple: #C27AFF;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-xs: 4px;
+}
+
+/* ── Page Wrapper ───────────────────────────────────────────── */
+.dv2-page {
+    background: var(--bg-main);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Top Bar ────────────────────────────────────────────────── */
+.dv2-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: rgba(5, 8, 15, 0.97);
+    border-bottom: 0.8px solid var(--border);
+    backdrop-filter: blur(12px);
+}
+
+.dv2-topbar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dv2-greeting {
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.dv2-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 16px;
+}
+
+.dv2-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dv2-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    line-height: 16px;
+    white-space: nowrap;
+}
+
+.dv2-badge-green {
+    background: rgba(0, 201, 80, 0.1);
+    border: 0.8px solid rgba(0, 201, 80, 0.2);
+    color: var(--green);
+}
+
+.dv2-badge-muted {
+    background: rgba(255, 255, 255, 0.05);
+    border: 0.8px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+}
+
+.dv2-pulse {
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: dv2-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dv2-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(5, 223, 114, 0.4);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 4px rgba(5, 223, 114, 0);
+    }
+}
+
+.dv2-refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(0, 184, 219, 0.1);
+    border: 0.8px solid rgba(0, 184, 219, 0.25);
+    border-radius: 8px;
+    color: var(--cyan);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.dv2-refresh-btn:hover {
+    background: rgba(0, 184, 219, 0.2);
+    border-color: rgba(0, 184, 219, 0.4);
+}
+
+.dv2-refresh-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.dv2-spin {
+    animation: dv2-spin 1s linear infinite;
+}
+
+@keyframes dv2-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Content Area ───────────────────────────────────────────── */
+.dv2-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Row Layouts ────────────────────────────────────────────── */
+.dv2-row {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.dv2-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-col-58 {
+    flex: 58;
+    min-width: 0;
+}
+
+.dv2-col-42 {
+    flex: 42;
+    min-width: 0;
+}
+
+.dv2-col-33 {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Card Base ──────────────────────────────────────────────── */
+.dv2-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.dv2-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.dv2-card-title {
+    font-size: 12px;
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.dv2-card-subtitle {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    line-height: 15px;
+}
+
+.dv2-card-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM STATS CARDS
+   ═══════════════════════════════════════════════════════════ */
+.dv2-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 360px;
+    gap: 16px;
+}
+
+.dv2-stat-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 171px;
+}
+
+.dv2-stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-glow, transparent);
+    pointer-events: none;
+    border-radius: var(--radius);
+}
+
+.dv2-stat-card--cyan::before {
+    background: linear-gradient(135deg, rgba(0, 184, 219, 0.07) 0%, transparent 60%);
+}
+
+.dv2-stat-card--blue::before {
+    background: linear-gradient(135deg, rgba(43, 127, 255, 0.07) 0%, transparent 60%);
+}
+
+.dv2-stat-card--red::before {
+    background: linear-gradient(135deg, rgba(255, 100, 103, 0.07) 0%, transparent 60%);
+}
+
+.dv2-stat-card--purple::before {
+    background: linear-gradient(135deg, rgba(194, 122, 255, 0.07) 0%, transparent 60%);
+}
+
+.dv2-stat-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+.dv2-stat-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dv2-stat-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.dv2-stat-icon--cyan {
+    color: var(--cyan);
+}
+
+.dv2-stat-icon--blue {
+    color: #51A2FF;
+}
+
+.dv2-stat-icon--red {
+    color: var(--red);
+}
+
+.dv2-stat-icon--purple {
+    color: var(--purple);
+}
+
+.dv2-stat-number {
+    margin-top: 8px;
+    font-size: 35px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.dv2-stat-denom {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.dv2-stat-bar-wrap {
+    margin-top: 12px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.dv2-stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan-dark), var(--blue));
+    border-radius: 100px;
+    transition: width 1s ease;
+}
+
+.dv2-stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.dv2-stat-trend svg {
+    width: 12px;
+    height: 12px;
+}
+
+.dv2-stat-trend--green {
+    color: var(--green);
+}
+
+.dv2-stat-trend--red {
+    color: var(--red);
+}
+
+.dv2-stat-trend--muted {
+    color: var(--text-dim);
+}
+
+.dv2-mini-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    margin-top: 12px;
+    height: 28px;
+}
+
+.dv2-mini-bar {
+    flex: 1;
+    border-radius: 3px;
+    transition: height 0.3s ease;
+}
+
+.dv2-quick-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    min-height: 171px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-quick-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    line-height: 15px;
+}
+
+.dv2-quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    flex: 1;
+}
+
+.dv2-quick-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 0.8px solid var(--border);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    white-space: nowrap;
+}
+
+.dv2-quick-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.dv2-quick-btn--cyan {
+    background: rgba(0, 184, 219, 0.1);
+}
+
+.dv2-quick-btn--red {
+    background: rgba(251, 44, 54, 0.1);
+}
+
+.dv2-quick-btn--blue {
+    background: rgba(43, 127, 255, 0.1);
+}
+
+.dv2-quick-btn--purple {
+    background: rgba(173, 70, 255, 0.1);
+}
+
+.dv2-quick-btn--orange {
+    background: rgba(255, 105, 0, 0.1);
+}
+
+.dv2-quick-btn--yellow {
+    background: rgba(240, 177, 0, 0.1);
+}
+
+.dv2-quick-btn--cyan svg {
+    color: var(--cyan);
+}
+
+.dv2-quick-btn--red svg {
+    color: var(--red);
+}
+
+.dv2-quick-btn--blue svg {
+    color: #51A2FF;
+}
+
+.dv2-quick-btn--purple svg {
+    color: var(--purple);
+}
+
+.dv2-quick-btn--orange svg {
+    color: var(--orange);
+}
+
+.dv2-quick-btn--yellow svg {
+    color: var(--yellow);
+}
+
+.dv2-quick-btn:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THREAT TREND
+   ═══════════════════════════════════════════════════════════ */
+.dv2-trend-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-trend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.dv2-trend-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dv2-trend-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dv2-date-range {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+.dv2-trend-chart {
+    flex: 1;
+    margin-top: 12px;
+    min-height: 180px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COUNTRY ANALYTICS
+   ═══════════════════════════════════════════════════════════ */
+.dv2-country-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-country-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+}
+
+.dv2-country-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+    border-bottom: 0.8px solid var(--border-sm);
+}
+
+.dv2-country-row:last-child {
+    border-bottom: none;
+}
+
+.dv2-country-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dv2-country-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 15px;
+}
+
+.dv2-country-flag {
+    font-size: 11px;
+    line-height: 1;
+}
+
+.dv2-country-count {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+.dv2-country-bar-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.dv2-country-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan-dark) 0%, #155DFC 100%);
+    border-radius: 100px;
+    transition: width 1s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   AI SECURITY INSIGHTS
+   ═══════════════════════════════════════════════════════════ */
+.dv2-insights-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-insights-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.dv2-insights-icon {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--cyan-dark), var(--blue));
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dv2-insights-icon svg {
+    width: 12px;
+    height: 12px;
+    color: #fff;
+}
+
+.dv2-insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.dv2-insight-item {
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.dv2-insight-item--critical {
+    background: rgba(251, 44, 54, 0.08);
+    border: 0.8px solid rgba(251, 44, 54, 0.15);
+}
+
+.dv2-insight-item--warning {
+    background: rgba(255, 105, 0, 0.08);
+    border: 0.8px solid rgba(255, 105, 0, 0.15);
+}
+
+.dv2-insight-item--info {
+    background: rgba(0, 184, 219, 0.08);
+    border: 0.8px solid rgba(0, 184, 219, 0.15);
+}
+
+.dv2-insight-icon-wrap {
+    padding-top: 2px;
+    flex-shrink: 0;
+}
+
+.dv2-insight-icon-wrap svg {
+    width: 14px;
+    height: 14px;
+}
+
+.dv2-insight-item--critical .dv2-insight-icon-wrap svg {
+    color: var(--red);
+}
+
+.dv2-insight-item--warning .dv2-insight-icon-wrap svg {
+    color: var(--orange);
+}
+
+.dv2-insight-item--info .dv2-insight-icon-wrap svg {
+    color: var(--cyan);
+}
+
+.dv2-insight-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.dv2-insight-text {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 16px;
+}
+
+.dv2-insight-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    line-height: 14px;
+    align-self: flex-start;
+}
+
+.dv2-insight-badge--critical {
+    background: rgba(251, 44, 54, 0.2);
+    border: 0.8px solid rgba(251, 44, 54, 0.2);
+    color: var(--red);
+}
+
+.dv2-insight-badge--warning {
+    background: rgba(255, 105, 0, 0.2);
+    border: 0.8px solid rgba(255, 105, 0, 0.2);
+    color: var(--orange);
+}
+
+.dv2-insight-badge--info {
+    background: rgba(0, 184, 219, 0.2);
+    border: 0.8px solid rgba(0, 184, 219, 0.2);
+    color: var(--cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SEVERITY DISTRIBUTION
+   ═══════════════════════════════════════════════════════════ */
+.dv2-severity-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-sev-chart-wrap {
+    flex: 1;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.dv2-sev-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    margin-top: 12px;
+}
+
+.dv2-sev-legend-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dv2-sev-legend-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dv2-sev-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dv2-sev-name {
+    font-size: 10px;
+    color: var(--text-dim);
+    line-height: 15px;
+}
+
+.dv2-sev-val {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EXPLOIT FLOW ANALYSIS
+   ═══════════════════════════════════════════════════════════ */
+.dv2-flow-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.dv2-flow-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    flex: 1;
+}
+
+.dv2-flow-stat-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.dv2-flow-stat-emoji {
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.dv2-flow-stat-num {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.dv2-flow-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+.dv2-flow-resolution {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+}
+
+.dv2-flow-res-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.dv2-flow-res-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 15px;
+}
+
+.dv2-flow-res-val {
+    font-size: 10px;
+    color: var(--green);
+    line-height: 15px;
+    font-weight: 500;
+}
+
+.dv2-flow-res-bar-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.dv2-flow-res-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00C950, #00D492);
+    border-radius: 100px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECURITY PROCESS OVERVIEW (TelemetryCards)
+   ═══════════════════════════════════════════════════════════ */
+.dv2-telemetry-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+}
+
+.dv2-telemetry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.dv2-telemetry-header-left {
+    font-size: 12px;
+    color: var(--text-primary);
+    font-weight: 400;
+}
+
+.dv2-telemetry-view-all {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.dv2-telemetry-view-all:hover {
+    opacity: 0.8;
+}
+
+.dv2-telemetry-items {
+    display: flex;
+    gap: 0;
+}
+
+.dv2-telemetry-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    position: relative;
+}
+
+.dv2-telemetry-item+.dv2-telemetry-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0.8px;
+    background: var(--border);
+}
+
+.dv2-telemetry-item+.dv2-telemetry-item {
+    padding-left: 20px;
+}
+
+.dv2-tel-icon-box {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dv2-tel-icon-box svg {
+    width: 16px;
+    height: 16px;
+}
+
+.dv2-tel-icon-box--cyan {
+    box-shadow: 0 10px 15px -3px rgba(0, 184, 219, 0.2), 0 4px 6px -4px rgba(0, 184, 219, 0.2);
+}
+
+.dv2-tel-icon-box--cyan svg {
+    color: var(--cyan);
+}
+
+.dv2-tel-icon-box--orange {
+    box-shadow: 0 10px 15px -3px rgba(255, 105, 0, 0.2), 0 4px 6px -4px rgba(255, 105, 0, 0.2);
+}
+
+.dv2-tel-icon-box--orange svg {
+    color: var(--orange);
+}
+
+.dv2-tel-icon-box--purple {
+    box-shadow: 0 10px 15px -3px rgba(173, 70, 255, 0.2), 0 4px 6px -4px rgba(173, 70, 255, 0.2);
+}
+
+.dv2-tel-icon-box--purple svg {
+    color: var(--purple);
+}
+
+.dv2-tel-icon-box--red {
+    box-shadow: 0 10px 15px -3px rgba(251, 44, 54, 0.2), 0 4px 6px -4px rgba(251, 44, 54, 0.2);
+}
+
+.dv2-tel-icon-box--red svg {
+    color: var(--red);
+}
+
+.dv2-tel-icon-box--muted svg {
+    color: var(--text-dim);
+}
+
+.dv2-tel-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dv2-tel-num {
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.dv2-tel-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVITY TABLE
+   ═══════════════════════════════════════════════════════════ */
+.dv2-activity-card {
+    background: var(--bg-card);
+    border: 0.8px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.dv2-activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 0.8px solid var(--border);
+}
+
+.dv2-activity-title {
+    font-size: 12px;
+    color: var(--text-primary);
+    font-weight: 400;
+}
+
+.dv2-activity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dv2-filter-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.dv2-filter-tab {
+    padding: 5px 14px;
+    border-radius: var(--radius-xs);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    text-transform: capitalize;
+}
+
+.dv2-filter-tab:hover {
+    color: var(--text-secondary);
+}
+
+.dv2-filter-tab.active {
+    background: rgba(0, 184, 219, 0.15);
+    border: 0.8px solid rgba(0, 184, 219, 0.25);
+    color: var(--cyan);
+}
+
+.dv2-filter-icon-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-xs);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dv2-filter-icon-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.dv2-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.dv2-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dv2-table thead tr {
+    border-bottom: 0.8px solid var(--border);
+}
+
+.dv2-table thead th {
+    padding: 9px 0;
+    font-size: 9px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.dv2-table thead th:first-child {
+    padding-left: 16px;
+    width: 40px;
+}
+
+.dv2-table thead th.th-hostname {
+    padding-left: 58px;
+}
+
+.dv2-table tbody tr {
+    border-bottom: 0.8px solid var(--border-sm);
+    transition: background 0.15s;
+}
+
+.dv2-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.008);
+}
+
+.dv2-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.dv2-table td {
+    padding: 13px 0;
+    vertical-align: middle;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.dv2-table td:first-child {
+    padding-left: 16px;
+}
+
+.dv2-table td:last-child {
+    padding-right: 16px;
+}
+
+.dv2-checkbox {
+    width: 14px;
+    height: 14px;
+    border: 0.8px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    accent-color: var(--cyan);
+}
+
+.dv2-hostname-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 58px;
+}
+
+.dv2-host-icon {
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 184, 219, 0.15);
+    border: 0.8px solid rgba(0, 184, 219, 0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dv2-host-icon svg {
+    width: 12px;
+    height: 12px;
+    color: var(--cyan);
+}
+
+.dv2-host-name {
+    font-size: 12px;
+    color: #E2E8F0;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}
+
+.dv2-threat-name {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    color: rgba(83, 234, 253, 0.8);
+    white-space: nowrap;
+}
+
+.dv2-complexity {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.dv2-complexity-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dv2-complexity-dot--critical {
+    background: #EF4444;
+}
+
+.dv2-complexity-dot--high {
+    background: #F97316;
+}
+
+.dv2-complexity-dot--medium {
+    background: #EAB308;
+}
+
+.dv2-complexity-dot--low {
+    background: #22D3EE;
+}
+
+.dv2-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+    font-size: 10px;
+    line-height: 15px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.dv2-status-badge--blocked {
+    background: rgba(251, 44, 54, 0.15);
+    border: 0.8px solid rgba(251, 44, 54, 0.3);
+    color: var(--red);
+}
+
+.dv2-status-badge--investigating {
+    background: rgba(240, 177, 0, 0.15);
+    border: 0.8px solid rgba(240, 177, 0, 0.3);
+    color: var(--yellow);
+}
+
+.dv2-status-badge--resolved {
+    background: rgba(0, 201, 80, 0.15);
+    border: 0.8px solid rgba(0, 201, 80, 0.3);
+    color: var(--green);
+}
+
+.dv2-status-badge--default {
+    background: rgba(255, 255, 255, 0.05);
+    border: 0.8px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+}
+
+.dv2-row-action {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-xs);
+    background: transparent;
+    border: none;
+    color: #45556C;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.dv2-row-action:hover {
+    color: var(--text-muted);
+}
+
+.dv2-row-action svg {
+    width: 14px;
+    height: 14px;
+}
+
+.dv2-table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-top: 0.8px solid var(--border);
+}
+
+.dv2-showing-text {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.dv2-pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dv2-page-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-xs);
+    background: transparent;
+    border: none;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-family: inherit;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dv2-page-btn:hover {
+    color: var(--text-secondary);
+}
+
+.dv2-page-btn.active {
+    background: rgba(0, 184, 219, 0.15);
+    border: 0.8px solid rgba(0, 184, 219, 0.25);
+    color: var(--cyan);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — SINGLE SOURCE OF TRUTH
+   Order: largest → smallest (later rules win on conflict)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── ≤ 1400px — shrink the 5-col stats grid slightly ─────── */
+@media (max-width: 1400px) {
+    .dv2-stats-grid {
+        grid-template-columns: repeat(4, 1fr) 280px;
+    }
+}
+
+/* ── ≤ 1280px — Quick Actions drops to full-width row ─────── */
+@media (max-width: 1280px) {
+    .dv2-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dv2-quick-card {
+        grid-column: 1 / -1;
+        min-height: auto;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ── ≤ 1024px — rows stack, charts need explicit heights ──── */
+@media (max-width: 1024px) {
+    .dv2-row {
+        flex-direction: column;
+    }
+
+    .dv2-col-58,
+    .dv2-col-42,
+    .dv2-col-33 {
+        flex: none;
+        width: 100%;
+    }
+
+    .dv2-trend-card,
+    .dv2-country-card,
+    .dv2-insights-card,
+    .dv2-severity-card,
+    .dv2-flow-card,
+    .dv2-card {
+        height: auto;
+    }
+
+    .dv2-trend-chart {
+        flex: none;
+        height: 260px;
+        min-height: 260px;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ── ≤ 900px — 2-column stats grid ───────────────────────── */
+@media (max-width: 900px) {
+    .dv2-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dv2-quick-card {
+        grid-column: 1 / -1;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dv2-stat-card {
+        min-height: 140px;
+    }
+}
+
+/* ── ≤ 768px — Tablet ─────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    /* Page */
+    .dv2-content {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    /* Topbar: stack left/right vertically */
+    .dv2-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .dv2-topbar-right {
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .dv2-refresh-btn {
+        margin-left: auto;
+    }
+
+    /* Stats */
+    .dv2-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .dv2-stat-card {
+        min-height: 120px;
+    }
+
+    .dv2-stat-number {
+        font-size: 28px;
+        margin-top: 6px;
+    }
+
+    .dv2-mini-bars {
+        height: 22px;
+        margin-top: 8px;
+    }
+
+    /* Quick Actions */
+    .dv2-quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .dv2-quick-btn {
+        font-size: 10.5px;
+        padding: 7px 10px;
+    }
+
+    /* Trend chart */
+    .dv2-trend-chart {
+        height: 220px;
+        min-height: 220px;
+    }
+
+    .dv2-trend-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .dv2-trend-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Severity */
+    .dv2-sev-chart-wrap {
+        min-height: 180px;
+    }
+
+    .dv2-sev-legend {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+    }
+
+    /* Country */
+    .dv2-country-row {
+        padding: 6px 0;
+    }
+
+    .dv2-country-name-row,
+    .dv2-country-count {
+        font-size: 11px;
+    }
+
+    /* Flow */
+    .dv2-flow-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .dv2-flow-stat-num {
+        font-size: 13px;
+    }
+
+    /* Telemetry: 2-column wrap */
+    .dv2-telemetry-items {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .dv2-telemetry-item+.dv2-telemetry-item::before {
+        display: none;
+    }
+
+    .dv2-telemetry-item+.dv2-telemetry-item {
+        padding-left: 0;
+    }
+
+    .dv2-telemetry-item {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 120px;
+    }
+
+    /* Activity header */
+    .dv2-activity-header {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .dv2-activity-controls {
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    /* Filter tabs — horizontal scroll, no wrapping */
+    .dv2-filter-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 3px;
+        padding-bottom: 2px;
+    }
+
+    .dv2-filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dv2-filter-tab {
+        flex-shrink: 0;
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+
+    /* Table — horizontal scroll */
+    .dv2-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .dv2-table {
+        min-width: 620px;
+    }
+
+    .dv2-table thead th,
+    .dv2-table td {
+        font-size: 11px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        white-space: nowrap;
+    }
+
+    /* Remove desktop indent from hostname cell */
+    .dv2-hostname-cell {
+        padding-left: 0;
+        gap: 6px;
+    }
+
+    .dv2-table thead th.th-hostname {
+        padding-left: 16px;
+    }
+
+    .dv2-table td:first-child,
+    .dv2-table thead th:first-child {
+        padding-left: 10px;
+        width: 32px;
+    }
+
+    .dv2-table td:last-child,
+    .dv2-table thead th:last-child {
+        padding-right: 10px;
+    }
+
+    .dv2-host-name {
+        max-width: 100px;
+    }
+
+    /* Table footer */
+    .dv2-table-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 10px 14px;
+    }
+
+    .dv2-pagination {
+        align-self: flex-end;
+    }
+}
+
+/* ── ≤ 540px — Small tablets / large phones ───────────────── */
+@media (max-width: 540px) {
+    .dv2-badge--hide-sm {
+        display: none;
+    }
+
+    .dv2-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .dv2-table {
+        min-width: 560px;
+    }
+
+    .dv2-host-name {
+        max-width: 80px;
+    }
+}
+
+/* ── ≤ 480px — Mobile ─────────────────────────────────────── */
+@media (max-width: 480px) {
+    .dv2-content {
+        padding: 8px;
+        gap: 10px;
+    }
+
+    /* Topbar */
+    .dv2-topbar {
+        padding: 10px 12px;
+    }
+
+    .dv2-greeting {
+        font-size: 14px;
+    }
+
+    .dv2-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    /* Hide "Last scan" badge on very small screens to save space */
+    .dv2-badge-muted {
+        display: none;
+    }
+
+    /* Stats — keep 2-column on mobile (more scannable than 1-col) */
+    .dv2-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .dv2-stat-card {
+        min-height: 110px;
+        padding: 12px;
+    }
+
+    .dv2-stat-number {
+        font-size: 26px;
+        margin-top: 4px;
+    }
+
+    .dv2-stat-label {
+        font-size: 9px;
+    }
+
+    /* Quick actions — 2 cols on mobile */
+    .dv2-quick-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .dv2-quick-btn {
+        font-size: 10px;
+        padding: 6px 8px;
+        gap: 6px;
+    }
+
+    .dv2-quick-card {
+        padding: 12px;
+    }
+
+    /* Charts */
+    .dv2-trend-chart {
+        height: 190px;
+        min-height: 190px;
+    }
+
+    .dv2-sev-chart-wrap {
+        min-height: 160px;
+    }
+
+    /* On mobile, hide OS and Time columns — they're least important
+       We do this by targeting the 3rd (OS) and 7th (Time) th/td.
+       nth-child counts from 1: checkbox=1, hostname=2, OS=3,
+       malware=4, threatname=5, complexity=6, time=7, status=8, delete=9 */
+    .dv2-table thead th:nth-child(3),
+    .dv2-table td:nth-child(3),
+    .dv2-table thead th:nth-child(7),
+    .dv2-table td:nth-child(7) {
+        display: none;
+    }
+
+    .dv2-table {
+        min-width: 460px;
+    }
+
+    /* Telemetry: single column */
+    .dv2-telemetry-item {
+        flex: 1 1 100%;
+    }
+
+    .dv2-telemetry-card {
+        padding: 12px;
+    }
+
+    .dv2-tel-num {
+        font-size: 14px;
+    }
+
+    /* Activity */
+    .dv2-activity-header {
+        padding: 10px 12px;
+    }
+
+    .dv2-activity-title {
+        font-size: 11px;
+    }
+
+    .dv2-table-footer {
+        padding: 8px 12px;
+    }
+
+    /* AI Insights */
+    .dv2-insight-item {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .dv2-insight-text {
+        font-size: 11px;
+    }
+
+    /* General card padding */
+    .dv2-card,
+    .dv2-trend-card,
+    .dv2-country-card,
+    .dv2-insights-card,
+    .dv2-severity-card,
+    .dv2-flow-card,
+    .dv2-telemetry-card {
+        padding: 12px;
+    }
+
+    .dv2-host-name {
+        max-width: 72px;
+        font-size: 11px;
+    }
+
+    .dv2-threat-name {
+        font-size: 11px;
+    }
+}
+
+/* ── ≤ 360px — Very small phones ─────────────────────────── */
+@media (max-width: 360px) {
+    .dv2-greeting {
+        font-size: 13px;
+    }
+
+    .dv2-date {
+        font-size: 11px;
+    }
+
+    .dv2-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dv2-stat-card {
+        min-height: 90px;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dv2-table {
+        min-width: 400px;
+    }
+
+    /* Also hide complexity column on tiny phones */
+    .dv2-table thead th:nth-child(6),
+    .dv2-table td:nth-child(6) {
+        display: none;
+    }
+}

@@ -1,0 +1,510 @@
+/* =========================================
+   DASHBOARD RESPONSIVE — Full Overhaul
+   Fixes:
+   1. Recharts graph collapsing on mobile/tablet (height-chain bug)
+   2. Stats grid single-column on small screens
+   3. Quick-actions grid on mobile
+   4. Activity table horizontal scroll & density
+   5. Filter tabs scrollable on tiny screens
+   6. Topbar/navbar stacking
+   7. Sidebar collapse
+   8. General spacing on every breakpoint
+========================================= */
+
+/* ════════════════════════════════════════
+   SIDEBAR COLLAPSE  (≤ 992px)
+════════════════════════════════════════ */
+@media (max-width: 992px) {
+    .dashboard-sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        transition: left 0.3s ease;
+        z-index: 999;
+    }
+
+    .dashboard-sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 90;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .close-sidebar-btn {
+        display: block;
+    }
+}
+
+/* ════════════════════════════════════════
+   NAVBAR  (≤ 768px / ≤ 540px)
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dashboard-navbar {
+        padding: 0 1rem;
+    }
+
+    .search-box {
+        width: 200px;
+    }
+
+    .dashboard-status {
+        width: 100%;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 540px) {
+    .search-box {
+        width: 140px;
+    }
+
+    .search-box input {
+        font-size: 0.8rem;
+    }
+}
+
+/* ════════════════════════════════════════
+   DV2 TOP-BAR
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .dv2-topbar-right {
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .dv2-refresh-btn {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-topbar {
+        padding: 10px 12px;
+    }
+
+    .dv2-greeting {
+        font-size: 14px;
+    }
+
+    .dv2-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
+/* ════════════════════════════════════════
+   DV2 CONTENT AREA
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-content {
+        padding: 12px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-content {
+        padding: 8px;
+        gap: 10px;
+    }
+}
+
+/* ════════════════════════════════════════
+   DV2 STATS GRID
+════════════════════════════════════════ */
+
+/* ≤ 1280px  →  2+2 stat cards, quick-card full-width */
+@media (max-width: 1280px) {
+    .dv2-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dv2-quick-card {
+        grid-column: 1 / -1;
+        min-height: auto;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ≤ 900px  →  2-column stats */
+@media (max-width: 900px) {
+    .dv2-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dv2-quick-card {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ≤ 768px  →  2-column stats, quick grid 2-col */
+@media (max-width: 768px) {
+    .dv2-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .dv2-quick-btn {
+        font-size: 10.5px;
+        padding: 7px 10px;
+    }
+}
+
+/* ≤ 480px  →  single-column stats */
+@media (max-width: 480px) {
+    .dv2-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dv2-stat-card {
+        min-height: 130px;
+    }
+
+    .dv2-stat-number {
+        font-size: 28px;
+        margin-top: 6px;
+    }
+
+    .dv2-quick-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ════════════════════════════════════════
+   ROW LAYOUT STACKING
+════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    .dv2-row {
+        flex-direction: column;
+    }
+
+    .dv2-col-58,
+    .dv2-col-42,
+    .dv2-col-33 {
+        flex: none;
+        width: 100%;
+    }
+}
+
+/* ════════════════════════════════════════
+   ██████████████████████████████████████
+   GRAPH FIX — ROOT CAUSE:
+   .dv2-trend-card uses height:100% which
+   collapses to 0 when parent column is
+   auto-height on tablet/mobile.
+   Fix: override to height:auto + give
+   .dv2-trend-chart an explicit px height
+   so Recharts ResponsiveContainer renders.
+   ██████████████████████████████████████
+════════════════════════════════════════ */
+
+/* All cards: auto height when stacked */
+@media (max-width: 1024px) {
+
+    .dv2-trend-card,
+    .dv2-country-card,
+    .dv2-insights-card,
+    .dv2-severity-card,
+    .dv2-flow-card,
+    .dv2-card {
+        height: auto;
+    }
+
+    /* Give the chart a real pixel height so
+       Recharts can measure its container     */
+    .dv2-trend-chart {
+        flex: none;
+        height: 240px;
+        min-height: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dv2-trend-chart {
+        height: 210px;
+        min-height: 210px;
+    }
+
+    /* Severity donut: keep it visible */
+    .dv2-sev-chart-wrap {
+        min-height: 180px;
+    }
+
+    /* Legend 1-col on narrow */
+    .dv2-sev-legend {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-trend-chart {
+        height: 185px;
+        min-height: 185px;
+    }
+
+    .dv2-sev-chart-wrap {
+        min-height: 160px;
+    }
+}
+
+/* ════════════════════════════════════════
+   TELEMETRY ITEMS WRAP
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-telemetry-items {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    /* Remove the pseudo-element left border
+       when items wrap to new lines          */
+    .dv2-telemetry-item+.dv2-telemetry-item::before {
+        display: none;
+    }
+
+    .dv2-telemetry-item+.dv2-telemetry-item {
+        padding-left: 0;
+    }
+
+    .dv2-telemetry-item {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-telemetry-item {
+        flex: 1 1 100%;
+    }
+}
+
+/* ════════════════════════════════════════
+   ACTIVITY TABLE
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* Make table horizontally scrollable */
+    .dv2-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Lock table to min readable width */
+    .dv2-table {
+        min-width: 520px;
+    }
+
+    .dv2-table thead th,
+    .dv2-table tbody td {
+        font-size: 11px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    /* Reduce left-pad on hostname to prevent runaway width */
+    .dv2-hostname-cell {
+        padding-left: 0;
+        gap: 6px;
+    }
+
+    .dv2-table thead th.th-hostname {
+        padding-left: 16px;
+    }
+
+    .dv2-table td:first-child {
+        padding-left: 10px;
+    }
+
+    .dv2-table td:last-child {
+        padding-right: 10px;
+    }
+
+    /* Activity header: stack controls */
+    .dv2-activity-header {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .dv2-activity-controls {
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    /* Filter tabs: allow scroll if needed */
+    .dv2-filter-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 3px;
+        padding-bottom: 2px;
+        /* hide scrollbar visually */
+        scrollbar-width: none;
+    }
+
+    .dv2-filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dv2-filter-tab {
+        flex-shrink: 0;
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+
+    /* Table footer */
+    .dv2-table-footer {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 14px;
+    }
+
+    .dv2-pagination {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-activity-header {
+        padding: 10px 12px;
+    }
+
+    .dv2-activity-title {
+        font-size: 11px;
+    }
+
+    .dv2-table {
+        min-width: 480px;
+    }
+}
+
+/* ════════════════════════════════════════
+   FLOW CARD (Export Flow)
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-flow-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .dv2-flow-stat-num {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dv2-flow-stat-grid {
+        gap: 6px;
+    }
+}
+
+/* ════════════════════════════════════════
+   COUNTRY LIST (Top Threat Sources)
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-country-row {
+        padding: 6px 0;
+    }
+
+    .dv2-country-name-row,
+    .dv2-country-count {
+        font-size: 11px;
+    }
+}
+
+/* ════════════════════════════════════════
+   INSIGHT ITEMS
+════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .dv2-insight-item {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .dv2-insight-text {
+        font-size: 11px;
+    }
+}
+
+/* ════════════════════════════════════════
+   TREND CARD HEADER
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .dv2-trend-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .dv2-trend-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* ════════════════════════════════════════
+   STAT MINI BARS
+════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .dv2-mini-bars {
+        height: 22px;
+        margin-top: 8px;
+    }
+}
+
+/* ════════════════════════════════════════
+   GENERAL CARD PADDING on tiny screens
+════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+    .dv2-card,
+    .dv2-trend-card,
+    .dv2-stat-card,
+    .dv2-quick-card,
+    .dv2-country-card,
+    .dv2-insights-card,
+    .dv2-severity-card,
+    .dv2-flow-card,
+    .dv2-telemetry-card {
+        padding: 12px;
+    }
+}

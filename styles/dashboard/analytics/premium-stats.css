@@ -1,0 +1,639 @@
+/* =========================================
+   PREMIUM STATS GRID
+   Sentinel AI – dark cybersecurity aesthetic
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+.premium-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* =========================================
+   CARD BASE
+========================================= */
+
+.premium-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 370px;
+    border-radius: 16px;
+    padding: 20px 20px 18px;
+    background: linear-gradient(160deg, rgba(8, 15, 32, 0.98), rgba(4, 8, 18, 0.99));
+    border: 1px solid rgba(60, 100, 200, 0.12);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.025) inset,
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(0, 80, 200, 0.04);
+    transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.premium-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(105, 231, 255, 0.18);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.035) inset,
+        0 16px 48px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(105, 231, 255, 0.08);
+}
+
+/* Subtle top glow */
+.premium-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(105, 231, 255, 0.05), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.premium-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.premium-header .header-icon {
+    color: #69e7ff;
+    display: flex;
+    align-items: center;
+}
+
+.premium-header .header-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* =========================================
+   CARD 1 — RISK SCORE (GAUGE)
+========================================= */
+
+/* The SVG gauge wrapper */
+.risk-ring-wrapper {
+    position: relative;
+    width: 210px;
+    height: 210px;
+    margin: -6px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.risk-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Center score overlay */
+.risk-center {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* Shift down slightly so it sits in the open part of the horseshoe */
+    margin-top: 12px;
+}
+
+.risk-score-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.risk-denom {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 2px;
+}
+
+.risk-badge {
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.risk-badge.safe {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.28);
+}
+
+.risk-badge.warning {
+    background: rgba(251, 191, 36, 0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.30);
+}
+
+.risk-badge.high {
+    background: rgba(251, 146, 60, 0.12);
+    color: #fb923c;
+    border: 1px solid rgba(251, 146, 60, 0.28);
+}
+
+.risk-badge.critical {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+/* Risk status panel */
+.risk-status-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 11px 13px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    position: relative;
+    z-index: 1;
+}
+
+.rsp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.rsp-label {
+    font-size: 0.68rem;
+    color: #f59e0b;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.rsp-value {
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 600;
+}
+
+.rsp-icon {
+    color: #f59e0b;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.rsp-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Trend box */
+.trend-box {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 13px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.045);
+    position: relative;
+    z-index: 1;
+}
+
+.trend-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8aa5c0;
+    font-size: 0.80rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.trend-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #f59e0b;
+    flex-shrink: 0;
+}
+
+/* Sparkline animation */
+.sparkline-path {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: sparklineDraw 1.3s ease forwards 0.3s;
+}
+
+/* =========================================
+   CARD 2 — REAL-TIME SCANS
+========================================= */
+
+/* Top row: header + engine status side by side */
+.scan-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.engine-status-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 1px;
+}
+
+.pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00ff88;
+    flex-shrink: 0;
+    animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+.engine-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #00ff88;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Big counter */
+.scan-big-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 5.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-top: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+.scan-cursor {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 4.5rem;
+    font-weight: 300;
+    color: #69e7ff;
+    line-height: 1;
+    transition: opacity 0.1s;
+}
+
+.scan-cursor.visible {
+    opacity: 1;
+}
+
+.scan-cursor.hidden {
+    opacity: 0;
+}
+
+.scan-sublabel {
+    color: #4a6a8a;
+    font-size: 0.84rem;
+    margin-top: 5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+}
+
+/* Scanner bars */
+.scanner-bars {
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+.scanner-bars span {
+    flex: 1;
+    height: 10px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    transition: background 0.18s, box-shadow 0.18s;
+}
+
+.scanner-bars span.active {
+    background: #69e7ff;
+    box-shadow: 0 0 10px rgba(105, 231, 255, 0.55);
+}
+
+.scanner-bars span.moving {
+    background: #ffffff;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.85), 0 0 28px #69e7ff;
+}
+
+/* Footer */
+.scan-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.scan-last {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.scan-last-label {
+    font-size: 0.68rem;
+    color: #3a5270;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.scan-last-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+.scan-refresh-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(105, 231, 255, 0.18);
+    background: rgba(105, 231, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #69e7ff;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.scan-refresh-btn:hover {
+    background: rgba(105, 231, 255, 0.12);
+    border-color: rgba(105, 231, 255, 0.38);
+    transform: rotate(15deg);
+}
+
+.scan-refresh-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* =========================================
+   CARD 3 — SYSTEM NODES
+========================================= */
+
+.node-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.node-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.045);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.node-row:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.node-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.node-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.node-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.node-label {
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 600;
+}
+
+.node-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* Color variants */
+.node-row.green {
+    border-color: rgba(34, 197, 94, 0.13);
+}
+
+.node-row.green .node-icon {
+    background: rgba(34, 197, 94, 0.10);
+    color: #4ade80;
+}
+
+.node-row.green .node-val {
+    color: #4ade80;
+}
+
+.node-row.cyan {
+    border-color: rgba(105, 231, 255, 0.13);
+}
+
+.node-row.cyan .node-icon {
+    background: rgba(105, 231, 255, 0.09);
+    color: #69e7ff;
+}
+
+.node-row.cyan .node-val {
+    color: #69e7ff;
+}
+
+.node-row.red {
+    border-color: rgba(239, 68, 68, 0.13);
+}
+
+.node-row.red .node-icon {
+    background: rgba(239, 68, 68, 0.09);
+    color: #f87171;
+}
+
+.node-row.red .node-val {
+    color: #f87171;
+}
+
+.node-row.purple {
+    border-color: rgba(168, 85, 247, 0.13);
+}
+
+.node-row.purple .node-icon {
+    background: rgba(168, 85, 247, 0.09);
+    color: #c084fc;
+}
+
+.node-row.purple .node-val {
+    color: #c084fc;
+}
+
+/* System health footer */
+.system-health {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.16);
+    position: relative;
+    z-index: 1;
+}
+
+.sh-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4ade80;
+    font-weight: 700;
+    font-size: 0.84rem;
+    letter-spacing: 0.02em;
+}
+
+.sh-icon {
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+}
+
+.sh-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.sh-check {
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+}
+
+.sh-check svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes pulseDot {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.75);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(0, 255, 136, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+    }
+}
+
+@keyframes sparklineDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+    .premium-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .premium-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .scan-big-number {
+        font-size: 3.8rem;
+    }
+
+    .risk-ring-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+}

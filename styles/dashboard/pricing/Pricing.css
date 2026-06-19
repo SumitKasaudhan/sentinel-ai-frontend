@@ -1,0 +1,534 @@
+/* ─── app/dashboard/pricing/pricing.css ────────────────────────────────────── */
+/* Import in page.tsx as: import "./pricing.css";                               */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@400;500;600&display=swap');
+
+/* ── Page shell ────────────────────────────────────────────────────────────── */
+.dash-pricing {
+    padding: 32px 40px 80px;
+    min-height: 100vh;
+    background: #080c14;
+    position: relative;
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+}
+
+.dash-pricing::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 212, 255, .03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, .03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Back + header ─────────────────────────────────────────────────────────── */
+.dash-pricing__header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 48px;
+}
+
+.dash-pricing__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid rgba(30, 45, 69, .6);
+    color: #64748b;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: 32px;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.dash-pricing__back:hover {
+    border-color: rgba(0, 212, 255, .4);
+    color: #94a3b8;
+}
+
+.dash-pricing__title-group {
+    text-align: center;
+}
+
+.dash-pricing__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border: 1px solid rgba(0, 212, 255, .25);
+    background: rgba(0, 212, 255, .05);
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .15em;
+    color: #00d4ff;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.dash-pricing__title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 10px;
+    letter-spacing: -.01em;
+}
+
+.dash-pricing__accent {
+    background: linear-gradient(135deg, #00d4ff, #00ffc8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dash-pricing__subtitle {
+    font-size: 15px;
+    color: #64748b;
+}
+
+/* ── Error banner ──────────────────────────────────────────────────────────── */
+.dash-pricing__error {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, .1);
+    border: 1px solid rgba(239, 68, 68, .35);
+    color: #fca5a5;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.dash-pricing__error-close {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: #fca5a5;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: .7;
+}
+
+.dash-pricing__error-close:hover {
+    opacity: 1;
+}
+
+/* ── Plans grid ────────────────────────────────────────────────────────────── */
+.dash-pricing__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+@media (max-width: 900px) {
+    .dash-pricing__grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+    }
+}
+
+/* ── Plan card ─────────────────────────────────────────────────────────────── */
+.dash-plan {
+    position: relative;
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(13, 20, 34, .95), rgba(17, 24, 39, .8));
+    border: 1px solid var(--plan-border, rgba(30, 45, 69, .8));
+    transition: all .4s cubic-bezier(.23, 1, .32, 1);
+}
+
+.dash-plan:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px var(--plan-glow, rgba(0, 0, 0, .3)), 0 0 0 1px var(--plan-border);
+}
+
+.dash-plan--popular {
+    border-width: 1.5px;
+    box-shadow: 0 0 40px var(--plan-glow), 0 20px 60px rgba(0, 0, 0, .5);
+    margin-top: -12px;
+    /* visually elevated */
+}
+
+.dash-plan--popular:hover {
+    box-shadow: 0 0 60px var(--plan-glow), 0 30px 80px rgba(0, 0, 0, .6);
+}
+
+/* Badge */
+.dash-plan__badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    background: linear-gradient(90deg, #00a8cc, #00d4ff);
+    color: #000;
+    white-space: nowrap;
+}
+
+/* Header */
+.dash-plan__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.dash-plan__icon-wrap {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--plan-color, #94a3b8) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--plan-color, #94a3b8) 25%, transparent);
+    color: var(--plan-color, #94a3b8);
+}
+
+.dash-plan__name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: .03em;
+}
+
+.dash-plan__desc {
+    font-size: 12px;
+    color: #4b6a8a;
+    margin-top: 2px;
+    line-height: 1.5;
+}
+
+/* Price */
+.dash-plan__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.dash-plan__price {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--plan-color, #e2e8f0);
+}
+
+.dash-plan__period {
+    font-size: 14px;
+    color: #4b6a8a;
+}
+
+/* Features */
+.dash-plan__features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.dash-plan__feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.dash-plan__check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--plan-color, #94a3b8) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--plan-color, #94a3b8) 25%, transparent);
+    color: var(--plan-color, #94a3b8);
+}
+
+/* CTA buttons */
+.dash-plan__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    cursor: pointer;
+    transition: all .3s;
+    border: none;
+}
+
+.dash-plan__cta--primary {
+    background: linear-gradient(135deg, #00a8cc, #00d4ff);
+    color: #000;
+    box-shadow: 0 0 24px rgba(0, 212, 255, .35);
+}
+
+.dash-plan__cta--primary:hover:not(:disabled) {
+    box-shadow: 0 0 40px rgba(0, 212, 255, .55);
+    transform: translateY(-1px);
+}
+
+.dash-plan__cta--outline {
+    background: transparent;
+    color: #7c3aed;
+    border: 1px solid rgba(124, 58, 237, .4);
+}
+
+.dash-plan__cta--outline:hover:not(:disabled) {
+    border-color: rgba(124, 58, 237, .7);
+    background: rgba(124, 58, 237, .06);
+}
+
+.dash-plan__cta--disabled {
+    background: transparent;
+    color: #334155;
+    border: 1px solid rgba(30, 45, 69, .5);
+    cursor: not-allowed;
+}
+
+.dash-plan__cta:disabled {
+    opacity: .6;
+}
+
+/* Spinner inside CTA */
+.dash-plan__spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: dashSpin .7s linear infinite;
+}
+
+@keyframes dashSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Secure note */
+.dash-plan__secure-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #334155;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* ── Comparison table ──────────────────────────────────────────────────────── */
+.dash-pricing__comparison {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+.dash-pricing__comparison-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.dash-comparison-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(30, 45, 69, .8);
+}
+
+.dash-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.dash-comparison-table th {
+    padding: 14px 20px;
+    text-align: left;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: #4b6a8a;
+    text-transform: uppercase;
+    background: rgba(13, 20, 34, .95);
+    border-bottom: 1px solid rgba(30, 45, 69, .8);
+}
+
+.dash-comparison-table td {
+    padding: 13px 20px;
+    color: #64748b;
+    border-bottom: 1px solid rgba(30, 45, 69, .4);
+    background: rgba(13, 20, 34, .7);
+    vertical-align: middle;
+}
+
+.dash-comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dash-comparison-table tr:hover td {
+    background: rgba(0, 212, 255, .02);
+}
+
+.dash-comparison-table__pro-col {
+    background: rgba(0, 212, 255, .03) !important;
+    border-left: 1px solid rgba(0, 212, 255, .1);
+    border-right: 1px solid rgba(0, 212, 255, .1);
+}
+
+.dash-comparison-table th.dash-comparison-table__pro-col {
+    color: #00d4ff !important;
+}
+
+.dash-comparison-table__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 212, 255, .12);
+    border: 1px solid rgba(0, 212, 255, .3);
+    color: #00d4ff;
+}
+
+.dash-comparison-table__cross {
+    color: #1e2d45;
+}
+
+.dash-comparison-table__text {
+    color: #94a3b8;
+}
+
+/* ── FAQ ───────────────────────────────────────────────────────────────────── */
+.dash-pricing__faq {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 700px) {
+    .dash-pricing__faq {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dash-pricing__faq-item {
+    padding: 18px 20px;
+    border-radius: 10px;
+    background: rgba(13, 20, 34, .7);
+    border: 1px solid rgba(30, 45, 69, .5);
+}
+
+.dash-pricing__faq-q {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 6px;
+}
+
+.dash-pricing__faq-a {
+    font-size: 13px;
+    color: #4b6a8a;
+    line-height: 1.55;
+}
+
+/* ── Upgrade button in navbar ──────────────────────────────────────────────── */
+/* Add this to your existing dashboard.css / navbar styles */
+.upgrade-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #004d66, #006680);
+    border: 1px solid rgba(0, 212, 255, .4);
+    color: #00d4ff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    cursor: pointer;
+    transition: all .25s;
+    white-space: nowrap;
+    box-shadow: 0 0 14px rgba(0, 212, 255, .15);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #006680, #00a8cc);
+    box-shadow: 0 0 24px rgba(0, 212, 255, .35);
+    transform: translateY(-1px);
+}
+
+.upgrade-btn:active {
+    transform: translateY(0);
+}
+
+.upgrade-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.upgrade-btn__icon {
+    flex-shrink: 0;
+}
+
+.upgrade-btn__label {
+    /* hides on very small screens */
+}
+
+@media (max-width: 480px) {
+    .upgrade-btn__label {
+        display: none;
+    }
+
+    .upgrade-btn {
+        padding: 7px 10px;
+    }
+}

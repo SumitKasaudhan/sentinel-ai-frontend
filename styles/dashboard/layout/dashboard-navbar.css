@@ -1,0 +1,1225 @@
+/* =============================================================
+   SENTINEL AI — DASHBOARD NAVBAR
+   Single source of truth. No duplicate rules.
+   Last updated: consolidated clean version.
+============================================================= */
+
+/* ─────────────────────────────────────────────────────────────
+   NAVBAR SHELL
+───────────────────────────────────────────────────────────── */
+
+.dashboard-navbar {
+    position: relative;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+
+    overflow: visible;
+    isolation: isolate;
+
+    border-bottom: 0.8px solid rgba(255, 255, 255, 0.06);
+
+    background: linear-gradient(180deg,
+            rgba(5, 8, 15, 0.85),
+            rgba(5, 8, 15, 0.65));
+
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LEFT SECTION
+───────────────────────────────────────────────────────────── */
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE MENU BUTTON
+───────────────────────────────────────────────────────────── */
+
+.mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    border: 0.8px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    flex-shrink: 0;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        color 0.25s ease,
+        transform 0.20s ease;
+}
+
+.mobile-menu-btn:hover {
+    color: #fff;
+    border-color: rgba(0, 211, 243, 0.30);
+    box-shadow: 0 0 16px rgba(0, 211, 243, 0.12);
+}
+
+.mobile-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LOGO
+───────────────────────────────────────────────────────────── */
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: white;
+    flex-shrink: 0;
+}
+
+.navbar-logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(135deg,
+            rgba(0, 211, 243, 0.18),
+            rgba(21, 93, 252, 0.18));
+
+    border: 0.8px solid rgba(0, 211, 243, 0.20);
+    color: #00d3f3;
+    box-shadow: 0 0 22px rgba(0, 211, 243, 0.10);
+}
+
+/* External logo image (e.g. <img class="dashboard-navbar-logo">) */
+.dashboard-navbar-logo {
+    width: 36px;
+    height: 36px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 11px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(0, 211, 243, 0.30));
+}
+
+.navbar-logo span {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #cad5e2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SEARCH BOX
+───────────────────────────────────────────────────────────── */
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    max-width: 480px;
+    height: 42px;
+
+    border-radius: 12px;
+    border: 0.8px solid rgba(255, 255, 255, 0.07);
+
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.015));
+
+    display: flex;
+    align-items: center;
+    padding: 0 1rem 0 2.75rem;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.30s ease,
+        box-shadow 0.30s ease,
+        background 0.30s ease;
+
+    will-change: transform;
+}
+
+/* left glow */
+.search-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at left,
+            rgba(0, 211, 243, 0.06),
+            transparent 55%);
+    pointer-events: none;
+}
+
+/* top-left gloss */
+.search-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.03),
+            transparent 40%);
+    pointer-events: none;
+}
+
+.search-box:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.search-box:focus-within,
+.search-box--active {
+    border-color: rgba(0, 211, 243, 0.35);
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.05),
+            rgba(255, 255, 255, 0.02));
+    box-shadow:
+        0 0 0 3px rgba(0, 211, 243, 0.08),
+        0 0 24px rgba(0, 211, 243, 0.10);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #62748e;
+    pointer-events: none;
+    transition: color 0.25s ease;
+}
+
+.search-box:focus-within .search-icon,
+.search-box--active .search-icon {
+    color: #00d3f3;
+}
+
+.search-box input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.search-box input::placeholder {
+    color: #62748e;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RIGHT SECTION
+───────────────────────────────────────────────────────────── */
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ICON BUTTONS (bell, gear, etc.)
+───────────────────────────────────────────────────────────── */
+
+.navbar-icon-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    color: #90a1b9;
+
+    border: 0.8px solid rgba(255, 255, 255, 0.07);
+
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.030),
+            rgba(255, 255, 255, 0.015));
+
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    will-change: transform;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        transform 0.20s ease;
+}
+
+.navbar-icon-btn:hover {
+    color: #fff;
+    border-color: rgba(0, 211, 243, 0.28);
+    background: rgba(0, 211, 243, 0.06);
+    box-shadow: 0 0 20px rgba(0, 211, 243, 0.12);
+    transform: translateY(-1px);
+}
+
+.navbar-icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTIFICATION BADGE
+───────────────────────────────────────────────────────────── */
+
+.notification-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #05080f;
+    pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   UPGRADE BUTTON  (free-tier CTA)
+───────────────────────────────────────────────────────────── */
+
+.upgrade-btn {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+
+    height: 40px;
+    padding: 0 1rem;
+
+    border-radius: 12px;
+    border: 0.8px solid rgba(0, 211, 243, 0.25);
+
+    background: linear-gradient(135deg,
+            rgba(0, 80, 110, 0.55),
+            rgba(0, 140, 180, 0.35));
+
+    color: #00d3f3;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+
+    cursor: pointer;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    box-shadow:
+        0 0 14px rgba(0, 211, 243, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        transform 0.20s ease;
+
+    will-change: transform;
+}
+
+/* shimmer sweep */
+.upgrade-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+            transparent 30%,
+            rgba(0, 211, 243, 0.10) 50%,
+            transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+    pointer-events: none;
+}
+
+.upgrade-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.upgrade-btn:hover {
+    border-color: rgba(0, 211, 243, 0.50);
+    background: linear-gradient(135deg,
+            rgba(0, 110, 150, 0.70),
+            rgba(0, 170, 220, 0.50));
+    color: #7eeeff;
+    box-shadow:
+        0 0 24px rgba(0, 211, 243, 0.24),
+        0 0 8px rgba(0, 211, 243, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.upgrade-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 10px rgba(0, 211, 243, 0.12);
+}
+
+.upgrade-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.upgrade-btn__icon {
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PRO BADGE  (shown when user is on Pro plan)
+───────────────────────────────────────────────────────────── */
+
+.pro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.35);
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+
+    cursor: default;
+    user-select: none;
+    white-space: nowrap;
+
+    animation: pro-pulse 1.6s ease-out forwards;
+}
+
+.pro-badge__icon {
+    flex-shrink: 0;
+    color: #fde68a;
+    /* amber crown */
+}
+
+.pro-badge__label {
+    line-height: 1;
+}
+
+@keyframes pro-pulse {
+    0% {
+        box-shadow: 0 0 0px rgba(6, 182, 212, 0.50);
+    }
+
+    50% {
+        box-shadow: 0 0 18px rgba(6, 182, 212, 0.60);
+    }
+
+    100% {
+        box-shadow: 0 0 8px rgba(6, 182, 212, 0.35);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PROFILE AVATAR
+───────────────────────────────────────────────────────────── */
+
+.profile-avatar {
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    border: 0.8px solid rgba(255, 255, 255, 0.08);
+
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.030),
+            rgba(255, 255, 255, 0.015));
+
+    flex-shrink: 0;
+    cursor: pointer;
+    will-change: transform;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.20s ease;
+}
+
+.profile-avatar:hover {
+    border-color: rgba(0, 211, 243, 0.30);
+    box-shadow: 0 0 20px rgba(0, 211, 243, 0.12);
+    transform: translateY(-1px);
+}
+
+.profile-avatar:active {
+    transform: scale(0.95);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 11px;
+    display: block;
+}
+
+/* Initials fallback (no photo) */
+.avatar-initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+            rgba(0, 211, 243, 0.20),
+            rgba(21, 93, 252, 0.20));
+    color: #00d3f3;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    user-select: none;
+    border-radius: 11px;
+}
+
+/* Online dot */
+.online-dot {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 2px solid #05080f;
+    box-shadow: 0 0 8px #22c55e;
+    pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DROPDOWN WRAPPER & PANELS
+───────────────────────────────────────────────────────────── */
+
+.navbar-dropdown-wrapper {
+    position: relative;
+}
+
+.dropdown-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 300px;
+
+    border-radius: 18px;
+    overflow: hidden;
+
+    background: linear-gradient(180deg,
+            rgba(15, 23, 42, 0.98),
+            rgba(2, 8, 23, 0.98));
+
+    border: 1px solid rgba(0, 211, 243, 0.10);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    z-index: 99999;
+
+    animation: dropdownFade 0.18s ease forwards;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DROPDOWN HEADER
+───────────────────────────────────────────────────────────── */
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dropdown-header h4 {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.dropdown-header button {
+    border: none;
+    background: transparent;
+    color: #00d3f3;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.dropdown-header button:hover {
+    opacity: 0.70;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTIFICATIONS PANEL
+───────────────────────────────────────────────────────────── */
+
+.notifications-panel {
+    width: 360px;
+}
+
+.notifications-list {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s ease;
+}
+
+.notification-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.notification-item.unread {
+    background: rgba(0, 211, 243, 0.04);
+}
+
+.notification-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(0, 211, 243, 0.08);
+    color: #00d3f3;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-content h5 {
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+}
+
+.notification-content p {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.notification-content span {
+    display: inline-block;
+    margin-top: 0.3rem;
+    color: #64748b;
+    font-size: 0.70rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PROFILE PANEL
+───────────────────────────────────────────────────────────── */
+
+.profile-panel {
+    width: 200px;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    text-decoration: none;
+    color: #e2e8f0;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 211, 243, 0.08);
+    color: white;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.10);
+    color: #f87171;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────────────────────── */
+
+.notifications-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 211, 243, 0.16);
+    border-radius: 999px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────────────────────── */
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes mobileSheet {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — TABLET  ≤ 992px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 992px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .navbar-logo span {
+        display: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — TABLET  ≤ 768px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .dashboard-navbar {
+        height: 56px;
+        padding: 0 1rem;
+        gap: 0.75rem;
+    }
+
+    .navbar-left {
+        gap: 0.65rem;
+    }
+
+    .search-box {
+        height: 38px;
+        max-width: none;
+        padding-left: 2.5rem;
+    }
+
+    .search-box input {
+        font-size: 0.84rem;
+    }
+
+    .search-icon {
+        left: 0.85rem;
+    }
+
+    .navbar-right {
+        gap: 0.5rem;
+    }
+
+    /* Dropdowns become fixed bottom sheets */
+    .navbar-dropdown-wrapper {
+        position: static !important;
+    }
+
+    .dropdown-panel {
+        position: fixed !important;
+        top: 62px !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        border-radius: 18px !important;
+        z-index: 999999 !important;
+        max-height: 72vh;
+        overflow: hidden;
+    }
+
+    .notifications-panel,
+    .profile-panel {
+        width: auto !important;
+    }
+
+    .notifications-list {
+        max-height: 56vh;
+        overflow-y: auto;
+    }
+
+    /* Upgrade btn: shrink padding */
+    .upgrade-btn {
+        height: 36px;
+        padding: 0 0.8rem;
+        font-size: 0.78rem;
+        border-radius: 10px;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — SMALL MOBILE  ≤ 540px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+    .dashboard-navbar {
+        height: 52px;
+        padding: 0 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .navbar-left {
+        gap: 0.5rem;
+    }
+
+    .navbar-right {
+        gap: 0.35rem;
+    }
+
+    .mobile-menu-btn,
+    .navbar-icon-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 10px;
+    }
+
+    .profile-avatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+    }
+
+    .search-box {
+        height: 36px;
+        padding-left: 2.3rem;
+        border-radius: 10px;
+    }
+
+    .search-box input {
+        font-size: 0.82rem;
+    }
+
+    .search-icon {
+        left: 0.7rem;
+    }
+
+    .dropdown-panel {
+        top: 58px !important;
+        left: 8px !important;
+        right: 8px !important;
+        border-radius: 14px !important;
+    }
+
+    .notification-item {
+        padding: 0.75rem 0.85rem;
+    }
+
+    .notification-content h5 {
+        font-size: 0.84rem;
+    }
+
+    .notification-content p {
+        font-size: 0.75rem;
+    }
+
+    .dropdown-item {
+        padding: 0.65rem 0.8rem;
+        min-height: 44px;
+    }
+
+    /* Upgrade btn: icon only */
+    .upgrade-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        padding: 0;
+        border-radius: 10px;
+    }
+
+    .upgrade-btn__label {
+        display: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE — EXTRA SMALL  ≤ 380px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 380px) {
+    .dashboard-navbar {
+        padding: 0 0.55rem;
+    }
+
+    .navbar-left {
+        gap: 0.4rem;
+    }
+
+    .navbar-right {
+        gap: 0.25rem;
+    }
+
+    .mobile-menu-btn,
+    .navbar-icon-btn,
+    .profile-avatar {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+    }
+
+    .upgrade-btn {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+    }
+
+    .search-box {
+        height: 34px;
+        padding-left: 2.1rem;
+    }
+
+    .search-box input {
+        font-size: 0.78rem;
+    }
+
+    .dropdown-panel {
+        top: 54px !important;
+        left: 5px !important;
+        right: 5px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTIFICATIONS PANEL — NEW ELEMENTS
+───────────────────────────────────────────────────────────── */
+
+/* Unread count badge next to "Notifications" heading */
+.notif-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 7px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+/* Header action buttons row (Mark all read + Clear all) */
+.notif-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notif-clear-btn {
+    border: none;
+    background: transparent;
+    color: #64748b !important;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    padding: 0;
+}
+
+.notif-clear-btn:hover {
+    color: #f87171 !important;
+    opacity: 1 !important;
+}
+
+/* Per-notification delete (X) button */
+.notif-delete-btn {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.notification-item:hover .notif-delete-btn {
+    opacity: 1;
+}
+
+.notif-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+}
+
+/* Type-colored notification icons */
+.notif-icon--success {
+    color: #22c55e;
+}
+
+.notif-icon--warning {
+    color: #f59e0b;
+}
+
+.notif-icon--error {
+    color: #ef4444;
+}
+
+.notif-icon--info {
+    color: #00d3f3;
+}
+
+/* Unread left accent strip */
+.notification-item.unread {
+    background: rgba(0, 211, 243, 0.04);
+    border-left: 2px solid rgba(0, 211, 243, 0.35);
+    padding-left: calc(1rem - 2px);
+}
+
+/* Empty state */
+.notif-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 2.5rem 1rem;
+    color: #475569;
+}
+
+.notif-empty p {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    margin: 0;
+}
+
+/* ── SEARCH ─────────────────────────────────────────────────────────────── */
+.search-wrapper {
+    position: relative;
+}
+
+.search-clear-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.search-clear-btn:hover {
+    color: #ff9cab;
+}
+
+/* ── SEARCH DROPDOWN ──────────────────────────────────────────────────────── */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 360px;
+    background: linear-gradient(180deg, rgba(16, 20, 30, 0.99), rgba(10, 14, 24, 0.99));
+    border: 1px solid rgba(0, 183, 255, 0.14);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 183, 255, 0.05);
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.search-section {
+    padding: 8px 0 4px;
+}
+
+.search-section-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 4px 16px 6px;
+}
+
+.search-result-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease;
+    color: #fff;
+}
+
+.search-result-item:hover,
+.search-result-item--active {
+    background: rgba(0, 183, 255, 0.07);
+}
+
+.search-result-icon {
+    color: rgba(88, 229, 255, 0.75);
+    flex-shrink: 0;
+}
+
+.search-result-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.search-result-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-result-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-result-arrow {
+    color: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.search-empty {
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 13px;
+}
+
+.search-empty strong {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-footer {
+    display: flex;
+    gap: 14px;
+    padding: 8px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+/* spinner reuse */
+.spin-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

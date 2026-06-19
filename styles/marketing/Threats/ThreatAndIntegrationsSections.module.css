@@ -1,0 +1,1075 @@
+/*
+  ThreatAndIntegrationsSections.module.css
+  
+  Design-system alignment:
+    Body font  : Inter (inherited — never override on headings)
+    Label font : Rajdhani (eyebrows, tags, step numbers, terminal labels only)
+    --cyan     : #2ce6ff
+    --muted    : rgba(255,255,255,0.72)
+    Card tokens: exact match to .feature-card in features.css
+*/
+
+/* =========================================
+   KEYFRAMES
+========================================= */
+
+@keyframes pulseRing {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .7;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinRev {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-9px);
+    }
+}
+
+@keyframes blinkCursor {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes scanLine {
+    0% {
+        top: -6%;
+    }
+
+    100% {
+        top: 106%;
+    }
+}
+
+@keyframes dataFlow {
+    0% {
+        stroke-dashoffset: 400;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes nodePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 14px rgba(44, 230, 255, .20), 0 0 40px rgba(44, 230, 255, .06);
+    }
+
+    50% {
+        box-shadow: 0 0 26px rgba(44, 230, 255, .45), 0 0 70px rgba(44, 230, 255, .14);
+    }
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(44, 230, 255, .60);
+    }
+
+    50% {
+        box-shadow: 0 0 18px rgba(44, 230, 255, 1);
+    }
+}
+
+/* =========================================
+   SECTION
+========================================= */
+
+.section {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 0;
+    background: linear-gradient(180deg, #040816 0%, #020617 50%, #040816 100%);
+    color: #eef5ff;
+    /* no font-family — inherits Inter from body */
+}
+
+/* =========================================
+   BACKGROUND DECORATIONS
+========================================= */
+
+.bgGrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, .022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .022) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: .45;
+    pointer-events: none;
+}
+
+.blurOne {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    border-radius: 999px;
+    background: rgba(44, 230, 255, .07);
+    filter: blur(120px);
+    top: -180px;
+    left: -140px;
+    pointer-events: none;
+}
+
+.blurTwo {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    border-radius: 999px;
+    background: rgba(44, 230, 255, .05);
+    filter: blur(120px);
+    bottom: -180px;
+    right: -140px;
+    pointer-events: none;
+}
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.sectionEyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+}
+
+.sectionEyebrow::before,
+.sectionEyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+}
+
+.sectionEyebrow::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .1));
+}
+
+.sectionEyebrow::after {
+    background: linear-gradient(90deg, rgba(255, 255, 255, .1), transparent);
+}
+
+.eyebrowText {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3.5px;
+    color: rgba(255, 255, 255, .28);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* =========================================
+   SECTION HEADER
+========================================= */
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* =========================================
+   MINI TAG
+========================================= */
+
+.miniTag {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .34rem .9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(44, 230, 255, .24);
+    background: rgba(9, 16, 29, .66);
+    color: #d3edff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: .67rem;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-bottom: .9rem;
+    box-shadow: 0 0 0 1px rgba(44, 230, 255, .04), 0 10px 35px rgba(0, 0, 0, .18);
+}
+
+.miniTag::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--cyan, #2ce6ff);
+    box-shadow: 0 0 16px rgba(44, 230, 255, .88);
+    animation: dotPulse 2.2s ease-in-out infinite;
+}
+
+/* =========================================
+   HEADING  (no font-family — inherits Inter)
+========================================= */
+
+.heading {
+    font-size: 2.9rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #eef5ff;
+    margin: 0 0 .7rem;
+}
+
+.headingAccent {
+    color: var(--cyan, #2ce6ff);
+}
+
+.subText {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--muted, rgba(255, 255, 255, .72));
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   SECTION 1 — TOP GRID
+========================================= */
+
+.topGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+/* =========================================
+   STEP CARDS
+========================================= */
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+    padding: 1.45rem;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(12, 18, 32, .94), rgba(8, 12, 22, .98));
+    border: 1px solid rgba(112, 137, 181, .16);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .22);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    cursor: default;
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.step::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(44, 230, 255, .06), transparent 42%, rgba(44, 230, 255, .03));
+    opacity: 0;
+    transition: opacity .35s ease;
+    z-index: -1;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    border-color: rgba(44, 230, 255, .26);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .32);
+}
+
+.step:hover::before {
+    opacity: 1;
+}
+
+.stepIcon {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(16, 26, 40, .95);
+    border: 1px solid rgba(44, 230, 255, .14);
+    color: var(--cyan, #2ce6ff);
+    transition: transform .28s ease, border-color .28s ease;
+}
+
+.step:hover .stepIcon {
+    transform: scale(1.04);
+    border-color: rgba(44, 230, 255, .34);
+}
+
+.stepBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stepNumber {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--cyan, #2ce6ff);
+    text-transform: uppercase;
+    margin-bottom: .3rem;
+}
+
+.stepTitle {
+    font-size: 1.22rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.35;
+    color: #eef5ff;
+    margin-bottom: .35rem;
+}
+
+.stepText {
+    font-size: .96rem;
+    line-height: 1.72;
+    color: var(--muted, rgba(255, 255, 255, .72));
+}
+
+/* =========================================
+   SERVER VISUAL
+========================================= */
+
+.imageWrap {
+    position: relative;
+}
+
+.imageGlow {
+    position: absolute;
+    inset: 15%;
+    background: rgba(44, 230, 255, .08);
+    filter: blur(80px);
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+.serverVisual {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.server3d {
+    width: 78%;
+    max-width: 380px;
+    animation: float 5s ease-in-out infinite;
+    filter:
+        drop-shadow(0 0 40px rgba(44, 230, 255, .20)) drop-shadow(0 0 80px rgba(44, 230, 255, .07));
+}
+
+.scanWrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.scanLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(44, 230, 255, .55), transparent);
+    animation: scanLine 3.5s linear infinite;
+    opacity: .5;
+}
+
+/* packet badges */
+.packet {
+    position: absolute;
+    width: 22px;
+    height: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.packetBad {
+    background: rgba(239, 68, 68, .18);
+    border: 1px solid rgba(239, 68, 68, .45);
+    color: #fca5a5;
+    box-shadow: 0 0 10px rgba(239, 68, 68, .22);
+}
+
+.packetOk {
+    background: rgba(44, 230, 255, .10);
+    border: 1px solid rgba(44, 230, 255, .35);
+    color: var(--cyan, #2ce6ff);
+    box-shadow: 0 0 10px rgba(44, 230, 255, .15);
+}
+
+.p1 {
+    top: 12%;
+    left: 6%;
+    animation: float 3.2s ease-in-out infinite;
+}
+
+.p2 {
+    top: 26%;
+    right: 4%;
+    animation: float 4.0s ease-in-out infinite .6s;
+}
+
+.p3 {
+    top: 50%;
+    left: 3%;
+    animation: float 3.6s ease-in-out infinite 1.1s;
+}
+
+.p4 {
+    bottom: 20%;
+    right: 6%;
+    animation: float 4.4s ease-in-out infinite .3s;
+}
+
+.p5 {
+    bottom: 8%;
+    left: 16%;
+    animation: float 3.8s ease-in-out infinite .8s;
+}
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.divider {
+    width: 100%;
+    height: 1px;
+    margin: 4rem 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .1), transparent);
+    position: relative;
+}
+
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--cyan, #2ce6ff);
+    box-shadow: 0 0 14px var(--cyan, #2ce6ff);
+}
+
+/* =========================================
+   SECTION 2 — BOTTOM GRID
+   align-items: flex-start so both columns'
+   headings line up at the top, regardless of
+   each column's total height.
+========================================= */
+
+.bottomGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: flex-start;
+}
+
+.bottomCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/*
+  bottomTitle — matches .heading exactly:
+  same size, weight, tracking, color.
+  NO font-family → inherits Inter.
+*/
+.bottomTitle {
+    font-size: 2.9rem;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    line-height: 1.05;
+    color: #eef5ff;
+    margin: 0 0 1.8rem;
+    text-align: center;
+    width: 100%;
+}
+
+/* =========================================
+   CONNECT WHAT MATTERS
+   Replaces the old ecosystem network diagram.
+   Left-aligned, same typographic scale as
+   .bottomTitle so both columns read as peers.
+========================================= */
+
+.connectCol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    gap: 2.5rem;
+}
+
+.connectHeading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+}
+
+.connectTitle {
+    font-size: 2.9rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    color: #eef5ff;
+    margin: 0;
+}
+
+.connectAccent {
+    color: var(--cyan, #2ce6ff);
+}
+
+.connectList {
+    display: flex;
+    flex-direction: column;
+    gap: 2.1rem;
+    width: 100%;
+}
+
+.connectRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+}
+
+.connectIconBox {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(44, 230, 255, .08);
+    border: 1px solid rgba(44, 230, 255, .16);
+    color: var(--cyan, #2ce6ff);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.connectRow:hover .connectIconBox {
+    transform: scale(1.05);
+    border-color: rgba(44, 230, 255, .38);
+    box-shadow: 0 0 22px rgba(44, 230, 255, .18);
+}
+
+.connectRowBody {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding-top: 3px;
+}
+
+.connectRowTitle {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #eef5ff;
+}
+
+.connectRowText {
+    font-size: .94rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--muted, rgba(255, 255, 255, .72));
+}
+
+/* =========================================
+   NETWORK DIAGRAM (legacy — no longer rendered,
+   kept so nothing else breaks; safe to delete)
+========================================= */
+
+.network {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding-top: 100%;
+    /* true square */
+}
+
+.networkInner {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    /* bottom node labels allowed to spill */
+}
+
+.networkSvg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.networkLine {
+    stroke: rgba(255, 255, 255, .1);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 4;
+    animation: dataFlow 3s linear infinite;
+}
+
+.networkLineActive {
+    stroke: rgba(44, 230, 255, .3);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 5;
+    animation: dataFlow 2s linear infinite;
+}
+
+.centerWrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16%;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(44, 230, 255, .14), rgba(44, 230, 255, .02));
+    border: 1.5px solid rgba(44, 230, 255, .3);
+    box-shadow: 0 0 50px rgba(44, 230, 255, .16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    animation: pulseRing 3s ease-in-out infinite;
+}
+
+.centerRing {
+    position: absolute;
+    inset: -14px;
+    border-radius: 999px;
+    border: 1px dashed rgba(44, 230, 255, .14);
+    animation: spinSlow 20s linear infinite;
+}
+
+.centerRing2 {
+    position: absolute;
+    inset: -28px;
+    border-radius: 999px;
+    border: 1px dashed rgba(44, 230, 255, .06);
+    animation: spinRev 30s linear infinite;
+}
+
+.centerText {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 900;
+    font-size: clamp(13px, 2.8vw, 20px);
+    color: var(--cyan, #2ce6ff);
+    letter-spacing: -1px;
+    text-shadow: 0 0 28px rgba(44, 230, 255, .6);
+}
+
+.node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+}
+
+.nodeCircle {
+    width: clamp(38px, 5vw, 56px);
+    aspect-ratio: 1;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(12, 18, 32, .94), rgba(8, 12, 22, .98));
+    border: 1px solid rgba(44, 230, 255, .4);
+    color: var(--cyan, #2ce6ff);
+    animation: nodePulse 3.5s ease-in-out infinite;
+    transition: transform .25s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+}
+
+.node:hover .nodeCircle {
+    transform: scale(1.12);
+}
+
+.nodeText {
+    margin-top: 7px;
+    color: var(--muted, rgba(255, 255, 255, .72));
+    font-size: clamp(10px, 1vw, 12px);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* =========================================
+   TERMINAL CARD
+========================================= */
+
+.terminal {
+    position: relative;
+    width: 100%;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(12, 18, 32, .94), rgba(8, 12, 22, .98));
+    border: 1px solid rgba(112, 137, 181, .16);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .22);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.terminal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(44, 230, 255, .06), transparent 42%, rgba(44, 230, 255, .03));
+    opacity: 0;
+    transition: opacity .35s ease;
+    z-index: -1;
+}
+
+.terminal:hover {
+    transform: translateY(-5px);
+    border-color: rgba(44, 230, 255, .26);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .32);
+}
+
+.terminal:hover::before {
+    opacity: 1;
+}
+
+.termHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: .75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, .05);
+}
+
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.dotR {
+    background: #f87171;
+}
+
+.dotY {
+    background: #facc15;
+}
+
+.dotG {
+    background: #4ade80;
+}
+
+.liveBadge {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(44, 230, 255, .07);
+    border: 1px solid rgba(44, 230, 255, .18);
+    color: var(--cyan, #2ce6ff);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.liveDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--cyan, #2ce6ff);
+    box-shadow: 0 0 6px var(--cyan, #2ce6ff);
+    animation: pulseRing 1.5s ease-in-out infinite;
+}
+
+.termBody {
+    padding: 1.45rem;
+    font-family: 'Courier New', monospace;
+    font-size: .84rem;
+    line-height: 1.9;
+}
+
+.tBrace {
+    color: rgba(255, 255, 255, .4);
+}
+
+.tKey {
+    color: #93c5fd;
+}
+
+.tColon {
+    color: rgba(255, 255, 255, .25);
+}
+
+.tStr {
+    color: #f9a8d4;
+}
+
+.tNum {
+    color: #86efac;
+}
+
+.tCrit {
+    color: #fca5a5;
+}
+
+.tWarn {
+    color: #fbbf24;
+}
+
+.tIndent {
+    padding-left: 1.4em;
+}
+
+.tIndent2 {
+    padding-left: 2.8em;
+}
+
+.tMt {
+    margin-top: 2px;
+}
+
+.termCursor {
+    display: inline-block;
+    width: 2px;
+    height: .95em;
+    background: var(--cyan, #2ce6ff);
+    vertical-align: -.05em;
+    animation: blinkCursor 1.1s step-end infinite;
+    margin-left: 2px;
+}
+
+.termGlow {
+    position: absolute;
+    inset: auto 0 -100px 0;
+    height: 160px;
+    background: rgba(44, 230, 255, .04);
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+    .topGrid {
+        gap: 3rem;
+    }
+
+    .bottomGrid {
+        gap: 3rem;
+    }
+
+    .heading {
+        font-size: 2.5rem;
+    }
+
+    .bottomTitle,
+    .connectTitle {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .topGrid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .bottomGrid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        align-items: start;
+    }
+
+    .heading {
+        font-size: 2.2rem;
+    }
+
+    .bottomTitle,
+    .connectTitle {
+        font-size: 2.2rem;
+    }
+
+    .network {
+        max-width: 360px;
+    }
+
+    .imageWrap {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .steps {
+        height: auto;
+    }
+
+    .step {
+        flex: unset;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 4rem 0;
+    }
+
+    .heading {
+        font-size: 1.95rem;
+    }
+
+    .bottomTitle,
+    .connectTitle {
+        font-size: 1.95rem;
+    }
+
+    .subText {
+        font-size: .95rem;
+    }
+
+    .divider {
+        margin: 3rem 0;
+    }
+
+    .step {
+        padding: 1.2rem;
+    }
+
+    .stepTitle {
+        font-size: 1rem;
+    }
+
+    .stepText {
+        font-size: .9rem;
+    }
+
+    .termBody {
+        padding: 1.2rem;
+        font-size: .8rem;
+    }
+
+    .network {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .heading {
+        font-size: 1.7rem;
+    }
+
+    .bottomTitle,
+    .connectTitle {
+        font-size: 1.7rem;
+    }
+
+    .step {
+        border-radius: 20px;
+        padding: 1rem;
+    }
+
+    .stepIcon {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 12px;
+    }
+
+    .terminal {
+        border-radius: 20px;
+    }
+
+    .termBody {
+        font-size: .75rem;
+    }
+}
