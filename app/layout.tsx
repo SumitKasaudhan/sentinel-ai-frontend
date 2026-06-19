@@ -19,12 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      signInUrl="/auth/login"
-      signUpUrl="/auth/register"
-      signInFallbackRedirectUrl="/dashboard"
-      afterSignOutUrl="/"
-    >
+<ClerkProvider
+  signInUrl="/auth/login"
+  signUpUrl="/auth/register"
+  signInFallbackRedirectUrl="/dashboard"
+  signUpFallbackRedirectUrl="/dashboard"  // ← YE ADD KARO
+  afterSignOutUrl="/"
+>
       {/* FIX: Removed data-scroll-behavior="smooth" — this is not a valid HTML
           attribute and has no effect on browsers. Add scroll-behavior: smooth
           to your globals.css on the html selector instead if needed. */}
