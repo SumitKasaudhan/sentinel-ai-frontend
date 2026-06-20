@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
-const BASE = process.env.BACKEND_URL || 'http://localhost:5000/api';
+const BASE = `${process.env.BACKEND_URL || 'http://localhost:5000'}/api`;
 
 async function parseRes(res: Response) {
   const text = await res.text();

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
-const BASE = process.env.BACKEND_URL; // server-side only, no infinite loop
+const BASE = `${process.env.BACKEND_URL || 'http://localhost:5000'}/api`; // server-side only, no infinite loop
 
 async function proxy(req: NextRequest, method: string) {
   const { userId, getToken } = await auth();

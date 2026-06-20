@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
-const BASE = process.env.BACKEND_URL || 'http://localhost:5000/api';
+const BASE = `${process.env.BACKEND_URL || 'http://localhost:5000'}/api`;
 
 export async function GET() {
   const { userId, getToken } = await auth();
