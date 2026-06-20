@@ -3,12 +3,16 @@ import { auth } from '@clerk/nextjs/server';
 
 const BASE = `${process.env.BACKEND_URL || 'http://localhost:5000'}/api`;
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const { userId, getToken } = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const token = await getToken();
   try {
-    const res = await fetch(`${BASE}/threats/${params.id}`, {
+    const res = await fetch(`${BASE}/threats/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: 'no-store',
     });
