@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
-const BASE = process.env.NEXT_PUBLIC_API_URL;
+const BASE = process.env.BACKEND_URL; // server-side only, no infinite loop
 
 async function proxy(req: NextRequest, method: string) {
   const { userId, getToken } = await auth();
@@ -20,16 +20,30 @@ async function proxy(req: NextRequest, method: string) {
     cache: 'no-store',
   };
 
-  if (method === 'POST') {
-    init.body = JSON.stringify(await req.json());
+  if (method === 'POST' || method === 'PATCH') {
+    try { init.body = JSON.stringify(await req.json()); } catch {}
   }
 
-  const res = await fetch(url.toString(), init);
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+  try {
+    const res = await fetch(url.toString(), init);
+    const text = await res.text();
+    
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      // Backend ne plain text diya (jaise 429 message) — wrap karo
+      data = { error: text };
+    }
+    
+    return NextResponse.json(data, { status: res.status });
+  } catch (err) {
+    console.error('[notifications proxy]', err);
+    return NextResponse.json({ error: 'Backend unreachable' }, { status: 502 });
+  }
 }
 
-export async function GET(req: NextRequest)   { return proxy(req, 'GET'); }
-export async function POST(req: NextRequest)  { return proxy(req, 'POST'); }
-export async function PATCH(req: NextRequest) { return proxy(req, 'PATCH'); }
-export async function DELETE(req: NextRequest){ return proxy(req, 'DELETE'); }
+export async function GET(req: NextRequest)    { return proxy(req, 'GET'); }
+export async function POST(req: NextRequest)   { return proxy(req, 'POST'); }
+export async function PATCH(req: NextRequest)  { return proxy(req, 'PATCH'); }
+export async function DELETE(req: NextRequest) { return proxy(req, 'DELETE'); }
