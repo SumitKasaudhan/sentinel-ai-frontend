@@ -43,6 +43,10 @@ export default function LoginPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [appleLoading, setAppleLoading] = useState(false);
 
+  // ── OTP / verification state ───────────────────────────────────────────────
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+
   // Redirect already-authenticated users safely after render
   useEffect(() => {
     if (isSignedIn) {
@@ -77,54 +81,90 @@ export default function LoginPage() {
   };
 
   // ── EMAIL + PASSWORD LOGIN ────────────────────────────────────────────────────
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!isLoaded) return;
-  if (!validateForm()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoaded) return;
+    if (!validateForm()) return;
 
-  try {
-    setLoading(true);
-    setError("");
+    try {
+      setLoading(true);
+      setError("");
 
-    if (isSignedIn) {
-      router.replace("/dashboard");
-      return;
+      if (isSignedIn) {
+        router.replace("/dashboard");
+        return;
+      }
+
+      const result = await signIn.create({
+        identifier: formData.email,
+        password: formData.password,
+      });
+
+      console.log("SIGN IN RESULT:", result.status, result);
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        window.location.href = "/dashboard";
+      } else if (
+        result.status === "needs_first_factor" ||
+        result.status === "needs_client_trust"
+      ) {
+        // Clerk device/client trust ya extra factor maang raha hai —
+        // email_code se verify karwate hain
+        const emailFactor = result.supportedFirstFactors?.find(
+          (f) => f.strategy === "email_code"
+        ) as { strategy: "email_code"; emailAddressId: string } | undefined;
+
+        if (emailFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor.emailAddressId,
+          });
+          setNeedsVerification(true);
+          setError("Verification code bheja gaya hai email pe.");
+        } else {
+          setError("Additional verification required.");
+        }
+      } else {
+        setError(`Login incomplete (${result.status}). Please try again.`);
+      }
+    } catch (err: any) {
+      console.error("LOGIN ERROR:", err);
+      setError(err.errors?.[0]?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const result = await signIn.create({
-      identifier: formData.email,
-      password: formData.password,
-    });
+  // ── VERIFY OTP CODE ───────────────────────────────────────────────────────────
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoaded || !otpCode.trim()) return;
 
-    console.log("SIGN IN RESULT:", result.status, result);
+    try {
+      setLoading(true);
+      setError("");
 
-    if (result.status === "complete") {
-      await setActive({ session: result.createdSessionId });
-      window.location.href = "/dashboard";
- } else if (result.status === "needs_first_factor") {
-  const emailFactor = result.supportedFirstFactors?.find(
-    (f) => f.strategy === "email_code"
-  ) as { strategy: "email_code"; emailAddressId: string } | undefined;
+      const result = await signIn.attemptFirstFactor({
+        strategy: "email_code",
+        code: otpCode,
+      });
 
-  if (emailFactor) {
-    await signIn.prepareFirstFactor({
-      strategy: "email_code",
-      emailAddressId: emailFactor.emailAddressId,
-    });
-    setError("Verification code bheja gaya hai email pe. Check karo.");
-  } else {
-    setError("Additional verification required.");
-  }
-} else {
-  setError(`Login incomplete (${result.status}). Please try again.`);
-}
-  } catch (err: any) {
-    console.error("LOGIN ERROR:", err);
-    setError(err.errors?.[0]?.message || "Login failed. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+      console.log("OTP RESULT:", result.status, result);
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        window.location.href = "/dashboard";
+      } else {
+        setError(`Verification incomplete (${result.status}).`);
+      }
+    } catch (err: any) {
+      console.error("OTP ERROR:", err);
+      setError(err.errors?.[0]?.message || "Invalid code. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ── GOOGLE LOGIN ──────────────────────────────────────────────────────────────
   const handleGoogleLogin = async () => {
@@ -194,136 +234,171 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             )}
 
-            {/* SOCIAL BUTTONS ROW — Google + Apple side by side */}
-            <div className="social-buttons-row">
-              <button
-                type="button"
-                className="google-btn"
-                onClick={handleGoogleLogin}
-                disabled={loading || googleLoading || appleLoading}
-              >
-                {googleLoading ? (
-                  <span className="btn-spinner" />
-                ) : (
-                  <Image
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    alt="Google"
-                    width={18}
-                    height={18}
-                  />
-                )}
-                <span>{googleLoading ? "Connecting..." : "Google"}</span>
-              </button>
-
-              <button
-                type="button"
-                className="apple-btn"
-                onClick={handleAppleLogin}
-                disabled={loading || googleLoading || appleLoading}
-              >
-                {appleLoading ? (
-                  <span className="btn-spinner" />
-                ) : (
-                  /* Apple SVG logo */
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 814 1000"
-                    fill="currentColor"
-                  >
-                    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105.7-57.2-155.5-127.4C46.7 790.7 0 663 0 541.8c0-194.3 127.4-297.5 252.8-297.5 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z" />
-                  </svg>
-                )}
-                <span>{appleLoading ? "Connecting..." : "Apple"}</span>
-              </button>
-            </div>
-
-            <div className="divider">
-              <span />
-              <p>OR</p>
-              <span />
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="input-group">
-                <label>EMAIL •</label>
-
-                <div className="input-wrapper">
-                  <Mail size={18} />
-                  <input
-                    type="email"
-                    name="email"
-                    autoComplete="email"
-                    placeholder="Enter email..."
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {errors.email && (
-                  <p className="error-text">{errors.email}</p>
-                )}
-              </div>
-
-              <div className="input-group">
-                <label>PASSWORD •</label>
-
-                <div className="input-wrapper">
-                  <Lock size={18} />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    autoComplete="current-password"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
+            {!needsVerification && (
+              <>
+                {/* SOCIAL BUTTONS ROW — Google + Apple side by side */}
+                <div className="social-buttons-row">
                   <button
                     type="button"
-                    className="eye-btn"
-                    onClick={() => setShowPassword(!showPassword)}
+                    className="google-btn"
+                    onClick={handleGoogleLogin}
+                    disabled={loading || googleLoading || appleLoading}
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {googleLoading ? (
+                      <span className="btn-spinner" />
+                    ) : (
+                      <Image
+                        src="https://www.svgrepo.com/show/475656/google-color.svg"
+                        alt="Google"
+                        width={18}
+                        height={18}
+                      />
+                    )}
+                    <span>{googleLoading ? "Connecting..." : "Google"}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="apple-btn"
+                    onClick={handleAppleLogin}
+                    disabled={loading || googleLoading || appleLoading}
+                  >
+                    {appleLoading ? (
+                      <span className="btn-spinner" />
+                    ) : (
+                      /* Apple SVG logo */
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 814 1000"
+                        fill="currentColor"
+                      >
+                        <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105.7-57.2-155.5-127.4C46.7 790.7 0 663 0 541.8c0-194.3 127.4-297.5 252.8-297.5 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z" />
+                      </svg>
+                    )}
+                    <span>{appleLoading ? "Connecting..." : "Apple"}</span>
                   </button>
                 </div>
 
-                {errors.password && (
-                  <p className="error-text">{errors.password}</p>
-                )}
+                <div className="divider">
+                  <span />
+                  <p>OR</p>
+                  <span />
+                </div>
+              </>
+            )}
+
+            {!needsVerification ? (
+              <form onSubmit={handleSubmit}>
+                <div className="input-group">
+                  <label>EMAIL •</label>
+
+                  <div className="input-wrapper">
+                    <Mail size={18} />
+                    <input
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      placeholder="Enter email..."
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  {errors.email && (
+                    <p className="error-text">{errors.email}</p>
+                  )}
+                </div>
+
+                <div className="input-group">
+                  <label>PASSWORD •</label>
+
+                  <div className="input-wrapper">
+                    <Lock size={18} />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      autoComplete="current-password"
+                      placeholder="••••••••"
+                      value={formData.password}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      className="eye-btn"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+
+                  {errors.password && (
+                    <p className="error-text">{errors.password}</p>
+                  )}
+                </div>
+
+                <div className="login-options">
+                  <label className="remember-box">
+                    <input
+                      type="checkbox"
+                      name="remember"
+                      checked={formData.remember}
+                      onChange={handleChange}
+                    />
+                    <span className="custom-checkbox">
+                      {formData.remember && <Check size={12} />}
+                    </span>
+                    <span className="remember-text">Remember Me</span>
+                  </label>
+
+                  <Link href="/auth/forgot-password">Forgot Password?</Link>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`login-btn ${loading ? "loading" : ""}`}
+                  disabled={loading || googleLoading || appleLoading}
+                >
+                  {loading ? "Connecting..." : "Login"}
+                  <ArrowRight size={18} />
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleVerifyOtp}>
+                <div className="input-group">
+                  <label>VERIFICATION CODE •</label>
+
+                  <div className="input-wrapper">
+                    <Mail size={18} />
+                    <input
+                      type="text"
+                      name="otp"
+                      autoComplete="one-time-code"
+                      placeholder="Enter 6-digit code"
+                      value={otpCode}
+                      onChange={(e) => setOtpCode(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`login-btn ${loading ? "loading" : ""}`}
+                  disabled={loading || !otpCode.trim()}
+                >
+                  {loading ? "Verifying..." : "Verify Code"}
+                  <ArrowRight size={18} />
+                </button>
+              </form>
+            )}
+
+            {!needsVerification && (
+              <div className="signup-link">
+                <span>Don't have an account?</span>
+                <Link href="/auth/register">Register</Link>
               </div>
-
-              <div className="login-options">
-                <label className="remember-box">
-                  <input
-                    type="checkbox"
-                    name="remember"
-                    checked={formData.remember}
-                    onChange={handleChange}
-                  />
-                  <span className="custom-checkbox">
-                    {formData.remember && <Check size={12} />}
-                  </span>
-                  <span className="remember-text">Remember Me</span>
-                </label>
-
-                <Link href="/auth/forgot-password">Forgot Password?</Link>
-              </div>
-
-              <button
-                type="submit"
-                className={`login-btn ${loading ? "loading" : ""}`}
-                disabled={loading || googleLoading || appleLoading}
-              >
-                {loading ? "Connecting..." : "Login"}
-                <ArrowRight size={18} />
-              </button>
-            </form>
-
-            <div className="signup-link">
-              <span>Don't have an account?</span>
-              <Link href="/auth/register">Register</Link>
-            </div>
+            )}
           </div>
         </div>
       </main>
