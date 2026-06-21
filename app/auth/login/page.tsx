@@ -77,36 +77,42 @@ export default function LoginPage() {
   };
 
   // ── EMAIL + PASSWORD LOGIN ────────────────────────────────────────────────────
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isLoaded) return;
-    if (!validateForm()) return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!isLoaded) return;
+  if (!validateForm()) return;
 
-    try {
-      setLoading(true);
-      setError("");
+  try {
+    setLoading(true);
+    setError("");
 
-      if (isSignedIn) {
-        router.replace("/dashboard");
-        return;
-      }
-
-      const result = await signIn.create({
-        identifier: formData.email,
-        password: formData.password,
-      });
-
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        router.push("/dashboard");
-      }
-    } catch (err: any) {
-      console.error("LOGIN ERROR:", err);
-      setError(err.errors?.[0]?.message || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
+    if (isSignedIn) {
+      router.replace("/dashboard");
+      return;
     }
-  };
+
+    const result = await signIn.create({
+      identifier: formData.email,
+      password: formData.password,
+    });
+
+    if (result.status === "complete") {
+      await setActive({ session: result.createdSessionId });
+      // FIX: window.location se hard redirect — Clerk session
+      // fully set hone ka wait karta hai router.push se better
+      window.location.href = "/dashboard";
+    } else {
+      // result.status "needs_first_factor" etc. — unexpected state
+      console.log("Unexpected login status:", result.status);
+      setError("Login incomplete. Please try again.");
+    }
+  } catch (err: any) {
+    console.error("LOGIN ERROR:", err);
+    setError(err.errors?.[0]?.message || "Login failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // ── GOOGLE LOGIN ──────────────────────────────────────────────────────────────
   const handleGoogleLogin = async () => {
