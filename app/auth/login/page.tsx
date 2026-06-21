@@ -96,15 +96,26 @@ const handleSubmit = async (e: React.FormEvent) => {
       password: formData.password,
     });
 
+    console.log("SIGN IN RESULT:", result.status, result);
+
     if (result.status === "complete") {
       await setActive({ session: result.createdSessionId });
-      // FIX: window.location se hard redirect — Clerk session
-      // fully set hone ka wait karta hai router.push se better
       window.location.href = "/dashboard";
+    } else if (result.status === "needs_first_factor") {
+      const emailFactor = result.supportedFirstFactors?.find(
+        (f: any) => f.strategy === "email_code"
+      );
+      if (emailFactor) {
+        await signIn.prepareFirstFactor({
+          strategy: "email_code",
+          emailAddressId: emailFactor.emailAddressId,
+        });
+        setError("Verification code bheja gaya hai email pe. Check karo.");
+      } else {
+        setError("Additional verification required.");
+      }
     } else {
-      // result.status "needs_first_factor" etc. — unexpected state
-      console.log("Unexpected login status:", result.status);
-      setError("Login incomplete. Please try again.");
+      setError(`Login incomplete (${result.status}). Please try again.`);
     }
   } catch (err: any) {
     console.error("LOGIN ERROR:", err);
