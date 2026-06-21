@@ -43,7 +43,7 @@ export default function LoginPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [appleLoading, setAppleLoading] = useState(false);
 
-  // ── OTP / verification state ───────────────────────────────────────────────
+  // ── Email verification (OTP) state ──────────────────────────────────────────
   const [needsVerification, setNeedsVerification] = useState(false);
   const [otpCode, setOtpCode] = useState("");
 
@@ -68,11 +68,11 @@ export default function LoginPage() {
     let isValid = true;
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email required";
+      newErrors.email = "Email is required";
       isValid = false;
     }
     if (!formData.password.trim()) {
-      newErrors.password = "Password required";
+      newErrors.password = "Password is required";
       isValid = false;
     }
 
@@ -81,58 +81,60 @@ export default function LoginPage() {
   };
 
   // ── EMAIL + PASSWORD LOGIN ────────────────────────────────────────────────────
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!isLoaded) return;
-  if (!validateForm()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoaded) return;
+    if (!validateForm()) return;
 
-  try {
-    setLoading(true);
-    setError("");
+    try {
+      setLoading(true);
+      setError("");
 
-    if (isSignedIn) {
-      router.replace("/dashboard");
-      return;
-    }
-
-    const result = await signIn.create({
-      identifier: formData.email,
-      password: formData.password,
-    });
-
-    console.log("SIGN IN RESULT:", result.status, result);
-
-    if (result.status === "complete") {
-      await setActive({ session: result.createdSessionId });
-      window.location.href = "/dashboard";
-    } else if (
-      (result.status as string) === "needs_first_factor" ||
-      (result.status as string) === "needs_client_trust"
-    ) {
-      const emailFactor = result.supportedFirstFactors?.find(
-        (f) => f.strategy === "email_code"
-      ) as { strategy: "email_code"; emailAddressId: string } | undefined;
-
-      if (emailFactor) {
-        await signIn.prepareFirstFactor({
-          strategy: "email_code",
-          emailAddressId: emailFactor.emailAddressId,
-        });
-        setNeedsVerification(true);
-        setError("Verification code bheja gaya hai email pe.");
-      } else {
-        setError("Additional verification required.");
+      if (isSignedIn) {
+        router.replace("/dashboard");
+        return;
       }
-    } else {
-      setError(`Login incomplete (${result.status}). Please try again.`);
+
+      const result = await signIn.create({
+        identifier: formData.email,
+        password: formData.password,
+      });
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        // Hard redirect ensures the Clerk session is fully set
+        // before navigating, more reliable than router.push here
+        window.location.href = "/dashboard";
+      } else if (
+        (result.status as string) === "needs_first_factor" ||
+        (result.status as string) === "needs_client_trust"
+      ) {
+        // Clerk requires additional device/client trust verification —
+        // trigger an email OTP to verify the user
+        const emailFactor = result.supportedFirstFactors?.find(
+          (f) => f.strategy === "email_code"
+        ) as { strategy: "email_code"; emailAddressId: string } | undefined;
+
+        if (emailFactor) {
+          await signIn.prepareFirstFactor({
+            strategy: "email_code",
+            emailAddressId: emailFactor.emailAddressId,
+          });
+          setNeedsVerification(true);
+          setError("A verification code has been sent to your email.");
+        } else {
+          setError("Additional verification is required. Please try again.");
+        }
+      } else {
+        setError("Login incomplete. Please try again.");
+      }
+    } catch (err: any) {
+      console.error("LOGIN ERROR:", err);
+      setError(err.errors?.[0]?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  } catch (err: any) {
-    console.error("LOGIN ERROR:", err);
-    setError(err.errors?.[0]?.message || "Login failed. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // ── VERIFY OTP CODE ───────────────────────────────────────────────────────────
   const handleVerifyOtp = async (e: React.FormEvent) => {
@@ -148,13 +150,11 @@ const handleSubmit = async (e: React.FormEvent) => {
         code: otpCode,
       });
 
-      console.log("OTP RESULT:", result.status, result);
-
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         window.location.href = "/dashboard";
       } else {
-        setError(`Verification incomplete (${result.status}).`);
+        setError("Verification incomplete. Please try again.");
       }
     } catch (err: any) {
       console.error("OTP ERROR:", err);
