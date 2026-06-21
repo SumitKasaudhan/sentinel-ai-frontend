@@ -81,60 +81,58 @@ export default function LoginPage() {
   };
 
   // ── EMAIL + PASSWORD LOGIN ────────────────────────────────────────────────────
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isLoaded) return;
-    if (!validateForm()) return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!isLoaded) return;
+  if (!validateForm()) return;
 
-    try {
-      setLoading(true);
-      setError("");
+  try {
+    setLoading(true);
+    setError("");
 
-      if (isSignedIn) {
-        router.replace("/dashboard");
-        return;
-      }
-
-      const result = await signIn.create({
-        identifier: formData.email,
-        password: formData.password,
-      });
-
-      console.log("SIGN IN RESULT:", result.status, result);
-
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        window.location.href = "/dashboard";
-      } else if (
-        result.status === "needs_first_factor" ||
-        result.status === "needs_client_trust"
-      ) {
-        // Clerk device/client trust ya extra factor maang raha hai —
-        // email_code se verify karwate hain
-        const emailFactor = result.supportedFirstFactors?.find(
-          (f) => f.strategy === "email_code"
-        ) as { strategy: "email_code"; emailAddressId: string } | undefined;
-
-        if (emailFactor) {
-          await signIn.prepareFirstFactor({
-            strategy: "email_code",
-            emailAddressId: emailFactor.emailAddressId,
-          });
-          setNeedsVerification(true);
-          setError("Verification code bheja gaya hai email pe.");
-        } else {
-          setError("Additional verification required.");
-        }
-      } else {
-        setError(`Login incomplete (${result.status}). Please try again.`);
-      }
-    } catch (err: any) {
-      console.error("LOGIN ERROR:", err);
-      setError(err.errors?.[0]?.message || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
+    if (isSignedIn) {
+      router.replace("/dashboard");
+      return;
     }
-  };
+
+    const result = await signIn.create({
+      identifier: formData.email,
+      password: formData.password,
+    });
+
+    console.log("SIGN IN RESULT:", result.status, result);
+
+    if (result.status === "complete") {
+      await setActive({ session: result.createdSessionId });
+      window.location.href = "/dashboard";
+    } else if (
+      (result.status as string) === "needs_first_factor" ||
+      (result.status as string) === "needs_client_trust"
+    ) {
+      const emailFactor = result.supportedFirstFactors?.find(
+        (f) => f.strategy === "email_code"
+      ) as { strategy: "email_code"; emailAddressId: string } | undefined;
+
+      if (emailFactor) {
+        await signIn.prepareFirstFactor({
+          strategy: "email_code",
+          emailAddressId: emailFactor.emailAddressId,
+        });
+        setNeedsVerification(true);
+        setError("Verification code bheja gaya hai email pe.");
+      } else {
+        setError("Additional verification required.");
+      }
+    } else {
+      setError(`Login incomplete (${result.status}). Please try again.`);
+    }
+  } catch (err: any) {
+    console.error("LOGIN ERROR:", err);
+    setError(err.errors?.[0]?.message || "Login failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // ── VERIFY OTP CODE ───────────────────────────────────────────────────────────
   const handleVerifyOtp = async (e: React.FormEvent) => {
