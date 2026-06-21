@@ -20,21 +20,7 @@ import { getThreats, deleteThreat } from "@/services/threats.service";
 import "@/styles/dashboard/layout/dashboard.css";
 import "@/styles/dashboard/layout/dashboardv2.css";
 
-// ── Indian time greeting ─────────────────────────────────────────────────────
-function getGreeting(): { text: string; emoji: string } {
-  const hour = parseInt(
-    new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Kolkata",
-      hour: "numeric",
-      hour12: false,
-    })
-  );
-  if (hour >= 5  && hour < 12) return { text: "Good morning",   emoji: "👋" };
-  if (hour >= 12 && hour < 17) return { text: "Good afternoon", emoji: "☀️" };
-  if (hour >= 17 && hour < 21) return { text: "Good evening",   emoji: "🌆" };
-  return                               { text: "Good night",     emoji: "🌙" };
-}
-
+// ── IST date string ───────────────────────────────────────────────────────────
 function getISTDateString(): string {
   return new Date().toLocaleDateString("en-US", {
     timeZone: "Asia/Kolkata",
@@ -57,13 +43,6 @@ export default function DashboardPage() {
   const [threats, setThreats]               = useState<any[]>([]);
   const [token, setToken]                   = useState<string | null>(null);
   const [lastScanSeconds, setLastScanSeconds] = useState(0);
-  const [greeting, setGreeting]             = useState(getGreeting());
-
-  // Update greeting every minute
-  useEffect(() => {
-    const t = setInterval(() => setGreeting(getGreeting()), 60_000);
-    return () => clearInterval(t);
-  }, []);
 
   // ── Load dashboard data ────────────────────────────────────────────────────
   const loadDashboard = useCallback(async () => {
@@ -134,6 +113,10 @@ export default function DashboardPage() {
     || user?.emailAddresses?.[0]?.emailAddress?.split("@")[0]
     || "Admin";
 
+  const isNewUser = user?.createdAt
+    ? Date.now() - new Date(user.createdAt).getTime() < 5 * 60 * 1000
+    : false;
+
   const scanLabel = lastScanSeconds < 60
     ? `${lastScanSeconds}s ago`
     : `${Math.floor(lastScanSeconds / 60)}m ago`;
@@ -155,7 +138,7 @@ export default function DashboardPage() {
       <div className="dv2-topbar">
         <div className="dv2-topbar-left">
           <span className="dv2-greeting">
-            {greeting.text}, {displayName} {greeting.emoji}
+            {isNewUser ? "Welcome" : "Welcome back"}, {displayName}
           </span>
           <span className="dv2-date">
             {getISTDateString()}
@@ -163,6 +146,9 @@ export default function DashboardPage() {
               <> · {Number(dashboardStats.blockedThreats).toLocaleString()} threats blocked today</>
             )}
           </span>
+          {isNewUser && (
+            <p className="dv2-onboarding-hint">Run your first scan to see your security score.</p>
+          )}
         </div>
 
         <div className="dv2-topbar-right">

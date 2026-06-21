@@ -1844,3 +1844,18 @@
         display: none;
     }
 }
+
+.dv2-onboarding-hint {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 500;
+    color: #53EAFD;
+    background: rgba(0, 211, 243, 0.10);
+    border: 0.8px solid rgba(0, 211, 243, 0.25);
+    border-radius: 9999px;
+}
