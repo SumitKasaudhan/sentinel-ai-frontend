@@ -2761,3 +2761,139 @@
         width: 100vw;
     }
 }
+
+/* ──────────────────────────────────────────────────────────────────
+   34. RESPONSIVE – REPORTING STATUS HERO CARD
+   ────────────────────────────────────────────────────────────────── */
+
+/* Laptop */
+@media (max-width: 1024px) {
+    .rp-hero__inner {
+        padding: 22px;
+    }
+
+    .rp-hero__stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .rp-hero__stat {
+        padding: 12px 14px;
+    }
+
+    .rp-hero__title {
+        font-size: 19px;
+        line-height: 26px;
+    }
+
+    .rp-hero__subtitle {
+        font-size: 12px;
+        max-width: 100%;
+    }
+}
+
+/* Large mobile */
+@media (max-width: 640px) {
+    .rp-hero__inner {
+        padding: 18px;
+        gap: 16px;
+    }
+
+    .rp-hero__icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .rp-hero__status-value {
+        font-size: 19px;
+        line-height: 28px;
+    }
+
+    .rp-hero__stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .rp-hero__stat {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .rp-hero__stat-top {
+        align-items: flex-start;
+    }
+
+    .rp-hero__stat-label {
+        white-space: normal;
+        min-width: 0;
+        font-size: 9px;
+        letter-spacing: 0.6px;
+    }
+
+    .rp-hero__stat-value {
+        font-size: 17px;
+        line-height: 24px;
+    }
+
+    .rp-hero__stat-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .rp-hero__inner {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    .rp-hero__title {
+        font-size: 17px;
+        line-height: 24px;
+    }
+
+    .rp-hero__stats {
+        gap: 8px;
+    }
+
+    .rp-hero__stat {
+        padding: 10px 12px;
+    }
+
+    .rp-hero__stat-value {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .reports-page .rp-hero__sync-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+    .rp-hero__stats {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .rp-hero__stat {
+        padding: 10px 12px;
+    }
+}
+@media (max-width: 640px) {
+    .rp-hero__stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .rp-hero__stat:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+}

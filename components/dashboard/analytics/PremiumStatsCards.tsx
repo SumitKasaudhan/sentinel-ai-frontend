@@ -235,7 +235,7 @@ function QuickActionsCard({ onRefresh }: { onRefresh: () => Promise<void> }) {
       label: "Export Report",
       icon: <Download size={14} />,
       cls: "dv2-quick-btn--blue",
-      onClick: () => router.push("/dashboard/reports"),
+      onClick: () => router.push("/dashboard/report"),
     },
     {
       label: "View Event Logs",

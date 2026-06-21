@@ -18,6 +18,7 @@ import React, {
   useEffect, useRef, useState,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@clerk/nextjs';
 import {
   CheckCircle2, AlertTriangle, XCircle, Info, X,
   ShieldCheck, Download, Trash2, Share2, FileText,
@@ -139,6 +140,9 @@ function ToastStack({ toasts, onDismiss }: {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export default function NotificationProvider({ children }: { children: React.ReactNode }) {
+  const { getToken } = useAuth();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL; // already has /api suffix
+
   const [toasts,        setToasts]        = useState<Toast[]>([]);
   const [notifications, setNotifications] = useState<DbNotification[]>([]);
   const [unreadCount,   setUnreadCount]   = useState(0);
@@ -147,7 +151,12 @@ export default function NotificationProvider({ children }: { children: React.Rea
   // ── Fetch from DB ───────────────────────────────────────────────────────────
   const fetchNotifications = useCallback(async () => {
     try {
-      const res = await fetch('/api/notifications');
+      const token = await getToken();
+      if (!token) return;
+
+      const res = await fetch(`${API_URL}/notifications`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) return;
       const data = await res.json();
       setNotifications(data.notifications ?? []);
@@ -155,7 +164,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
     } catch {
       // silently fail — notifications are non-critical
     }
-  }, []);
+  }, [getToken]);
 
   // Poll every 45 seconds for new notifications from other sources
   useEffect(() => {
@@ -188,46 +197,71 @@ export default function NotificationProvider({ children }: { children: React.Rea
     timerRefs.current.set(id, timer);
 
     // 2. Save to DB async (fire-and-forget)
-    fetch('/api/notifications', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, type }),
-    })
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
+
+        const r = await fetch(`${API_URL}/notifications`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, description, type }),
+        });
+        if (!r.ok) return;
+        const data = await r.json();
         if (data?.notification) {
           // Prepend to local list instantly (no refetch needed)
           setNotifications((prev) => [data.notification, ...prev.slice(0, 49)]);
           setUnreadCount((c) => c + 1);
         }
-      })
-      .catch(() => { /* non-critical */ });
-  }, [dismissToast]);
+      } catch {
+        // non-critical
+      }
+    })();
+  }, [dismissToast, getToken]);
 
   // ── Mark all read ───────────────────────────────────────────────────────────
   const markAllRead = useCallback(async () => {
-    await fetch('/api/notifications', { method: 'PATCH' });
+    const token = await getToken();
+    if (!token) return;
+    await fetch(`${API_URL}/notifications`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+    });
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     setUnreadCount(0);
-  }, []);
+  }, [getToken]);
 
   // ── Clear all ───────────────────────────────────────────────────────────────
   const clearAll = useCallback(async () => {
-    await fetch('/api/notifications', { method: 'DELETE' });
+    const token = await getToken();
+    if (!token) return;
+    await fetch(`${API_URL}/notifications`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
     setNotifications([]);
     setUnreadCount(0);
-  }, []);
+  }, [getToken]);
 
   // ── Delete one ──────────────────────────────────────────────────────────────
   const deleteOne = useCallback(async (id: string) => {
-    await fetch(`/api/notifications?id=${id}`, { method: 'DELETE' });
+    const token = await getToken();
+    if (!token) return;
+    await fetch(`${API_URL}/notifications?id=${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
     setNotifications((prev) => {
       const removed = prev.find((n) => n.id === id);
       const next    = prev.filter((n) => n.id !== id);
       if (removed && !removed.read) setUnreadCount((c) => Math.max(0, c - 1));
       return next;
     });
-  }, []);
+  }, [getToken]);
 
   // Cleanup timers on unmount
   useEffect(() => {
