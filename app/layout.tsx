@@ -6,6 +6,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sentinel AI",
   description: "AI-powered intelligent web security platform",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 // FIX: ClerkProvider now wraps <html> instead of sitting inside <body>.
