@@ -338,7 +338,7 @@ export default function AboutPage() {
             <h2>Ready to strengthen your security posture?</h2>
             <p>Start monitoring your attack surface with Sentinel AI today.</p>
 
-            <Link href="/scan" className="about-cta-btn">
+            <Link href="/auth/register" className="about-cta-btn">
               <Terminal size={16} />
               Launch Free Scan
               <ArrowRight size={18} />
