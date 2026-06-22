@@ -53,8 +53,6 @@ useEffect(() => {
 useEffect(() => {
   if (!isLoaded || !signUp) return;
 
-  console.log("[SignUp Status]", signUp.status, signUp.missingFields, signUp.unverifiedFields);
-
   if (signUp.status === "complete") {
     setActive({ session: signUp.createdSessionId }).then(() => {
       router.replace("/dashboard");
@@ -63,7 +61,7 @@ useEffect(() => {
   }
 
   if (signUp.status === "missing_requirements") {
-    signUp.update({}).then((result) => {
+    signUp.update({ legalAccepted: true } as any).then((result) => {
       if (result.status === "complete") {
         setActive({ session: result.createdSessionId }).then(() => {
           router.replace("/dashboard");
