@@ -2,6 +2,8 @@
 
 import "@/styles/dashboard/vault/vault.css";
 
+import VaultSkeleton from "@/components/dashboard/skeletons/VaultSkeleton";
+
 import {
   FileText,
   Archive,
@@ -201,31 +203,36 @@ export default function VaultPage() {
   const drawerRef = useRef<HTMLDivElement>(null);
 
   /* ── Fetch ───────────────────────────────────────────────────── */
-  const fetchAll = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [ovRes, rpRes, scRes] = await Promise.all([
-        fetch("/api/vault/overview"),
-        fetch("/api/vault/reports"),
-        fetch("/api/vault/scans"),
-      ]);
-      if (!ovRes.ok) throw new Error(`Overview API error: ${ovRes.status}`);
-      if (!rpRes.ok) throw new Error(`Reports API error: ${rpRes.status}`);
-      if (!scRes.ok) throw new Error(`Scans API error: ${scRes.status}`);
-      const [ovData, rpData, scData]: [VaultOverview, Report[], Scan[]] =
-        await Promise.all([ovRes.json(), rpRes.json(), scRes.json()]);
-      setOverview(ovData);
-      setReports(rpData);
-      setScans(scData);
-      setBookmarks(new Set(rpData.filter((r) => r.bookmarked).map((r) => r.id)));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load vault data.");
-      notify("Vault Load Failed", "Could not fetch intelligence data", "error");
-    } finally {
-      setLoading(false);
+const fetchAll = useCallback(async () => {
+  const startTime = Date.now();
+  setLoading(true);
+  setError(null);
+  try {
+    const [ovRes, rpRes, scRes] = await Promise.all([
+      fetch("/api/vault/overview"),
+      fetch("/api/vault/reports"),
+      fetch("/api/vault/scans"),
+    ]);
+    if (!ovRes.ok) throw new Error(`Overview API error: ${ovRes.status}`);
+    if (!rpRes.ok) throw new Error(`Reports API error: ${rpRes.status}`);
+    if (!scRes.ok) throw new Error(`Scans API error: ${scRes.status}`);
+    const [ovData, rpData, scData]: [VaultOverview, Report[], Scan[]] =
+      await Promise.all([ovRes.json(), rpRes.json(), scRes.json()]);
+    setOverview(ovData);
+    setReports(rpData);
+    setScans(scData);
+    setBookmarks(new Set(rpData.filter((r) => r.bookmarked).map((r) => r.id)));
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "Failed to load vault data.");
+    notify("Vault Load Failed", "Could not fetch intelligence data", "error");
+  } finally {
+    const elapsed = Date.now() - startTime;
+    if (elapsed < 700) {
+      await new Promise((r) => setTimeout(r, 700 - elapsed));
     }
-  }, []);
+    setLoading(false);
+  }
+}, []);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
@@ -411,18 +418,12 @@ export default function VaultPage() {
     return <Icon size={11} className={`sort-icon${active ? " is-active" : ""}`} />;
   }, [sortKey, sortDir]);
 
-  /* ════════════════════════════════════════════════════════════
+
+/* ════════════════════════════════════════════════════════════
      RENDER — LOADING
      ════════════════════════════════════════════════════════════ */
   if (loading) {
-    return (
-      <div className="vault-page">
-        <div className="vault-loading">
-          <RefreshCw size={30} className="spin" />
-          <p>LOADING INTELLIGENCE VAULT…</p>
-        </div>
-      </div>
-    );
+    return <VaultSkeleton />;
   }
 
   /* ════════════════════════════════════════════════════════════

@@ -11,6 +11,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout/DashboardLayou
 import NotificationProvider from "@/components/dashboard/context/NotificationContext";
 import UserSyncProvider from "@/app/sso-callback/UserSyncProvider";
 
+
 export default async function Layout({
   children,
 }: {

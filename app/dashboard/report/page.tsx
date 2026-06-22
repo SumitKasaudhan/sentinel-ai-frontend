@@ -22,6 +22,7 @@ import {
   X, Check, Copy, ExternalLink, Tag, Calendar, HardDrive, Trash2,
 } from 'lucide-react';
 import type { Variants } from "framer-motion";
+import ReportsSkeleton from "@/components/dashboard/skeletons/ReportsSkeleton";
 import '@/styles/dashboard/reports/report2.css';
 
 // ─── Types ──────────────────────────────────────────────────────────────────────
@@ -466,24 +467,29 @@ export default function ReportsPage() {
   }, [selectedReport, showToast]);
 
   // ── Fetch ─────────────────────────────────────────────────────────────────────
-  const fetchAll = useCallback(async () => {
-    try {
-      const limit = showAll ? 100 : 20;
-      const [ovRes, chRes, lstRes] = await Promise.all([
-        fetch('/api/reports/overview'),
-        fetch('/api/reports/charts'),
-        fetch(`/api/reports/list?limit=${limit}`),
-      ]);
-      if (ovRes.ok)  setOverview(await ovRes.json());
-      if (chRes.ok)  setCharts(await chRes.json());
-      if (lstRes.ok) setListData(await lstRes.json());
-      setLastUpdated(new Date());
-    } catch (err) {
-      console.error('[ReportsPage] fetch error:', err);
-    } finally {
-      setLoading(false);
+const fetchAll = useCallback(async () => {
+  const startTime = Date.now();
+  try {
+    const limit = showAll ? 100 : 20;
+    const [ovRes, chRes, lstRes] = await Promise.all([
+      fetch('/api/reports/overview'),
+      fetch('/api/reports/charts'),
+      fetch(`/api/reports/list?limit=${limit}`),
+    ]);
+    if (ovRes.ok)  setOverview(await ovRes.json());
+    if (chRes.ok)  setCharts(await chRes.json());
+    if (lstRes.ok) setListData(await lstRes.json());
+    setLastUpdated(new Date());
+  } catch (err) {
+    console.error('[ReportsPage] fetch error:', err);
+  } finally {
+    const elapsed = Date.now() - startTime;
+    if (elapsed < 700) {
+      await new Promise((r) => setTimeout(r, 700 - elapsed));
     }
-  }, [showAll]);
+    setLoading(false);
+  }
+}, [showAll]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
@@ -532,6 +538,10 @@ export default function ReportsPage() {
   const pieTooltipRenderer = makePieTooltipRenderer(categoryData);
 
   // ── Render ────────────────────────────────────────────────────────────────────
+    if (loading) {
+    return <ReportsSkeleton />;
+  }
+  
   return (
     <div className="reports-page">
       {/* Toast */}

@@ -13,6 +13,7 @@ import {
   Star,
   Lock,
 } from "lucide-react";
+import PricingSkeleton from "@/components/dashboard/skeletons/PricingSkeleton";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -108,15 +109,15 @@ const PLANS: Plan[] = [
 // ─── Feature comparison table rows ───────────────────────────────────────────
 
 const COMPARISON = [
-  { feature: "Scan targets",       free: "3",       pro: "Unlimited", enterprise: "Unlimited" },
-  { feature: "AI analysis",        free: "Basic",   pro: "Deep",      enterprise: "Custom model" },
-  { feature: "Dark web lookup",    free: false,     pro: true,        enterprise: true },
-  { feature: "Report export",      free: false,     pro: true,        enterprise: true },
-  { feature: "API access",         free: false,     pro: true,        enterprise: true },
-  { feature: "SSO / SAML",         free: false,     pro: false,       enterprise: true },
-  { feature: "Dedicated engineer", free: false,     pro: false,       enterprise: true },
-  { feature: "Log retention",      free: "7 days",  pro: "90 days",   enterprise: "Unlimited" },
-  { feature: "Support SLA",        free: "Community", pro: "< 4h",    enterprise: "1h + dedicated" },
+  { feature: "Scan targets",       free: "3",         pro: "Unlimited", enterprise: "Unlimited" },
+  { feature: "AI analysis",        free: "Basic",     pro: "Deep",      enterprise: "Custom model" },
+  { feature: "Dark web lookup",    free: false,       pro: true,        enterprise: true },
+  { feature: "Report export",      free: false,       pro: true,        enterprise: true },
+  { feature: "API access",         free: false,       pro: true,        enterprise: true },
+  { feature: "SSO / SAML",         free: false,       pro: false,       enterprise: true },
+  { feature: "Dedicated engineer", free: false,       pro: false,       enterprise: true },
+  { feature: "Log retention",      free: "7 days",    pro: "90 days",   enterprise: "Unlimited" },
+  { feature: "Support SLA",        free: "Community", pro: "< 4h",      enterprise: "1h + dedicated" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -127,14 +128,10 @@ export default function DashboardPricingPage() {
 
   const [loadingPlan, setLoadingPlan] = useState<PlanKey | null>(null);
   const [error, setError]             = useState<string | null>(null);
-
-  // ── Subscription status ──────────────────────────────────────────────────
-  // Page ko pata hona chahiye user already Pro hai ya nahi, taaki
-  // already-subscribed user ko dobara "Deploy Pro" na dikhaya jaye
-  // (jo backend se 409 ALREADY_SUBSCRIBED return karega).
-  const [isPro, setIsPro]               = useState(false);
+  const [isPro, setIsPro]             = useState(false);
   const [statusLoaded, setStatusLoaded] = useState(false);
 
+  // ── Subscription status ──────────────────────────────────────────────────
   useEffect(() => {
     const loadStatus = async () => {
       try {
@@ -150,10 +147,6 @@ export default function DashboardPricingPage() {
         setIsPro(!!sub && sub.plan === "pro" && sub.status === "active");
       } catch (err) {
         console.error("[pricing] failed to load subscription status:", err);
-        // Fail-open on display only — agar status check fail ho jaye,
-        // button active hi rehta hai; backend duplicate-checkout guard
-        // hai hi, isliye worst case ek extra click + 409 error hoga,
-        // koi galat charge nahi hoga.
       } finally {
         setStatusLoaded(true);
       }
@@ -162,9 +155,10 @@ export default function DashboardPricingPage() {
     loadStatus();
   }, [getToken]);
 
-  // ── Checkout handler ────────────────────────────────────────────────────
-  // User is already authenticated here (dashboard is protected by middleware).
-  // The API route grabs their Clerk email server-side — no email needed client-side.
+  // ── Skeleton — useEffect ke bahar, early return ──────────────────────────
+  if (!statusLoaded) return <PricingSkeleton />;
+
+  // ── Checkout handler ─────────────────────────────────────────────────────
   const handleCheckout = async (planKey: PlanKey) => {
     setLoadingPlan(planKey);
     setError(null);
@@ -179,15 +173,11 @@ export default function DashboardPricingPage() {
       const data = await res.json();
 
       if (!res.ok || !data.url) {
-        // FIX: backend sends `message` (e.g. "Pro subscription already
-        // active."), not `error` — reading data.error here always came
-        // back undefined and silently swallowed the real reason.
         throw new Error(
           data.message || data.error || "Failed to create checkout session."
         );
       }
 
-      // Redirect to Dodo checkout — user is logged in so email is pre-filled
       window.location.href = data.url;
     } catch (err: any) {
       setError(err.message ?? "Something went wrong. Please try again.");
@@ -196,16 +186,16 @@ export default function DashboardPricingPage() {
   };
 
   const handlePlanClick = (plan: Plan) => {
-    if (plan.key === "free") return;                  // already on free
-    if (plan.key === "pro" && isPro) return;           // already on pro
-    if (plan.key === "enterprise") {                   // sales contact
+    if (plan.key === "free") return;
+    if (plan.key === "pro" && isPro) return;
+    if (plan.key === "enterprise") {
       window.open("mailto:sales@sentinelai.io?subject=Enterprise%20Inquiry", "_blank");
       return;
     }
     handleCheckout(plan.key as PlanKey);
   };
 
-  // ── Render ──────────────────────────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="dash-pricing">
 
@@ -255,10 +245,7 @@ export default function DashboardPricingPage() {
             plan.key === "free" ? !isPro : plan.key === "pro" ? isPro : false;
 
           const ctaLabel = isCurrentPlan ? "Current Plan" : plan.cta;
-          const ctaDisabled =
-            isCurrentPlan ||
-            !statusLoaded ||
-            loadingPlan !== null;
+          const ctaDisabled = isCurrentPlan || loadingPlan !== null;
 
           return (
             <motion.div

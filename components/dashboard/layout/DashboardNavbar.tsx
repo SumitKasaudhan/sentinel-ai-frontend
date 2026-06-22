@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useNotifications } from "@/components/dashboard/context/NotificationContext";
 import type { DbNotification } from "@/components/dashboard/context/NotificationContext";
+import NotificationsSkeleton from "@/components/dashboard/skeletons/NotificationsSkeleton";
 
 interface Props {
   setSidebarOpen: (value: boolean) => void;
@@ -25,13 +26,13 @@ interface Props {
 
 // ── Static searchable pages ────────────────────────────────────────────────
 const PAGES = [
-  { label: "Dashboard",          desc: "Overview & stats",             href: "/dashboard",                    icon: "dashboard" },
-  { label: "Threat Intelligence",desc: "Scan & detect threats",        href: "/dashboard/threat-intelligence", icon: "shield"    },
-  { label: "Network Shield",     desc: "Network monitoring",           href: "/dashboard/network-shield",      icon: "network"   },
-  { label: "Vault",              desc: "Reports & scan history",       href: "/dashboard/vault",               icon: "vault"     },
-  { label: "AI Terminal",        desc: "AI-powered security assistant",href: "/dashboard/ai-terminal",         icon: "terminal"  },
-  { label: "Settings",           desc: "Account & preferences",        href: "/dashboard/settings",            icon: "settings"  },
-  { label: "Pricing",            desc: "Upgrade to Pro",               href: "/dashboard/pricing",             icon: "zap"       },
+  { label: "Dashboard",           desc: "Overview & stats",              href: "/dashboard",                     icon: "dashboard" },
+  { label: "Threat Intelligence", desc: "Scan & detect threats",         href: "/dashboard/threat-intelligence", icon: "shield"    },
+  { label: "Network Shield",      desc: "Network monitoring",            href: "/dashboard/network-shield",      icon: "network"   },
+  { label: "Vault",               desc: "Reports & scan history",        href: "/dashboard/vault",               icon: "vault"     },
+  { label: "AI Terminal",         desc: "AI-powered security assistant", href: "/dashboard/ai-terminal",         icon: "terminal"  },
+  { label: "Settings",            desc: "Account & preferences",         href: "/dashboard/settings",            icon: "settings"  },
+  { label: "Pricing",             desc: "Upgrade to Pro",                href: "/dashboard/pricing",             icon: "zap"       },
 ];
 
 interface SearchResult {
@@ -85,25 +86,26 @@ function timeAgo(dateStr: string) {
 
 // ── Main component ─────────────────────────────────────────────────────────
 export default function DashboardNavbar({ setSidebarOpen }: Props) {
-  const router  = useRouter();
+  const router       = useRouter();
   const { getToken } = useAuth();
 
   const [profileOpen,      setProfileOpen]      = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   // Search state
-  const [query,       setQuery]       = useState("");
-  const [results,     setResults]     = useState<SearchResult[]>([]);
-  const [searchOpen,  setSearchOpen]  = useState(false);
-  const [searching,   setSearching]   = useState(false);
-  const [activeIdx,   setActiveIdx]   = useState(-1);
+  const [query,      setQuery]      = useState("");
+  const [results,    setResults]    = useState<SearchResult[]>([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searching,  setSearching]  = useState(false);
+  const [activeIdx,  setActiveIdx]  = useState(-1);
 
   const { signOut } = useClerk();
   const { user }    = useUser();
   const { isPro, isLoading: subLoading } = useSubscription();
 
   const {
-    notifications, unreadCount, markAllRead, deleteOne, clearAll,
+    notifications, unreadCount, loadingNotifs,
+    markAllRead, deleteOne, clearAll,
   } = useNotifications();
 
   const clerkAvatar = user?.imageUrl || "";
@@ -147,7 +149,6 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
       return;
     }
 
-    // 1. Static pages filter
     const pageResults: SearchResult[] = PAGES
       .filter((p) =>
         p.label.toLowerCase().includes(trimmed) ||
@@ -162,7 +163,6 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
         icon:  p.icon,
       }));
 
-    // 2. Live threat search from backend
     let threatResults: SearchResult[] = [];
     try {
       setSearching(true);
@@ -186,7 +186,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
         }));
       }
     } catch {
-      // silent — page results still show
+      // silent
     } finally {
       setSearching(false);
     }
@@ -197,7 +197,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
     setActiveIdx(-1);
   }, [getToken]);
 
-  // ── Debounced input handler ──────────────────────────────────────────────
+  // ── Debounced input ──────────────────────────────────────────────────────
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setQuery(val);
@@ -208,7 +208,6 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
   // ── Keyboard navigation ──────────────────────────────────────────────────
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!searchOpen) return;
-
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIdx((i) => Math.min(i + 1, results.length - 1));
@@ -218,10 +217,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
     } else if (e.key === "Enter") {
       e.preventDefault();
       const target = activeIdx >= 0 ? results[activeIdx] : results[0];
-      if (target?.href) {
-        router.push(target.href);
-        clearSearch();
-      }
+      if (target?.href) { router.push(target.href); clearSearch(); }
     } else if (e.key === "Escape") {
       clearSearch();
     }
@@ -274,7 +270,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
           <span>Sentinel AI</span>
         </Link>
 
-        {/* ── SEARCH ──────────────────────────────────────────────────── */}
+        {/* ── SEARCH ── */}
         <div className="search-wrapper" ref={searchRef}>
           <div className={`search-box ${searchOpen ? "search-box--active" : ""}`}>
             {searching
@@ -314,7 +310,6 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
                   </div>
                 ) : (
                   <>
-                    {/* Pages section */}
                     {results.some((r) => r.type === "page") && (
                       <div className="search-section">
                         <span className="search-section-label">Pages</span>
@@ -335,11 +330,10 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
                       </div>
                     )}
 
-                    {/* Threats section */}
                     {results.some((r) => r.type === "threat") && (
                       <div className="search-section">
                         <span className="search-section-label">Threats</span>
-                        {results.filter((r) => r.type === "threat").map((r, i) => {
+                        {results.filter((r) => r.type === "threat").map((r) => {
                           const idx = results.findIndex((x) => x.id === r.id);
                           return (
                             <button
@@ -374,7 +368,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
 
       <div className="navbar-right">
 
-        {/* ── UPGRADE / PRO BADGE ─────────────────────────────────────── */}
+        {/* ── UPGRADE / PRO BADGE ── */}
         {!subLoading && (
           isPro ? (
             <div className="pro-badge" title="Pro Plan Active">
@@ -393,7 +387,7 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
           )
         )}
 
-        {/* ── NOTIFICATIONS ───────────────────────────────────────────── */}
+        {/* ── NOTIFICATIONS ── */}
         <div className="navbar-dropdown-wrapper" ref={notificationRef}>
           <button
             className="navbar-icon-btn"
@@ -436,7 +430,9 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
                 </div>
 
                 <div className="notifications-list">
-                  {notifications.length === 0 ? (
+                  {loadingNotifs ? (
+                    <NotificationsSkeleton />
+                  ) : notifications.length === 0 ? (
                     <div className="notif-empty">
                       <Bell size={28} />
                       <p>No notifications yet</p>
@@ -471,12 +467,12 @@ export default function DashboardNavbar({ setSidebarOpen }: Props) {
           </AnimatePresence>
         </div>
 
-        {/* ── SETTINGS ────────────────────────────────────────────────── */}
+        {/* ── SETTINGS ── */}
         <Link href="/dashboard/settings" className="navbar-icon-btn">
           <Settings size={17} />
         </Link>
 
-        {/* ── PROFILE ─────────────────────────────────────────────────── */}
+        {/* ── PROFILE ── */}
         <div className="navbar-dropdown-wrapper" ref={profileRef}>
           <button
             className="profile-avatar"

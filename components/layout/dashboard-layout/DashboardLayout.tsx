@@ -11,6 +11,8 @@ import {
 
 import DashboardNavbar from "../../dashboard/layout/DashboardNavbar";
 import DashboardSidebar from "../../dashboard/layout/DashboardSidebar";
+import NavbarSkeleton from "@/components/dashboard/skeletons/NavbarSkeleton";
+import SidebarSkeleton from "@/components/dashboard/skeletons/SidebarSkeleton";
 
 import { syncUserToSupabase } from "@/lib/syncUser";
 
@@ -88,12 +90,19 @@ export default function DashboardLayout({
   }, []);
 
   /* ======================================
-     WAIT FOR CLERK
+     WAIT FOR CLERK — show skeleton
   ====================================== */
 
-  if (!isLoaded) {
-    return null;
-  }
+if (!isLoaded) {
+  return (
+    <div className="dashboard-shell">
+      <SidebarSkeleton />
+      <div className="dashboard-main">
+        <NavbarSkeleton />
+      </div>
+    </div>
+  );
+}
 
   /* ======================================
      LOADING WHILE REDIRECTING

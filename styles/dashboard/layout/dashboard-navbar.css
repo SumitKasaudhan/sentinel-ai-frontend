@@ -1223,3 +1223,121 @@
         transform: rotate(360deg);
     }
 }
+
+/* ── MOBILE ≤ 768px — notifications panel fix ── */
+@media (max-width: 768px) {
+    .dropdown-panel {
+        position: fixed !important;
+        top: 62px !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        border-radius: 18px !important;
+        z-index: 999999 !important;
+
+        /* ← YEH DO LINES ADD KARO */
+        max-height: 60vh !important;
+        overflow: hidden !important;
+    }
+
+    .notifications-list {
+        max-height: calc(60vh - 56px) !important;
+        /* header height minus */
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 540px) {
+    .dropdown-panel {
+        top: 58px !important;
+        left: 8px !important;
+        right: 8px !important;
+        border-radius: 14px !important;
+
+        /* ← YEH BHI */
+        max-height: 55vh !important;
+        overflow: hidden !important;
+    }
+
+    .notifications-list {
+        max-height: calc(55vh - 56px) !important;
+        overflow-y: auto;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTIFICATIONS PANEL — HEIGHT FIX (all screens)
+───────────────────────────────────────────────────────────── */
+
+/* Desktop — panel itna lamba na ho */
+.notifications-panel {
+    width: 360px;
+    max-height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+.notifications-panel .dropdown-header {
+    flex-shrink: 0;
+}
+
+.notifications-panel .notifications-list {
+    max-height: 380px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* ── TABLET ≤ 768px ── */
+@media (max-width: 768px) {
+    .dropdown-panel {
+        position: fixed !important;
+        top: 62px !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        max-height: 420px !important;
+        transform: none !important;
+        border-radius: 18px !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    .notifications-panel .notifications-list {
+        max-height: 340px !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* ── SMALL MOBILE ≤ 540px ── */
+@media (max-width: 540px) {
+    .dropdown-panel {
+        top: 58px !important;
+        left: 8px !important;
+        right: 8px !important;
+        max-height: 380px !important;
+        border-radius: 14px !important;
+    }
+
+    .notifications-panel .notifications-list {
+        max-height: 300px !important;
+    }
+}
+
+/* ── EXTRA SMALL ≤ 380px ── */
+@media (max-width: 380px) {
+    .dropdown-panel {
+        top: 54px !important;
+        left: 5px !important;
+        right: 5px !important;
+        max-height: 340px !important;
+    }
+
+    .notifications-panel .notifications-list {
+        max-height: 260px !important;
+    }
+}

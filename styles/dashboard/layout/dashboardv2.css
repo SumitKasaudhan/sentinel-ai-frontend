@@ -1859,3 +1859,17 @@
     border: 0.8px solid rgba(0, 211, 243, 0.25);
     border-radius: 9999px;
 }
+
+.dv2-page {
+    animation: dv2-fade-in 0.35s ease;
+}
+
+@keyframes dv2-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

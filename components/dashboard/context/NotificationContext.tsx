@@ -52,6 +52,7 @@ interface NotifContextValue {
   /** Real notifications from DB (used by navbar) */
   notifications: DbNotification[];
   unreadCount: number;
+  loadingNotifs: boolean;          // ← NEW
   markAllRead: () => Promise<void>;
   clearAll: () => Promise<void>;
   deleteOne: (id: string) => Promise<void>;
@@ -146,11 +147,13 @@ export default function NotificationProvider({ children }: { children: React.Rea
   const [toasts,        setToasts]        = useState<Toast[]>([]);
   const [notifications, setNotifications] = useState<DbNotification[]>([]);
   const [unreadCount,   setUnreadCount]   = useState(0);
+  const [loadingNotifs, setLoadingNotifs] = useState(true);   // ← NEW
   const timerRefs = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   // ── Fetch from DB ───────────────────────────────────────────────────────────
   const fetchNotifications = useCallback(async () => {
     try {
+      setLoadingNotifs(true);                                  // ← NEW
       const token = await getToken();
       if (!token) return;
 
@@ -163,6 +166,8 @@ export default function NotificationProvider({ children }: { children: React.Rea
       setUnreadCount(data.unreadCount ?? 0);
     } catch {
       // silently fail — notifications are non-critical
+    } finally {
+      setLoadingNotifs(false);                                 // ← NEW
     }
   }, [getToken]);
 
@@ -271,7 +276,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
 
   return (
     <NotifContext.Provider value={{
-      notify, notifications, unreadCount,
+      notify, notifications, unreadCount, loadingNotifs,  // ← loadingNotifs added
       markAllRead, clearAll, deleteOne, refresh: fetchNotifications,
     }}>
       {children}

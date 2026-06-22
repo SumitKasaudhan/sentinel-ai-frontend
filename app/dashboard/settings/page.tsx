@@ -5,7 +5,7 @@ import { Shield, LogOut, Upload, Camera, Key } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
 import "@/styles/dashboard/settings/settings.css";
 import { useNotify } from "@/components/dashboard/context/NotificationContext";
-
+import SettingsSkeleton from "@/components/dashboard/skeletons/SettingsSkeleton";
 import ChangePasswordModal from "@/app/dashboard/settings/ChangePasswordModal";
 import SubscriptionSection from "@/app/dashboard/settings/SubscriptionSection";
 
@@ -15,6 +15,7 @@ export default function SettingsPage() {
   const notify = useNotify();
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   /* =========================================
      PROFILE STATES
@@ -34,6 +35,15 @@ export default function SettingsPage() {
      FILE INPUT REF
   ========================================= */
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  /* =========================================
+     700ms MINIMUM SKELETON
+  ========================================= */
+  useEffect(() => {
+    if (!isLoaded) return;
+    const timer = setTimeout(() => setPageLoading(false), 700);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
 
   /* =========================================
      LOAD DATA — Clerk first, localStorage on top
@@ -113,18 +123,9 @@ export default function SettingsPage() {
   };
 
   /* =========================================
-     LOADING STATE
+     EARLY RETURN — SKELETON
   ========================================= */
-  if (!isLoaded) {
-    return (
-      <div className="sp-root">
-        <div className="sp-header">
-          <h1 className="sp-title">Settings</h1>
-          <p className="sp-subtitle">Loading your profile…</p>
-        </div>
-      </div>
-    );
-  }
+  if (pageLoading) return <SettingsSkeleton />;
 
   /* =========================================
      UI
@@ -312,5 +313,4 @@ export default function SettingsPage() {
       />
     </div>
   );
-
 }

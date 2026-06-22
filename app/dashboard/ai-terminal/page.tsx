@@ -15,7 +15,7 @@ import {
   BrainCircuit,
   ShieldCheck,
 } from "lucide-react";
-
+import AITerminalSkeleton from "@/components/dashboard/skeletons/AITerminalSkeleton";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { nanoid } from "nanoid";
 import { useAuth } from "@clerk/nextjs";
@@ -65,6 +65,7 @@ export default function AITerminalPage() {
   const [metrics, setMetrics] = useState<AITerminalMetrics | null>(null);
   const [feeds, setFeeds] = useState<AIActivityItem[]>([]);
   const [metricsLoading, setMetricsLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -122,8 +123,15 @@ export default function AITerminalPage() {
   }, [getToken]);
 
   useEffect(() => {
-    loadMetrics();
-    loadActivity();
+    const startTime = Date.now();
+
+    Promise.all([loadMetrics(), loadActivity()]).finally(async () => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed < 700) {
+        await new Promise((r) => setTimeout(r, 700 - elapsed));
+      }
+      setPageLoading(false);
+    });
 
     const interval = setInterval(() => {
       loadActivity();
@@ -239,6 +247,10 @@ export default function AITerminalPage() {
     setConversationId(undefined);
     notify("Terminal Cleared", "Started a new conversation.", "info");
   };
+
+  if (pageLoading) {
+    return <AITerminalSkeleton />;
+  }
 
   return (
     <div className="terminal-page">

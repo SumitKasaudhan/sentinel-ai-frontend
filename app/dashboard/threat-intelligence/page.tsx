@@ -3,6 +3,7 @@
 import "@/styles/dashboard/threat-intelligence/threat-intelligence.css";
 import { getDashboardStats } from "@/services/dashboard.service";
 import { useRouter } from "next/navigation";
+import ThreatIntelSkeleton from "@/components/dashboard/skeletons/ThreatIntelSkeleton";
 
 import {
   Shield, Globe, Search, Loader2,
@@ -33,6 +34,7 @@ export default function ThreatIntelligencePage() {
   const [target, setTarget] = useState("");
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
+  const [pageLoading, setPageLoading] = useState(true);
   const [dashboardStats, setDashboardStats] = useState({
     totalThreats: 0,
     blockedThreats: 0,
@@ -45,8 +47,15 @@ export default function ThreatIntelligencePage() {
   const notify = useNotify();
 
   useEffect(() => {
-    fetchHistory();
-    loadDashboardStats();
+    const startTime = Date.now();
+    Promise.all([fetchHistory(), loadDashboardStats()]).finally(async () => {
+      const elapsed = Date.now() - startTime;
+      const minDisplay = 700;
+      if (elapsed < minDisplay) {
+        await new Promise((r) => setTimeout(r, minDisplay - elapsed));
+      }
+      setPageLoading(false);
+    });
   }, []);
 
   const fetchHistory = async () => {
@@ -184,7 +193,7 @@ export default function ThreatIntelligencePage() {
       item.target.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.message.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSeverity =
-      filter === "all"      ? true
+      filter === "all"       ? true
       : filter === "scanned" ? true
       : filter === "clear"   ? item.status === "clean"
       : item.status === filter;
@@ -211,6 +220,9 @@ export default function ThreatIntelligencePage() {
   const highCount     = dashboardStats.blockedThreats || 0;
   const activeCount   = threats.filter((t) => t.status === "elevated").length;
   const resolvedCount = threats.filter((t) => t.status === "clean").length;
+
+  // ── Custom skeleton — shown while data loads ──
+  if (pageLoading) return <ThreatIntelSkeleton />;
 
   return (
     <main className="ti-page">
@@ -380,7 +392,6 @@ export default function ThreatIntelligencePage() {
             </p>
 
             <div className="ti-summary-body">
-              {/* Donut */}
               <div className="ti-donut">
                 <svg viewBox="0 0 128 128" width="128" height="128">
                   <circle cx="64" cy="64" r="50" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="14" />
@@ -395,10 +406,7 @@ export default function ThreatIntelligencePage() {
                 </div>
               </div>
 
-              {/* ── RIGHT SIDE: mini boxes + progress bars ── */}
               <div className="ti-summary-right">
-
-                {/* ✅ FIXED: all 4 boxes properly wrapped inside ti-mini-boxes */}
                 <div className="ti-mini-boxes">
                   <div className="ti-mini-box ti-mb-critical">
                     <div className="ti-mb-num">{criticalCount || dashboardStats.criticalThreats || 0}</div>
@@ -432,7 +440,6 @@ export default function ThreatIntelligencePage() {
                     <div className="ti-prog-bar"><div className="ti-prog-fill ti-pf-cyan"   style={{ width: "50%" }} /></div>
                   </div>
                 </div>
-
               </div>
             </div>
 

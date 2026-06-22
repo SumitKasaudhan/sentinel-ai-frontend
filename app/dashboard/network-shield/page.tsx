@@ -13,6 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import NetworkShieldSkeleton from "@/components/dashboard/skeletons/NetworkShieldSkeleton";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -259,6 +260,7 @@ export default function NetworkShieldPage() {
 
   // ── Fetch ────────────────────────────────────────────
 const fetchOverview = async () => {
+  const startTime = Date.now();
   try {
     setSyncStatus("loading");
     const token = await getToken();
@@ -281,6 +283,10 @@ const fetchOverview = async () => {
     setSyncStatus("idle");
     notify("Sync Error", "Could not connect to network shield", "error");
   } finally {
+    const elapsed = Date.now() - startTime;
+    if (elapsed < 700) {
+      await new Promise((r) => setTimeout(r, 700 - elapsed));
+    }
     setLoading(false);
   }
 };
@@ -392,50 +398,11 @@ const fetchOverview = async () => {
   }, [overview]);
 
   // ── Loading Skeleton ─────────────────────────────────
+// ── Loading Skeleton ─────────────────────────────────
   if (loading) {
-    return (
-      <div className="network-page">
-        <div className="network-hero">
-          <div className="hero-overlay" />
-          <div className="hero-content">
-            <div>
-              <div className="hero-title">
-                <Globe size={26} />
-                <h1>Network Security Posture</h1>
-              </div>
-              <p>
-                Monitoring: <span>Loading...</span>
-              </p>
-            </div>
-            <div className="sync-wrapper">
-              <button className="sync-btn" disabled>
-                <RefreshCw size={18} className="spin" />
-                Syncing
-              </button>
-            </div>
-          </div>
-          <div className="core-status">
-            <span>CORE STATUS</span>
-            <h3 style={{ opacity: 0.4 }}>—</h3>
-          </div>
-        </div>
-
-        <div className="stats-grid">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="stat-card skeleton-card">
-              <div className="stat-top">
-                <h4>Loading...</h4>
-              </div>
-              <div className="stat-main">
-                <h2>—</h2>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <NetworkShieldSkeleton />;
   }
-
+  
   // ── Derived Values ───────────────────────────────────
   const score = overview?.averageRiskScore ?? 0;
   const scans = overview?.recentScans ?? [];

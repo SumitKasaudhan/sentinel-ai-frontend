@@ -5,6 +5,7 @@ import "@/styles/dashboard/modal/deploy-patch-modal.css";
 import { AlertTriangle, Rocket, X, Terminal, CheckCircle2, Loader2, Brain } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import DeployPatchSkeleton from "@/components/dashboard/skeletons/DeployPatchSkeleton";
 
 interface ModalProps {
   onClose: () => void;
@@ -63,7 +64,6 @@ export default function DeployPatchModal({ onClose }: ModalProps) {
       try {
         const token = await getToken();
 
-        // FIX: GET /preview — not execute
         const res = await fetch(`${BASE}/api/deploy-patch/preview`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -137,7 +137,6 @@ export default function DeployPatchModal({ onClose }: ModalProps) {
       try {
         const token = await getToken();
 
-        // FIX: POST /execute with base URL
         const res = await fetch(`${BASE}/api/deploy-patch/execute`, {
           method: "POST",
           headers: {
@@ -201,11 +200,10 @@ export default function DeployPatchModal({ onClose }: ModalProps) {
         {/* CONTENT */}
         <div className="deploy-content">
 
-          {/* LOADING */}
+          {/* LOADING — gridColumn spans both columns */}
           {modalState === "loading" && (
-            <div className="deploy-full-state">
-              <Loader2 size={40} className="spin-icon" />
-              <p>Loading patch preview...</p>
+            <div style={{ gridColumn: "1 / -1", display: "contents" }}>
+              <DeployPatchSkeleton />
             </div>
           )}
 
