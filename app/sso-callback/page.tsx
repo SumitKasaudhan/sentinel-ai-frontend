@@ -7,6 +7,8 @@ export default function SSOCallback() {
     <AuthenticateWithRedirectCallback
       signInForceRedirectUrl="/dashboard"
       signUpForceRedirectUrl="/dashboard"
+      afterSignInUrl="/dashboard"
+      afterSignUpUrl="/dashboard"
     />
   );
 }
