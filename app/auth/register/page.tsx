@@ -42,34 +42,36 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
-  // Redirect already-signed-in users
-  useEffect(() => {
-    if (isSignedIn) {
+// Redirect already-signed-in users
+useEffect(() => {
+  if (isSignedIn) {
+    router.replace("/dashboard");
+  }
+}, [isSignedIn, router]);
+
+// Handle OAuth #/continue — auto-complete sign-up
+useEffect(() => {
+  if (!isLoaded || !signUp) return;
+
+  console.log("[SignUp Status]", signUp.status, signUp.missingFields, signUp.unverifiedFields);
+
+  if (signUp.status === "complete") {
+    setActive({ session: signUp.createdSessionId }).then(() => {
       router.replace("/dashboard");
-    }
-  }, [isSignedIn, router]);
+    });
+    return;
+  }
 
-  // Handle OAuth #/continue — auto-complete sign-up
-  useEffect(() => {
-    if (!isLoaded || !signUp) return;
-
-    if (signUp.status === "complete") {
-      setActive({ session: signUp.createdSessionId }).then(() => {
-        router.replace("/dashboard");
-      });
-      return;
-    }
-
-    if (signUp.status === "missing_requirements") {
-      signUp.update({}).then((result) => {
-        if (result.status === "complete") {
-          setActive({ session: result.createdSessionId }).then(() => {
-            router.replace("/dashboard");
-          });
-        }
-      }).catch(() => {});
-    }
-  }, [isLoaded, signUp]);
+  if (signUp.status === "missing_requirements") {
+    signUp.update({}).then((result) => {
+      if (result.status === "complete") {
+        setActive({ session: result.createdSessionId }).then(() => {
+          router.replace("/dashboard");
+        });
+      }
+    }).catch(() => {});
+  }
+}, [isLoaded, signUp]);
 
   const getStrength = (pwd: string) => {
     let s = 0;
