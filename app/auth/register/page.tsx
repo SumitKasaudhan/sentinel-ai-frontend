@@ -23,9 +23,7 @@ export default function RegisterPage() {
   const [appleLoading, setAppleLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // OTP fallback — only shown if Clerk still requires email verification
   const [pendingVerification, setPendingVerification] = useState(false);
-  // Email already registered in Clerk — show login prompt
   const [emailTaken, setEmailTaken] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
 
@@ -44,14 +42,35 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
-  // Redirect already-signed-in users immediately after render
+  // Redirect already-signed-in users
   useEffect(() => {
     if (isSignedIn) {
       router.replace("/dashboard");
     }
   }, [isSignedIn, router]);
 
-  // Password strength
+  // Handle OAuth #/continue — auto-complete sign-up
+  useEffect(() => {
+    if (!isLoaded || !signUp) return;
+
+    if (signUp.status === "complete") {
+      setActive({ session: signUp.createdSessionId }).then(() => {
+        router.replace("/dashboard");
+      });
+      return;
+    }
+
+    if (signUp.status === "missing_requirements") {
+      signUp.update({}).then((result) => {
+        if (result.status === "complete") {
+          setActive({ session: result.createdSessionId }).then(() => {
+            router.replace("/dashboard");
+          });
+        }
+      }).catch(() => {});
+    }
+  }, [isLoaded, signUp]);
+
   const getStrength = (pwd: string) => {
     let s = 0;
     if (pwd.length >= 8) s++;
@@ -87,9 +106,6 @@ export default function RegisterPage() {
     return ok;
   };
 
-  // ── EMAIL REGISTER ────────────────────────────────────────────────────────
-  // Auto-generates a username in case Clerk requires it.
-  // Handles all missing_requirements states without showing confusing errors.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoaded) return;
@@ -102,7 +118,6 @@ export default function RegisterPage() {
       if (isSignedIn) { router.replace("/dashboard"); return; }
 
       const nameParts = formData.fullName.trim().split(" ");
-      // Auto-generate username — handles case where Clerk requires it
       const autoUsername =
         formData.email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "_") +
         "_" + Math.random().toString(36).slice(2, 6);
@@ -115,24 +130,18 @@ export default function RegisterPage() {
         username: autoUsername,
       });
 
-      console.log("[Register] status:", result.status, "| missing:", result.missingFields, "| unverified:", result.unverifiedFields);
-
-      // CASE 1: All good — session is active
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
         return;
       }
 
-      // CASE 2: Something else is missing — inspect and resolve
       if (result.status === "missing_requirements") {
         const missing = result.missingFields ?? [];
         const unverified = result.unverifiedFields ?? [];
 
-        // If username wasn't accepted upfront, update explicitly
         if (missing.includes("username")) {
           result = await signUp.update({ username: autoUsername });
-          console.log("[Register] after username update:", result.status, result.missingFields);
           if (result.status === "complete") {
             await setActive({ session: result.createdSessionId });
             router.push("/dashboard");
@@ -140,14 +149,12 @@ export default function RegisterPage() {
           }
         }
 
-        // If email verification is the remaining requirement — show OTP UI
         if (unverified.includes("email_address")) {
           await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
           setPendingVerification(true);
           return;
         }
 
-        // Anything else — show dev-readable error
         const remaining = [...new Set([...missing, ...unverified])];
         setError(
           remaining.length > 0
@@ -156,10 +163,8 @@ export default function RegisterPage() {
         );
       }
     } catch (err: any) {
-      console.error("[Register] ERROR:", err);
       const clerkCode = err.errors?.[0]?.code || "";
       const clerkMsg  = err.errors?.[0]?.longMessage || err.errors?.[0]?.message || "";
-      // Email already registered in Clerk — show login prompt instead of raw error
       if (
         clerkCode === "form_identifier_exists" ||
         clerkMsg.toLowerCase().includes("already taken") ||
@@ -175,7 +180,6 @@ export default function RegisterPage() {
     }
   };
 
-  // ── EMAIL VERIFICATION FALLBACK ───────────────────────────────────────────
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoaded || !verificationCode.trim()) { setError("Please enter the verification code."); return; }
@@ -196,7 +200,6 @@ export default function RegisterPage() {
     }
   };
 
-  // ── GOOGLE OAUTH ──────────────────────────────────────────────────────────
   const handleGoogleSignup = async () => {
     if (!isLoaded) return;
     try {
@@ -215,7 +218,6 @@ export default function RegisterPage() {
     }
   };
 
-  // ── APPLE OAUTH ───────────────────────────────────────────────────────────
   const handleAppleSignup = async () => {
     if (!isLoaded) return;
     try {
@@ -234,18 +236,13 @@ export default function RegisterPage() {
     }
   };
 
-  // ── RENDER ────────────────────────────────────────────────────────────────
   return (
     <>
       <Navbar />
       <main className="reg-page">
         <div className="reg-split-card">
-
-          {/* LEFT PANEL */}
           <div className="reg-left">
             <div className="reg-left-inner">
-
-              {/* ── OTP FALLBACK (only if Clerk requires email verification) ── */}
               {pendingVerification ? (
                 <>
                   <div className="reg-status-badge">
@@ -282,9 +279,9 @@ export default function RegisterPage() {
                       type="button"
                       className="reg-text-btn"
                       onClick={async () => {
-                      try {
-                      if (!signUp) return;   // ← add this one line
-                      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+                        try {
+                          if (!signUp) return;
+                          await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
                           setError("");
                         } catch {
                           setError("Failed to resend. Please wait a moment.");
@@ -297,7 +294,6 @@ export default function RegisterPage() {
                 </>
               ) : (
                 <>
-                  {/* ── MAIN REGISTRATION FORM ── */}
                   <div className="reg-status-badge">
                     <span className="reg-status-dot" />
                     System Status: Ready
@@ -307,7 +303,6 @@ export default function RegisterPage() {
                     Create your operator profile to deploy elite security countermeasures.
                   </p>
 
-                  {/* SOCIAL BUTTONS */}
                   <div className="reg-social-row">
                     <button
                       type="button"
@@ -346,7 +341,6 @@ export default function RegisterPage() {
                     <span />
                   </div>
 
-                  {/* EMAIL ALREADY TAKEN — friendly redirect to login */}
                   {emailTaken && (
                     <div className="reg-email-taken-banner" role="alert">
                       <span>⚠</span>
@@ -366,7 +360,6 @@ export default function RegisterPage() {
                   {error && <div className="reg-error-banner" role="alert">{error}</div>}
 
                   <form onSubmit={handleSubmit} className="reg-form">
-                    {/* OPERATOR DESIGNATION */}
                     <div className="reg-field">
                       <label className="reg-label"><User size={14} /> Operator Designation</label>
                       <div className={`reg-input-wrap ${errors.fullName ? "has-error" : ""}`}>
@@ -375,7 +368,6 @@ export default function RegisterPage() {
                       {errors.fullName && <span className="reg-field-error">{errors.fullName}</span>}
                     </div>
 
-                    {/* COMMUNICATIONS LINK */}
                     <div className="reg-field">
                       <label className="reg-label"><Mail size={14} /> Communications Link</label>
                       <div className={`reg-input-wrap ${errors.email ? "has-error" : ""}`}>
@@ -384,7 +376,6 @@ export default function RegisterPage() {
                       {errors.email && <span className="reg-field-error">{errors.email}</span>}
                     </div>
 
-                    {/* ACCESS CIPHER */}
                     <div className="reg-field">
                       <label className="reg-label"><Lock size={14} /> Access Cipher</label>
                       <div className={`reg-input-wrap ${errors.password ? "has-error" : ""}`}>
@@ -400,7 +391,6 @@ export default function RegisterPage() {
                           {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                         </button>
                       </div>
-                      {/* ENCRYPTION LEVEL BAR */}
                       <div className="reg-strength-bar-wrap">
                         <div className="reg-strength-track">
                           {[1, 2, 3, 4].map((i) => (
@@ -414,7 +404,6 @@ export default function RegisterPage() {
                       {errors.password && <span className="reg-field-error">{errors.password}</span>}
                     </div>
 
-                    {/* VERIFY CIPHER */}
                     <div className="reg-field">
                       <label className="reg-label"><Lock size={14} /> Verify Cipher</label>
                       <div className={`reg-input-wrap ${errors.confirmPassword ? "has-error" : ""}`}>
@@ -433,7 +422,6 @@ export default function RegisterPage() {
                       {errors.confirmPassword && <span className="reg-field-error">{errors.confirmPassword}</span>}
                     </div>
 
-                    {/* TERMS */}
                     <label className="reg-checkbox-label">
                       <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />
                       <span className="reg-checkbox-custom" />
@@ -458,11 +446,9 @@ export default function RegisterPage() {
                   </p>
                 </>
               )}
-
             </div>
           </div>
 
-          {/* RIGHT PANEL — FEATURES */}
           <div className="reg-right">
             <div className="reg-right-overlay" />
             <div className="reg-right-content">
@@ -496,7 +482,6 @@ export default function RegisterPage() {
               </div>
             </div>
           </div>
-
         </div>
       </main>
       <Footer />
