@@ -103,21 +103,15 @@
 
 .hero-title {
     margin: 1rem 0 0;
-
     font-size: clamp(2.8rem, 4.8vw, 5rem);
-
     line-height: 0.95;
-
     letter-spacing: -0.055em;
-
-    max-width: 12ch;
-
+    max-width: 16ch;
+    /* ← 12ch se 16ch */
     width: 100%;
-
-    overflow-wrap: anywhere;
-
-    animation:
-        heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    overflow-wrap: normal;
+    /* ← anywhere se normal */
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
 .gradient-text {
