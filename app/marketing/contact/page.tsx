@@ -157,7 +157,7 @@ export default function ContactPage() {
             <div className="hero-ticker">
               <span>Uplink stable</span>
               <span className="divider">·</span>
-              <span>Avg. response under 4 hours</span>
+              <span>Avg. response under 24 hours</span>
               <span className="divider">·</span>
               <span>4 regional nodes active</span>
             </div>
