@@ -175,7 +175,7 @@ export default function ContactPage() {
                 </div>
                 <span className="sla-pill">
                   <Clock size={14} />
-                  Avg. response under 4 hours
+                  Avg. response under 24 hours
                 </span>
               </div>
 
