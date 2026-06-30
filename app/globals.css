@@ -50,3 +50,23 @@
 body {
    padding-top: 0 !important;
 }
+
+/* ============================================================
+   FIXED NAVBAR OFFSET
+   ============================================================ */
+
+body {
+   padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+   body {
+      padding-top: 64px;
+   }
+}
+
+@media (max-width: 480px) {
+   body {
+      padding-top: 60px;
+   }
+}
