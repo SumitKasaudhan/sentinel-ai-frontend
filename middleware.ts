@@ -28,21 +28,21 @@ export default clerkMiddleware(async (auth, req) => {
   // ────────────────────────────────────────────────────────
   const response = NextResponse.next();
 
-  const cspHeader = [
-    `default-src 'self'`,
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://challenges.cloudflare.com https://js.dodopayments.com`,
-    `worker-src 'self' blob:`,
-    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-    `font-src 'self' https://fonts.gstatic.com`,
-    `img-src 'self' data: blob: https://img.clerk.com https://*.supabase.co https://www.sentinel-ai.me`,
-    `connect-src 'self' https://*.clerk.accounts.dev https://*.supabase.co https://api.dodopayments.com wss://*.supabase.co`,
-    `frame-src 'self' https://*.clerk.accounts.dev https://challenges.cloudflare.com https://js.dodopayments.com`,
-    `frame-ancestors 'none'`,
-    `object-src 'none'`,
-    `base-uri 'self'`,
-    `form-action 'self'`,
-    `upgrade-insecure-requests`,
-  ].join('; ')
+const cspHeader = [
+  `default-src 'self'`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://clerk.sentinel-ai.me https://challenges.cloudflare.com https://js.dodopayments.com`,
+  `worker-src 'self' blob:`,
+  `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+  `font-src 'self' https://fonts.gstatic.com`,
+  `img-src 'self' data: blob: https://img.clerk.com https://*.supabase.co https://www.sentinel-ai.me https://www.svgrepo.com https://lh3.googleusercontent.com`,
+  `connect-src 'self' https://*.clerk.accounts.dev https://clerk.sentinel-ai.me https://*.supabase.co https://api.dodopayments.com wss://*.supabase.co`,
+  `frame-src 'self' https://*.clerk.accounts.dev https://clerk.sentinel-ai.me https://challenges.cloudflare.com https://js.dodopayments.com`,
+  `frame-ancestors 'none'`,
+  `object-src 'none'`,
+  `base-uri 'self'`,
+  `form-action 'self'`,
+  `upgrade-insecure-requests`,
+].join('; ')
 
   response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
   response.headers.set('X-Frame-Options', 'DENY')
