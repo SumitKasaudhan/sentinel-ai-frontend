@@ -11,6 +11,13 @@ import {
   User,
 } from "lucide-react";
 
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Features", href: "/marketing/features" },
+  { name: "Pricing", href: "/marketing/pricing" },
+  { name: "About", href: "/marketing/about" },
+];
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] =
     useState(false);
@@ -39,12 +46,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener(
       "scroll",
-      handleScroll
+      handleScroll,
+      { passive: true }
     );
 
     return () => {
@@ -54,6 +62,20 @@ export default function Navbar() {
       );
     };
   }, []);
+
+  /* =========================================
+     LOCK BODY SCROLL WHEN MOBILE MENU OPEN
+  ========================================= */
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen
+      ? "hidden"
+      : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   /* =========================================
      OUTSIDE CLICK CLOSE
@@ -109,54 +131,42 @@ export default function Navbar() {
       ref={navbarRef}
       className={`navbar ${
         scrolled ? "navbar--scrolled" : ""
-      }`}
+      } ${mobileOpen ? "navbar--menu-open" : ""}`}
     >
-      <div className="container navbar__inner">
+      <div className="navbar__inner">
         {/* =========================================
             BRAND
         ========================================= */}
 
-<Link href="/" className="brand">
-  <Image
-    src="/logo.webp"
-    alt="Sentinel AI"
-    width={38}
-    height={38}
-    priority
-    className="brand__logo"
-  />
+        <Link href="/" className="brand">
+          <Image
+            src="/logo.webp"
+            alt="Sentinel AI"
+            width={38}
+            height={38}
+            priority
+            className="brand__logo"
+          />
 
-  <span className="brand__text">
-    Sentinel AI
-  </span>
-</Link>
+          <span className="brand__text">
+            Sentinel AI
+          </span>
+        </Link>
 
         {/* =========================================
             DESKTOP NAV
         ========================================= */}
 
         <nav className="nav-desktop">
-          <Link href="/" className="nav-link">
-            Home
-          </Link>
-
-          <Link
-            href="/marketing/features"
-            className="nav-link"
-          >
-            Features
-          </Link>
-
-          <Link
-            href="/marketing/pricing"
-            className="nav-link"
-          >
-            Pricing
-          </Link>
-
-          <Link href="/marketing/about" className="nav-link">
-            About
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="nav-link"
+            >
+              {link.name}
+            </Link>
+          ))}
         </nav>
 
         {/* =========================================
@@ -285,6 +295,7 @@ export default function Navbar() {
                 (prev) => !prev
               )
             }
+            aria-label="Toggle menu"
           >
             {mobileOpen ? (
               <X size={18} />
@@ -296,7 +307,7 @@ export default function Navbar() {
       </div>
 
       {/* =========================================
-          MOBILE NAV
+          MOBILE NAV — full-screen staggered overlay
       ========================================= */}
 
       <div
@@ -307,45 +318,23 @@ export default function Navbar() {
         }`}
       >
         <div className="mobile-nav__panel">
-          <Link
-            href="/"
-            className="mobile-nav__link"
-            onClick={() =>
-              setMobileOpen(false)
-            }
-          >
-            Home
-          </Link>
-
-          <Link
-            href="/marketing/features"
-            className="mobile-nav__link"
-            onClick={() =>
-              setMobileOpen(false)
-            }
-          >
-            Features
-          </Link>
-
-          <Link
-            href="/marketing/pricing"
-            className="mobile-nav__link"
-            onClick={() =>
-              setMobileOpen(false)
-            }
-          >
-            Pricing
-          </Link>
-
-          <Link
-            href="/marketing/about"
-            className="mobile-nav__link"
-            onClick={() =>
-              setMobileOpen(false)
-            }
-          >
-            About
-          </Link>
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="mobile-nav__link"
+              style={{
+                transitionDelay: mobileOpen
+                  ? `${i * 60 + 80}ms`
+                  : "0ms",
+              }}
+              onClick={() =>
+                setMobileOpen(false)
+              }
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
       </div>
     </header>

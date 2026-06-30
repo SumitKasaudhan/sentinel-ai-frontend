@@ -1,0 +1,10 @@
+Contact: mailto:security@sentinel-ai.me
+Contact: https://www.sentinel-ai.me/marketing/contact
+
+Expires: 2027-01-01T00:00:00.000Z
+
+Preferred-Languages: en
+
+Canonical: https://www.sentinel-ai.me/.well-known/security.txt
+
+Policy: https://www.sentinel-ai.me/marketing/security#responsible-disclosure

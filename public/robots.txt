@@ -1,0 +1,10 @@
+User-agent: *
+
+Allow: /
+Allow: /marketing/
+
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /payment/
+
+Sitemap: https://www.sentinel-ai.me/sitemap.xml

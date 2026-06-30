@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
-  title: "Sentinel AI",
+  title: {
+    default: "Sentinel AI",
+    template: "%s — Sentinel AI",
+  },
   description: "AI-powered intelligent web security platform",
   icons: {
     icon: "/icon.png",
@@ -27,7 +31,10 @@ export default function RootLayout({
       afterSignOutUrl="/"
     >
       <html lang="en" style={{ background: "#000000" }}>
-        <body style={{ background: "#000000" }}>{children}</body>
+        <body style={{ background: "#000000" }}>
+          {children}
+          <CookieConsent />
+        </body>
       </html>
     </ClerkProvider>
   );
