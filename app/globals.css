@@ -47,3 +47,6 @@
 
 @import "../styles/dashboard/settings/settings.css";
 
+body {
+   padding-top: 0 !important;
+}

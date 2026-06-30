@@ -99,6 +99,9 @@ if (!isLoaded) {
       <SidebarSkeleton />
       <div className="dashboard-main">
         <NavbarSkeleton />
+        <main className="dashboard-content">
+          <div className="dashboard-content-inner" />
+        </main>
       </div>
     </div>
   );
