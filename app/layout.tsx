@@ -9,9 +9,34 @@ export const metadata: Metadata = {
     template: "%s — Sentinel AI",
   },
   description: "AI-powered intelligent web security platform",
+  metadataBase: new URL("https://www.sentinel-ai.me"),  // ← ADD THIS
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
+  },
+  // ← ADD ALL OF THIS BELOW
+  openGraph: {
+    title: "Sentinel AI",
+    description: "AI-powered intelligent web security platform",
+    url: "https://www.sentinel-ai.me",
+    siteName: "Sentinel AI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sentinel AI",
+    description: "AI-powered intelligent web security platform",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: "https://www.sentinel-ai.me",
   },
 };
 
