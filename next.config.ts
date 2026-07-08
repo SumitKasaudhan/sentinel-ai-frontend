@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'img.clerk.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'www.sentinel-ai.me' },
+      { protocol: 'https', hostname: 'images.pexels.com' }, // ✅ Added for blog images
     ],
   },
 

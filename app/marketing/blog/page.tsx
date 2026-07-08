@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import Navbar from "@/components/layout/navbar/Navbar";
@@ -27,7 +28,7 @@ const FEATURED_ARTICLE: FeaturedArticle = {
   description:
     "A practical breakdown of the most critical security risks affecting enterprise AI systems and how organizations can defend against them.",
   category: "AI Security",
-  image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+  image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800",
   author: "Sentinel Research Team",
   date: "June 2026",
   readTime: "8 min read",
@@ -39,28 +40,28 @@ const ARTICLES: Article[] = [
     title: "MITRE ATT&CK Framework Explained",
     description:
       "Understand how security teams use ATT&CK to detect, classify and respond to threats.",
-    image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87",
+    image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400",
     link: "https://attack.mitre.org/",
   },
   {
     title: "Prompt Injection Attacks Explained",
     description:
       "The most overlooked threat facing modern AI applications and enterprise copilots.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+    image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400",
     link: "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
   },
   {
     title: "Zero Trust Architecture Guide",
     description:
       "Building resilient enterprise security with least privilege access controls.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    image: "https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=400",
     link: "https://www.nist.gov/publications/zero-trust-architecture",
   },
   {
     title: "Modern Threat Intelligence Workflows",
     description:
       "How security operations teams enrich, correlate and investigate threats.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
+    image: "https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&w=400",
     link: "https://www.cisa.gov/topics/cyber-threats-and-advisories",
   },
 ];
@@ -94,8 +95,8 @@ export default function BlogPage() {
             <h1>Threat intelligence for the AI era.</h1>
 
             <p>
-              Research, security insights, attack analysis and product
-              updates from the Sentinel AI team.
+              Research, security insights, attack analysis and product updates
+              from the Sentinel AI team.
             </p>
 
             <div className="blog-hero-meta">
@@ -108,7 +109,13 @@ export default function BlogPage() {
           {/* FEATURED */}
           <section className="blog-featured">
             <div className="blog-featured-image">
-              <img src={FEATURED_ARTICLE.image} alt={FEATURED_ARTICLE.title} />
+              <Image
+                src={FEATURED_ARTICLE.image}
+                alt={FEATURED_ARTICLE.title}
+                width={800}
+                height={280}
+                style={{ width: "100%", height: "280px", objectFit: "cover", borderRadius: "12px" }}
+              />
             </div>
 
             <div className="blog-featured-content">
@@ -126,7 +133,6 @@ export default function BlogPage() {
                 <span>{FEATURED_ARTICLE.readTime}</span>
               </div>
 
-              
               <a
                 href={FEATURED_ARTICLE.link}
                 target="_blank"
@@ -162,7 +168,13 @@ export default function BlogPage() {
                 </span>
 
                 <div className="blog-post-thumb">
-                  <img src={article.image} alt={article.title} />
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={400}
+                    height={96}
+                    style={{ width: "100%", height: "96px", objectFit: "cover", display: "block" }}
+                  />
                 </div>
 
                 <div className="blog-post-body">

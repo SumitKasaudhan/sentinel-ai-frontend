@@ -34,7 +34,7 @@ const cspHeader = [
   `worker-src 'self' blob:`,
   `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
   `font-src 'self' https://fonts.gstatic.com`,
-  `img-src 'self' data: blob: https://img.clerk.com https://*.supabase.co https://www.sentinel-ai.me https://www.svgrepo.com https://lh3.googleusercontent.com`,
+  `img-src 'self' data: blob: https://img.clerk.com https://*.supabase.co https://www.sentinel-ai.me https://www.svgrepo.com https://lh3.googleusercontent.com https://images.pexels.com`, // ✅ Added Pexels
   `connect-src 'self' https://*.clerk.accounts.dev https://clerk.sentinel-ai.me https://*.supabase.co https://api.dodopayments.com wss://*.supabase.co`,
   `frame-src 'self' https://*.clerk.accounts.dev https://clerk.sentinel-ai.me https://challenges.cloudflare.com https://js.dodopayments.com`,
   `frame-ancestors 'none'`,
